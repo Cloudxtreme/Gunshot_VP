@@ -1,0 +1,35 @@
+Step 0) Assumptions:
+
+	The first assumption is that you have Borland Pascal installed in C:\BP.  
+	If you don't, you'll have to update the BUILDBP.BAT file
+
+	The second assumption is that you have Virtual Pascal installed in C:\vp21.
+	If you don't, you'll have to update the BUILDVP.BAT file
+
+	*NOTE* The BUILD*.BAT files will copy a BPC.CFG or VPC.CFG into the relevant bin directory, meaning
+	if you have cusomized the .CFG file in the bin directory, it will be lost.  Make a backup!
+
+Step 1) Create directories to hold everything:
+
+	Z:\Gunshot
+	Z:\Programming\Gunshot\EXE\BP
+	Z:\Programming\Gunshot\EXE\VP
+	Z:\Programming\Gunshot
+
+	If you don't have a Z: drive, you can use SUBST or map a network drive to fake one
+	You can also put the files in an alternate location if you want, you'll just have to update the BUILD*.BAT scripts
+
+Step 2) Get the source
+
+	Check out the GIT contents into Z:\Programming\Gunshot
+
+Step 3) Get Async Professional for DOS v2.03
+
+	Not sure where you'll find this since the company doesn't exist anymore, but if you're interested enough I'm sure
+	you'll be able to find it somewhere.  Once you do, extract it to Z:\Programming\Gunshot\APRO
+	
+Step 4) Build new EXEs
+
+	Run BUILDBP.BAT to build the DOS EXEs and have them copied to Z:\Gunshot
+
+	Run BUILDVP.BAT to build the WIN32 EXEs and have them copied to Z:\Gunshot

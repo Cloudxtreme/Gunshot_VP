@@ -2,7 +2,7 @@
 Hello there???
 {$ENDIF}
 {$M 60000,0,655360}
-PROGRAM SgConfig;
+PROGRAM GSConfig;
 
 
 USES BsOvr,Dos,Crt,Intrface,BsMouse,CNFGVARS,Menu1,Menu2,Menu3,Menu4,
