@@ -101,6 +101,7 @@ BEGIN
 END;
 
 
+{$IFDEF MSDOS}
 FUNCTION _RemoveSpaces(InString: String): String; Assembler;
 ASM
    PUSH DS
@@ -127,6 +128,13 @@ ASM
    STOSB
    POP  DS
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+FUNCTION _RemoveSpaces(InString: String): String; Assembler;
+BEGIN
+  WriteLn('REETODO BSSTRING _RemoveSpaces'); Halt;
+END;
+{$ENDIF}
 
 
 FUNCTION _RemoveLeftSpaces(InString: String): String;
@@ -161,6 +169,7 @@ BEGIN
 END;
 
 
+{$IFDEF MSDOS}
 FUNCTION _RemoveUnderScores(InString: String): String; Assembler;
 ASM
    PUSH DS
@@ -183,6 +192,13 @@ ASM
 @3:
    POP  DS
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+FUNCTION _RemoveUnderScores(InString: String): String; Assembler;
+BEGIN
+  WriteLn('REETODO BSSTRING _RemoveUnderScores'); Halt;
+END;
+{$ENDIF}
 
 
 FUNCTION _IsNumeric(Str: String): Boolean;
@@ -248,6 +264,7 @@ BEGIN
 END;
 
 
+{$IFDEF MSDOS}
 FUNCTION _Pos2(Objct,Target: String; StartPos: Byte): Byte; Assembler;
 ASM
            {$IFOPT G+}
@@ -295,8 +312,16 @@ ASM
            POP     BP
            {$ENDIF}
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+FUNCTION _Pos2(Objct,Target: String; StartPos: Byte): Byte; Assembler;
+BEGIN
+  WriteLn('REETODO BSSTRING _Pos2'); Halt;
+END;
+{$ENDIF}
 
 
+{$IFDEF MSDOS}
 FUNCTION _UpperCase(InString: String): String; Assembler;
 ASM
    PUSH DS
@@ -321,8 +346,16 @@ ASM
 @3:
    POP  DS
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+FUNCTION _UpperCase(InString: String): String; Assembler;
+BEGIN
+  WriteLn('REETODO BSSTRING _UpperCase'); Halt;
+END;
+{$ENDIF}
 
 
+{$IFDEF MSDOS}
 FUNCTION _LowerCase(InString: String): String; Assembler;
 ASM
    PUSH DS
@@ -347,6 +380,13 @@ ASM
 @3:
    POP  DS
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+FUNCTION _LowerCase(InString: String): String; Assembler;
+BEGIN
+  WriteLn('REETODO BSSTRING _LowerCase'); Halt;
+END;
+{$ENDIF}
 
 
 END.

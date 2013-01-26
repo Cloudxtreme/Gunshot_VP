@@ -59,20 +59,36 @@ BEGIN
 END;
 
 
+{$IFDEF MSDOS}
 PROCEDURE _HideCursor; Assembler;
 ASM
    MOV ax,$0100
    MOV cx,$2607
    INT $10
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+PROCEDURE _HideCursor; Assembler;
+BEGIN
+  WriteLn('REETODO BSKEYS _HideCursor'); Halt;
+END;
+{$ENDIF}
 
 
+{$IFDEF MSDOS}
 PROCEDURE _ShowCursor; Assembler;
 ASM
    MOV ax,$0100
    MOV cx,$0506
    INT $10
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+PROCEDURE _ShowCursor; Assembler;
+BEGIN
+  WriteLn('REETODO BSKEYS _ShowCursor'); Halt;
+END;
+{$ENDIF}
 
 
 FUNCTION IsTheKeyOk(Key: Char; Alt: Boolean): Char;
