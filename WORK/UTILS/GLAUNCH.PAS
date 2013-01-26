@@ -22,7 +22,7 @@ TYPE Yapp_DropFile    = RECORD
      Sound            : Boolean;
      UlDir            : String[50];
      DlDir            : String[50];
-     VideoSize        : Word;
+     VideoSize        : SmallWord;
      END;
 VAR  YappDropFile     : Yapp_DropFile;
      FYappDropFile    : File Of Yapp_DropFile;

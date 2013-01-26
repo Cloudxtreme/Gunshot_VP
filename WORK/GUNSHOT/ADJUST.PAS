@@ -15,22 +15,22 @@ USES Dos,Globals,Crt,BsVideo,BsMulti,BsKeys,BsString;
 
 
 TYPE Button_Info = Record
-     x1           : Word;
-     y1           : Word;
-     x2           : Word;
-     y2           : Word;
+     x1           : SmallWord;
+     y1           : SmallWord;
+     x2           : SmallWord;
+     y2           : SmallWord;
      Title        : String[20];
      Enabled      : Boolean;
      cc1          : Byte;    {ALT KEY STATUS}
      cc2          : Byte;    {NORM KEY STATUS}
      END;
 TYPE Object_Info = Record
-     x1           : Word;
-     y1           : Word;
-     x2           : Word;
-     y2           : Word;
-     ObjectType   : Word;
-     ObjectLength : Word;
+     x1           : SmallWord;
+     y1           : SmallWord;
+     x2           : SmallWord;
+     y2           : SmallWord;
+     ObjectType   : SmallWord;
+     ObjectLength : SmallWord;
      Stuff        : String[80];
      Enabled      : Boolean;
      END;

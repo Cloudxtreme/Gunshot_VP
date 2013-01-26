@@ -118,7 +118,7 @@ END;
 
 FUNCTION ReceiveYAPP(FName: String; Progress: Boolean): Boolean;
 TYPE Needed_Stuff  = RECORD
-     Expected      : Word;
+     Expected      : SmallWord;
      Crc           : Longint;
      END;
 VAR  Buffer    : Array[1..4096] Of Byte;

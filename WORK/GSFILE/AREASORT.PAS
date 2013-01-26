@@ -16,7 +16,7 @@ USES Shotgun,BsFile,BsString;
 
 PROCEDURE SortTheFileArea(AreaDosName: String; Method: Byte);
 TYPE FFFF          = RECORD
-     OrigIndex     : Word;
+     OrigIndex     : SmallWord;
      Info          : String[12];
      InfoNum       : Longint;
      END;

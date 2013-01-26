@@ -1045,7 +1045,7 @@ END;
 PROCEDURE EditSessionQueue;
 TYPE Pick_List  = RECORD
      Text       : String[75];
-     QueueNum   : Word;
+     QueueNum   : SmallWord;
      END;
 TYPE BigPick    = Array[1..800] Of Pick_List;
 VAR  OldXY      : Word;
@@ -1294,7 +1294,7 @@ END;
 FUNCTION GetAQuicky: Boolean;
 TYPE Pick_List  = RECORD
      Text       : String[75];
-     QueueNum   : Word;
+     QueueNum   : SmallWord;
      END;
 TYPE BigPick    = Array[1..800] Of Pick_List;
 VAR  OldXY      : Word;
@@ -1466,7 +1466,7 @@ END;
 PROCEDURE ChangeCurrentAKA;
 TYPE Pick_List  = RECORD
      Text       : String[25];
-     QueueNum   : Word;
+     QueueNum   : SmallWord;
      END;
 TYPE BigPick    = Array[1..800] Of Pick_List;
 VAR  OldXY      : Word;

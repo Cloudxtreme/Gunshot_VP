@@ -41,7 +41,7 @@ Type FindRec = Record
   Dir: DirStr;
   Name: NameStr;
   Ext: ExtStr;
-  DError: Word;
+  DError: SmallWord;
   End;
 
 
@@ -63,14 +63,14 @@ Type TFileArray = Array[1..$fff0] of Char;
 
 Type TFileRec = Record
   MsgBuffer: ^TFileArray;
-  BufferPtr: Word;
-  BufferChars: Word;
+  BufferPtr: SmallWord;
+  BufferChars: SmallWord;
   BufferStart: LongInt;
   BufferFile: File;
   CurrentStr: String;
   StringFound: Boolean;
-  Error: Word;
-  BufferSize: Word;
+  Error: SmallWord;
+  BufferSize: SmallWord;
   End;
 
 
@@ -1158,8 +1158,8 @@ Function  GetTempName(FN: String): String;
 
 Function  GetTextPos(Var F: Text): LongInt;
   Type WordRec = Record
-    LongLo: Word;
-    LongHi: Word;
+    LongLo: SmallWord;
+    LongHi: SmallWord;
     End;
 
   Var

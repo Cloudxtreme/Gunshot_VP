@@ -19,7 +19,7 @@ USES Globals,ApTimer,AllGone,ApPort,ApCom,ApMisc,Carrier,Crt,QBack,GetQuote,
 
 TYPE MessageBody = Array[1..MaxMsgBuffer] Of Char;
 TYPE OnScreen1   = Array[1..17] Of String[88];
-TYPE Locators1   = Array[1..3000] Of Word;
+TYPE Locators1   = Array[1..3000] Of SmallWord;
 VAR  OuttaHere          : Boolean;
      c                  : Char;
      GoodMessage        : Boolean;

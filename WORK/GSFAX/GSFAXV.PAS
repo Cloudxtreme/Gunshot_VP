@@ -26,12 +26,12 @@ TYPE  PLine            = ^TLine;
       PNode            = ^TNode;
       TNode            = record
       Data             : PLine;
-      Len              : Word;
+      Len              : SmallWord;
       end;
 TYPE  PList            = ^TList;
       TList            = record
       Lines            : Array[1..MaxLines] of PNode;
-      LineCnt          : Word;
+      LineCnt          : SmallWord;
       end;
 CONST SelMode          : Byte = $12;
       SelWid           = 640;

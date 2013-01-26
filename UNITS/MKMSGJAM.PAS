@@ -61,8 +61,8 @@ Type JamHdrType = Record
 
 Type JamMsgHdrType = Record
   Signature: Array[1..4] of Char;
-  Rev: Word;
-  Resvd: Word;
+  Rev: SmallWord;
+  Resvd: SmallWord;
   SubFieldLen: LongInt;
   TimesRead: LongInt;
   MsgIdCrc: LongInt;
@@ -143,14 +143,14 @@ Type JamMsgType = Record
   TxtPos: LongInt; {TxtPos < 0 means get from sub text}
   TxtEnd: LongInt;
   TxtBufStart: LongInt;
-  TxtRead: Word;
+  TxtRead: SmallWord;
   MailType: MsgMailType;
   BufFile: File;
   LockCount: LongInt;
   IdxStart: LongInt;
-  IdxRead: Word;
+  IdxRead: SmallWord;
   TxtSubBuf: Array[0..TxtSubBufSize] of Char; {temp storage for text on subfields}
-  TxtSubChars: Integer;
+  TxtSubChars: SmallInt;
   End;
 
 
@@ -302,8 +302,8 @@ Const
 
 
 Type SubFieldType = Record
-  LoId: Word;
-  HiId: Word;
+  LoId: SmallWord;
+  HiId: SmallWord;
   DataLen: LongInt;
   Data: Array[1..1000] of Char;
   End;
@@ -616,8 +616,8 @@ Procedure JamMsgObj.DoKludgeLn(Str: String);
 
 Procedure JamMsgObj.AddSubField(id: Word; Data: String);
   Type SubFieldType = Record
-    LoId: Word;
-    HiId: Word;
+    LoId: SmallWord;
+    HiId: SmallWord;
     DataLen: LongInt;
     Data: Array[1..256] of Char;
     End;

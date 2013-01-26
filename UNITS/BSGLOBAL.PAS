@@ -80,8 +80,8 @@ TYPE  PickListText      = RECORD
       END;
 TYPE  dt_Application    = RECORD
       VideoMode         : Byte;
-      VideoBytes        : Word;
-      VideoOrig         : Word;
+      VideoBytes        : SmallWord;
+      VideoOrig         : SmallWord;
       AppName           : String[40];
       AppStyle          : Byte;
       AppMenus          : Byte;
@@ -168,8 +168,8 @@ TYPE  dt_Menus          = RECORD
       Menu              : Array[1..MaxMenus] Of dt_MenuMain;
       END;
 TYPE  dt_WinMain        = RECORD
-      XPos              : Word;
-      YPos              : Word;
+      XPos              : SmallWord;
+      YPos              : SmallWord;
       END;
 TYPE  dt_Windows        = RECORD
       Window            : Array[1..MaxWindows] Of dt_WinMain;
@@ -177,8 +177,8 @@ TYPE  dt_Windows        = RECORD
       END;
 TYPE  dt_ButtonMain     = RECORD
       KeyPress          : Char;
-      XPos              : Word;
-      YPos              : Word;
+      XPos              : SmallWord;
+      YPos              : SmallWord;
       LabelName         : String[20];
       Enabled           : Boolean;
       Len               : Byte;
@@ -189,13 +189,13 @@ TYPE  dt_Buttons        = RECORD
       END;
 TYPE  dt_EventQueue     = RECORD
       EventType         : Byte;
-      IndexNum          : Word;
-      HelpIndex         : Word;
+      IndexNum          : SmallWord;
+      HelpIndex         : SmallWord;
       END;
 TYPE  dt_OnOffMain      = RECORD
       KeyPress          : Char;
-      XPos              : Word;
-      YPos              : Word;
+      XPos              : SmallWord;
+      YPos              : SmallWord;
       LabelName         : String[30];
       Enabled           : Boolean;
       Len               : Byte;
@@ -207,13 +207,13 @@ TYPE  dt_OnOff          = RECORD
       END;
 TYPE  dt_DropListMain   = RECORD
       KeyPress          : Char;
-      XPos              : Word;
-      YPos              : Word;
+      XPos              : SmallWord;
+      YPos              : SmallWord;
       Enabled           : Boolean;
-      Current           : Word;
-      NumItems          : Word;
+      Current           : SmallWord;
+      NumItems          : SmallWord;
       Len               : Byte;
-      OnScreen          : Word;
+      OnScreen          : SmallWord;
       FFile             : File Of PickListText;
       END;
 TYPE  dt_DropList       = RECORD
@@ -222,10 +222,10 @@ TYPE  dt_DropList       = RECORD
       END;
 TYPE  dt_BackGroundMain = RECORD
       KeyPress          : Char;
-      XPos              : Word;
-      YPos              : Word;
+      XPos              : SmallWord;
+      YPos              : SmallWord;
       Enabled           : Boolean;
-      Current           : Word;
+      Current           : SmallWord;
       END;
 TYPE  dt_BackGround     = RECORD
       Palette           : Array[1..MaxBackGround] Of dt_BackGroundMain;
@@ -233,24 +233,24 @@ TYPE  dt_BackGround     = RECORD
       END;
 TYPE  dt_ForeGroundMain = RECORD
       KeyPress          : Char;
-      XPos              : Word;
-      YPos              : Word;
+      XPos              : SmallWord;
+      YPos              : SmallWord;
       Enabled           : Boolean;
-      Current           : Word;
+      Current           : SmallWord;
       END;
 TYPE  dt_ForeGround     = RECORD
       Palette           : Array[1..MaxForeGround] Of dt_ForeGroundMain;
       NumForeGround     : Byte;
       END;
 TYPE  dt_PickListMain   = RECORD
-      XPos              : Word;
-      YPos              : Word;
-      Current           : Word;
-      NumItems          : Word;
+      XPos              : SmallWord;
+      YPos              : SmallWord;
+      Current           : SmallWord;
+      NumItems          : SmallWord;
       Len               : Byte;
-      OnScreen          : Word;
-      Top               : Word;
-      Scroller          : Word;
+      OnScreen          : SmallWord;
+      Top               : SmallWord;
+      Scroller          : SmallWord;
       FFile             : File Of PickListText;
       END;
 TYPE  dt_PickList       = RECORD
@@ -259,22 +259,22 @@ TYPE  dt_PickList       = RECORD
       END;
 TYPE  dt_EditorBuffer   = Array[1..48000] Of Char;
 TYPE  dt_EditorMain     = RECORD
-      XPos              : Word;
-      YPos              : Word;
-      UserX             : Word;
-      UserY             : Word;
-      TopCharNum        : Word;
-      Current           : Word;
-      Total             : Word;
+      XPos              : SmallWord;
+      YPos              : SmallWord;
+      UserX             : SmallWord;
+      UserY             : SmallWord;
+      TopCharNum        : SmallWord;
+      Current           : SmallWord;
+      Total             : SmallWord;
       OnScreen          : Array[1..50] Of String[88];
-      Locators          : Array[1..3000] Of Word;
-      TotalLines        : Word;
+      Locators          : Array[1..3000] Of SmallWord;
+      TotalLines        : SmallWord;
       IsOnScreen        : Boolean;
-      TopLine           : Word;
-      CharsOnScrn       : Word;
+      TopLine           : SmallWord;
+      CharsOnScrn       : SmallWord;
       LinesOnScrn       : Byte;
-      LastPosX          : Word;
-      LastPosY          : Word;
+      LastPosX          : SmallWord;
+      LastPosY          : SmallWord;
       AltKey            : Boolean;
       BodyText          : ^dt_EditorBuffer;
       END;

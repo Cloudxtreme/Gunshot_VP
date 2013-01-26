@@ -13,8 +13,8 @@ INTERFACE
 
 
 TYPE  TaskRec      = record
-      OS           : Word;
-      Version      : Word;
+      OS           : SmallWord;
+      Version      : SmallWord;
       END;
 CONST Task         : TaskRec = (OS: 0; Version: 0);
 VAR   GiveUpSlices : Boolean;

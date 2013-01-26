@@ -9,8 +9,8 @@ USES Shotgun,MkFFile,ApTimer,BsPkt,MkMsgAbs;
 
 
 TYPE TwoDimensionAddr  = RECORD
-     Net               : Word;
-     Node              : Word;
+     Net               : SmallWord;
+     Node              : SmallWord;
      END;
 TYPE FFileRecord       = RECORD
      FName             : String[12];
@@ -19,7 +19,7 @@ TYPE FFileRecord       = RECORD
 TYPE BigFileNames      = ARRAY[1..2000] Of FFileRecord;
 TYPE Dupe_Records_Abs  = RECORD
      MsgId             : Longint;
-     AreaID            : Word;
+     AreaID            : SmallWord;
      END;
 TYPE Dupe_Records      = Array[0..5000] Of Dupe_Records_Abs;
 TYPE BigBuffer         = Array[1..64000] Of Char;

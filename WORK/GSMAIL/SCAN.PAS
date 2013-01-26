@@ -70,7 +70,7 @@ END;
 
 PROCEDURE LastReadFido;
 TYPE Last_Read = RECORD
-     LRP       : Word;
+     LRP       : SmallWord;
      END;
 VAR  LastRead  : Last_Read;
      FLastRead : File Of Last_Read;

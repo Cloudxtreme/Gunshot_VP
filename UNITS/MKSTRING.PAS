@@ -261,8 +261,8 @@ Function HexStr(Number: Word): String;
 Function HexLong(Number: LongInt): String;
   Type
     WordRec = Record
-      Lo: Word;
-      Hi: Word;
+      Lo: SmallWord;
+      Hi: SmallWord;
     End;
 
   Begin

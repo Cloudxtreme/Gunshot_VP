@@ -21,7 +21,7 @@ PROCEDURE FullScreenChat;
 TYPE MessageRecord = RECORD
      UserName      : String[20];
      UserAlias     : String[20];
-     UserNode      : Word;
+     UserNode      : SmallWord;
      LastLine      : String[50];
      END;
 VAR  MsgRecord       : MessageRecord;

@@ -38,8 +38,8 @@ Const
 
 
 Type SqBaseType = Record
-  Len: Word; {Length of this record}
-  Rsvd1: Word; {Future use}
+  Len: SmallWord; {Length of this record}
+  Rsvd1: SmallWord; {Future use}
   NumMsg: LongInt; {Number of messages}
   HighMsg: LongInt; {Highest msg}
   SkipMsg: LongInt; {# of msgs to keep in beginning of area}
@@ -52,8 +52,8 @@ Type SqBaseType = Record
   LastFree: LongInt; {Offset of last free frame in file}
   EndFrame: LongInt; {Pointer to end of file}
   MaxMsg: LongInt; {Maximum number of messages}
-  KeepDays: Word; {Maximum age of messages}
-  SqHdrSize: Word; {Size of frame header}
+  KeepDays: SmallWord; {Maximum age of messages}
+  SqHdrSize: SmallWord; {Size of frame header}
   Rsvd2: Array[1..124] of Byte; {Future use}
   End;
 
@@ -65,8 +65,8 @@ Type SqFrameHdrType = Record
   FrameLength: LongInt; {Length of this frame not counting header}
   MsgLength: LongInt; {Length of message}
   ControlLength: LongInt; {Length of control information}
-  FrameType: Word; {Type of message frame}
-  Rsvd: Word; {Future use}
+  FrameType: SmallWord; {Type of message frame}
+  Rsvd: SmallWord; {Future use}
   End;
 
 
@@ -79,7 +79,7 @@ Type SqMsgHdrType = Record
   Dest: AddrType; {Destination address}
   DateWritten: LongInt; {Date/Time msg written}
   DateArrived: LongInt; {Date/Time msg arrived here}
-  UtcOffset: Word; {Minutes offset from UTC}
+  UtcOffset: SmallWord; {Minutes offset from UTC}
   ReplyTo: LongInt; {Original msg}
   Replies: Array[1..SqMaxReply] of LongInt; {Replies}
   AzDate: String[19]; {AsciiZ "Fido" style date}
@@ -122,23 +122,23 @@ Const
 Type SqInfoType = Record
   FN: String[80];
   MsgChars: Array[1..SqTxtBufferSize] of Char;
-  Error: Word;
+  Error: SmallWord;
   SqdFile: File;
   SqIFile: File;
   SqBase: SqBaseType;
   SqBaseExtra: Array[1..100] of Char;
   SqdOpened: Boolean;
   SqiOpened: Boolean;
-  SqiAlloc: Word;
+  SqiAlloc: SmallWord;
   Locked: Boolean;
   FreeLoaded: Boolean;
-  HighestFree: Word;
+  HighestFree: SmallWord;
   Frame: SqFrameHdrType;
   MsgHdr: SqMsgHdrType;
   Extra: Array[1..100] of Char;
-  TxtCtr: Word;
+  TxtCtr: SmallWord;
   MsgDone: Boolean;
-  CurrIdx: Word;
+  CurrIdx: SmallWord;
   StrDate: String[10];
   StrTime: String[8];
   CurrentFramePos: LongInt;

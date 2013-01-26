@@ -9,8 +9,8 @@ USES GXM,Gx_Tp,Img_Tp,Gx_TpVc,BsComp,Crt,BsString,BsGraph,BsFile;
 
 
 TYPE ReturnRecord = RECORD
-     W            : Word;
-     H            : Word;
+     W            : SmallWord;
+     H            : SmallWord;
      Success      : Boolean;
      END;
 VAR  Error    : Integer;

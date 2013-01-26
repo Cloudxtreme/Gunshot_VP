@@ -162,7 +162,7 @@ type
     s7x8   : Array[1..8] of Byte;
     s8x14  : Array[1..14] of Byte;
     s7x14  : Array[1..14] of Byte;
-    s16x14 : Array[1..14] of Word;
+    s16x14 : Array[1..14] of SmallWord;
   end;
 
 Function BackSlash(instring : string) : string;

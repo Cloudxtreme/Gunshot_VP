@@ -1237,7 +1237,7 @@ END;
 
 PROCEDURE DoFileHatch;
 TYPE The_Areas    = RECORD
-     AreaNum      : Word;
+     AreaNum      : SmallWord;
      END;
 VAR  Loop         : Word;
      OuttaHere    : Boolean;

@@ -112,11 +112,11 @@ TYPE Temp_Info = RECORD
      tfile_Sub         : array[1..19] of longint;
      tarea_name        : array[1..19] of string[40];
      tcd_name          : array[1..19] of string[30];
-     tcd_num           : array[1..19] of word;
+     tcd_num           : array[1..19] of SmallWord;
      END;
 TYPE pages = RECORD
-     start_index       : word;
-     end_index         : word;
+     start_index       : SmallWord;
+     end_index         : SmallWord;
      END;
 VAR  file_at_top       : word;
      file_at_bot       : word;

@@ -30,10 +30,10 @@ CONST FieldBackground : Byte = 1;
       NumButtons      = 25;
       NumFields       = 20;
 TYPE  ButtonInfo      = RECORD
-      x1              : Word;
-      y1              : Word;
-      x2              : Word;
-      y2              : Word;
+      x1              : SmallWord;
+      y1              : SmallWord;
+      x2              : SmallWord;
+      y2              : SmallWord;
       BType           : Byte;
       FillC           : Byte;
       HBorder         : Byte;
@@ -42,10 +42,10 @@ TYPE  ButtonInfo      = RECORD
       Enabled         : Boolean;
       END;
 TYPE  FieldInfo       = RECORD
-      x1              : Word;
-      y1              : Word;
-      x2              : Word;
-      y2              : Word;
+      x1              : SmallWord;
+      y1              : SmallWord;
+      x2              : SmallWord;
+      y2              : SmallWord;
       Text            : String;
       CursorPos       : Byte;
       EntryType       : Byte; {0-Plain String  1-Plain Numeric  2-Proper String}
@@ -55,28 +55,28 @@ TYPE  FieldInfo       = RECORD
       END;
 TYPE  Pick_Info       = RECORD
       Active          : Boolean;
-      x1              : Word;
-      y1              : Word;
-      x2              : Word;
-      y2              : Word;
-      Top             : Word;
-      NumItems        : Word;
-      ItemsOnScrn     : Word;
-      Current         : Word;
-      MaxChars        : Word;
-      Locator         : Word;
+      x1              : SmallWord;
+      y1              : SmallWord;
+      x2              : SmallWord;
+      y2              : SmallWord;
+      Top             : SmallWord;
+      NumItems        : SmallWord;
+      ItemsOnScrn     : SmallWord;
+      Current         : SmallWord;
+      MaxChars        : SmallWord;
+      Locator         : SmallWord;
       Pickable        : Boolean;
       END;
 TYPE  Screen_Info     = RECORD
       Index           : Byte;
-      OrigX1          : Word;
-      OrigY1          : Word;
-      OrigX2          : Word;
-      OrigY2          : Word;
+      OrigX1          : SmallWord;
+      OrigY1          : SmallWord;
+      OrigX2          : SmallWord;
+      OrigY2          : SmallWord;
       XOffset         : Integer;
       YOffSet         : Integer;
       Title           : String;
-      HelpTopic       : Word;
+      HelpTopic       : SmallWord;
       END;
 TYPE  Icon30x30       = RECORD
       matrix          : Array[1..30,1..30] Of BYTE;
@@ -86,11 +86,11 @@ TYPE  Icon16x16       = RECORD
       END;
 TYPE  Pick_List       = Array[1..800] Of String[60];
 TYPE  Special_Mouse   = RECORD
-      Colour          : Word;
-      HotX            : Word;
-      HotY            : Word;
-      MMask           : Array[0..15] Of Word;
-      MCursor         : Array[0..15] Of Word;
+      Colour          : SmallWord;
+      HotX            : SmallWord;
+      HotY            : SmallWord;
+      MMask           : Array[0..15] Of SmallWord;
+      MCursor         : Array[0..15] Of SmallWord;
       END;
 VAR   Cutouts         : Array[1..NumWindows,0..1] Of GXHeader;
       CutActive       : Array[1..NumWindows,0..1] Of Boolean;

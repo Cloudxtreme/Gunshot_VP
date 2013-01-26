@@ -25,8 +25,8 @@ TYPE Comm_Def         = RECORD
      UlDir            : String[50];
      DlDir            : String[50];
      VideoMode        : Byte; {0-640x480 1-800x600 2-1024x768}
-     DialTimeout      : Word;
-     CommandDelay     : Word;
+     DialTimeout      : SmallWord;
+     CommandDelay     : SmallWord;
      DataInit2        : String[50];
      DataInit3        : String[50];
      YappToUse        : Byte;
@@ -80,17 +80,17 @@ TYPE Yapp_DropFile    = RECORD
      Sound            : Boolean;
      UlDir            : String[50];
      DlDir            : String[50];
-     VideoSize        : Word;
+     VideoSize        : SmallWord;
      END;
 TYPE InfoRec          = RECORD
-     Protocol         : Array[1..2] Of Word;
-     FileName         : Array[1..2] Of Word;
-     Size             : Array[1..2] Of Word;
-     Sent             : Array[1..2] Of Word;
-     Speed            : Array[1..2] Of Word;
-     Time             : Array[1..2] Of Word;
-     Left             : Array[1..2] Of Word;
-     CPS              : Array[1..2] Of Word;
+     Protocol         : Array[1..2] Of SmallWord;
+     FileName         : Array[1..2] Of SmallWord;
+     Size             : Array[1..2] Of SmallWord;
+     Sent             : Array[1..2] Of SmallWord;
+     Speed            : Array[1..2] Of SmallWord;
+     Time             : Array[1..2] Of SmallWord;
+     Left             : Array[1..2] Of SmallWord;
+     CPS              : Array[1..2] Of SmallWord;
      END;
 TYPE TransferModeType = (Transmit, Receive);
 VAR  BBSPort          : PortRecPtr;

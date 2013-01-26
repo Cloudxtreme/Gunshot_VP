@@ -41,7 +41,7 @@ TYPE ListRecord              = RECORD
      MsgSubject              : String[30];
      MsgPrivate              : Boolean;
      MsgRecv                 : Boolean;
-     MsgNum                  : Word;
+     MsgNum                  : SmallWord;
      END;
 TYPE Menus                   = Array[1..150] Of _Menu_Record;
 TYPE Message_Header          = RECORD
@@ -72,12 +72,12 @@ TYPE Message_Header          = RECORD
 TYPE MessageTextLines        = RECORD
      Line                    : String[MaxMsgWidth];
      END;
-TYPE Msg_Index               = Array[1..3000] Of Word;
+TYPE Msg_Index               = Array[1..3000] Of SmallWord;
 TYPE Pager                   = RECORD
      UserName                : String[30];
      UserAlias               : String[30];
      Message                 : String[30];
-     LineNumber              : Word;
+     LineNumber              : SmallWord;
      END;
 TYPE QWK_Header              = RECORD
      MSGStatus               : Char;
@@ -91,8 +91,8 @@ TYPE QWK_Header              = RECORD
      MSGReference            : Array[1..8] Of Char;
      MSGNumText              : Array[1..6] Of Char;
      MSGKilled               : Byte;
-     MSGConf                 : Word;
-     Spare1                  : Word;
+     MSGConf                 : SmallWord;
+     Spare1                  : SmallWord;
      Spare2                  : Char;
      END;
 TYPE QWK_Index               = RECORD
@@ -101,10 +101,10 @@ TYPE QWK_Index               = RECORD
      END;
 TYPE QWKLastRead             = RECORD
      Area                    : String[51];
-     Pointer                 : Word;
+     Pointer                 : SmallWord;
      DoReceived              : Boolean;
      DoPointer               : Boolean;
-     MaxMsgs                 : Word;
+     MaxMsgs                 : SmallWord;
      END;
 TYPE SaveScrn_AScreen        = Array[1..4000] Of Byte;
 TYPE TaggedFileRecord        = RECORD
@@ -114,8 +114,8 @@ TYPE TaggedFileRecord        = RECORD
      CDRom                   : Boolean;
      Description             : String[25];
      FreeFile                : Boolean;
-     FileArea                : Word;
-     FileSub                 : Word;
+     FileArea                : SmallWord;
+     FileSub                 : SmallWord;
      TransferOk              : Boolean;
      FileCPS                 : Longint;
      END;

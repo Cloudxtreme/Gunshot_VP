@@ -26,18 +26,18 @@ Uses
 
 
 Type MKDateType = Record
-  Year: Word;
-  Month: Word;
-  Day: Word;
+  Year: SmallWord;
+  Month: SmallWord;
+  Day: SmallWord;
   End;
 
 Type MKDateTime = Record
-  Year: Word;
-  Month: Word;
-  Day: Word;
-  Hour: Word;
-  Min: Word;
-  Sec: Word;
+  Year: SmallWord;
+  Month: SmallWord;
+  Day: SmallWord;
+  Hour: SmallWord;
+  Min: SmallWord;
+  Sec: SmallWord;
   End;
 
 Function  ParseAddr(AStr: String; CurrAddr: AddrType; Var DestAddr: AddrType): Boolean;

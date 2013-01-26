@@ -24,8 +24,8 @@ USES Globals,MkOpen,Dos,BsString,BsFile;
 {==========================================================================}
 PROCEDURE JamBase_MessageBaseInfo(FullPath: String);
 TYPE SqBaseHead = Record
-     Len        : Word;
-     Rsvd1      : Word;
+     Len        : SmallWord;
+     Rsvd1      : SmallWord;
      NumMsg     : LongInt;
      HighMsg    : LongInt;
      SkipMsg    : LongInt;

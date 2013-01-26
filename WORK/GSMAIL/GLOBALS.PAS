@@ -32,20 +32,20 @@ CONST YetToGo            = 1;
       FBuffSize          = 16384;
 TYPE  TransferModeType   = (Transmit, Receive);
 TYPE  Hello_Packet       = RECORD
-      Signal             : Word;
-      Hello_Version      : Word;
-      Product            : Word;
-      Product_Major      : Word;
-      Product_Minor      : Word;
+      Signal             : SmallWord;
+      Hello_Version      : SmallWord;
+      Product            : SmallWord;
+      Product_Major      : SmallWord;
+      Product_Minor      : SmallWord;
       BBSName            : Array[1..60] Of Char;
       Sysop              : Array[1..20] Of Char;
-      Zone               : Word;
-      Net                : Word;
-      Node               : Word;
-      Point              : Word;
+      Zone               : SmallWord;
+      Net                : SmallWord;
+      Node               : SmallWord;
+      Point              : SmallWord;
       Password           : Array[1..8] Of Char;
       Reserved2          : Array[1..8] Of Byte;
-      Capabilities       : Word;
+      Capabilities       : SmallWord;
       Reserved3          : Array[1..12] Of Byte;
       END;
 TYPE  GetPutRecord       = RECORD
@@ -92,16 +92,16 @@ TYPE  FidoMsgHeader      = RECORD
       MsgTo              : Array[1..36] Of Char;
       MsgSubject         : Array[1..72] Of Char;
       DateTime           : Array[1..20] Of Char; {eg: "01 Jan 86  02:34:56"+#0}
-      TimesRead          : Word;
-      DestNode           : Word;
-      OrigNode           : Word;
-      Cost               : Word;
-      OrigNet            : Word;
-      DestNet            : Word;
+      TimesRead          : SmallWord;
+      DestNode           : SmallWord;
+      OrigNode           : SmallWord;
+      Cost               : SmallWord;
+      OrigNet            : SmallWord;
+      DestNet            : SmallWord;
       Fill               : Array[1..8] Of Char;
-      ReplyTo            : Word;
-      Attribute          : Word;
-      NextReply          : Word;
+      ReplyTo            : SmallWord;
+      Attribute          : SmallWord;
+      NextReply          : SmallWord;
       END;
 {                                                                          }
 {    Attribute   bit       meaning                                         }
@@ -127,70 +127,70 @@ TYPE  FidoMsgHeader      = RECORD
 {                       + - this bit is not zeroed before packeting        }
 {                                                                          }
 TYPE  Type2PHeader       = RECORD
-      OrigNode           : Word;
-      DestNode           : Word;
-      Year               : Integer;
-      Month              : Integer;
-      Day                : Integer;
-      Hour               : Integer;
-      Min                : Integer;
-      Sec                : Integer;
-      Baud               : Integer;
-      PktVer             : Integer;
-      OrigNet            : Word;
-      DestNet            : Word;
+      OrigNode           : SmallWord;
+      DestNode           : SmallWord;
+      Year               : SmallInt;
+      Month              : SmallInt;
+      Day                : SmallInt;
+      Hour               : SmallInt;
+      Min                : SmallInt;
+      Sec                : SmallInt;
+      Baud               : SmallInt;
+      PktVer             : SmallInt;
+      OrigNet            : SmallWord;
+      DestNet            : SmallWord;
       PrdCodL            : Byte;
       PVMajor            : Byte;
       Password           : Array[1..8] Of Char;
-      QOrigZone          : Word;
-      QDestZone          : Word;
-      Filler             : Word;
-      CapValid           : Word;
+      QOrigZone          : SmallWord;
+      QDestZone          : SmallWord;
+      Filler             : SmallWord;
+      CapValid           : SmallWord;
       PrdCodH            : Byte;
       PVMinor            : Byte;
-      CapWord            : Word;
-      OrigZone           : Word;
-      DestZone           : Word;
-      OrigPoint          : Word;
-      DestPoint          : Word;
+      CapWord            : SmallWord;
+      OrigZone           : SmallWord;
+      DestZone           : SmallWord;
+      OrigPoint          : SmallWord;
+      DestPoint          : SmallWord;
       ProdData           : Longint;
       END;
 TYPE  Type2Header        = RECORD
-      OrigNode           : Word;
-      DestNode           : Word;
-      Year               : Word;
-      Month              : Word;
-      Day                : Word;
-      Hour               : Word;
-      Minute             : Word;
-      Second             : Word;
-      Baud               : Word;
+      OrigNode           : SmallWord;
+      DestNode           : SmallWord;
+      Year               : SmallWord;
+      Month              : SmallWord;
+      Day                : SmallWord;
+      Hour               : SmallWord;
+      Minute             : SmallWord;
+      Second             : SmallWord;
+      Baud               : SmallWord;
       PacketType         : Byte;
       Scrap              : Byte;
-      OrigNet            : Word;
-      DestNet            : Word;
+      OrigNet            : SmallWord;
+      DestNet            : SmallWord;
       ProductCode        : Byte;
       SerialNumber       : Byte;
       Password           : Array[1..8] Of Char;
-      OrigZone           : Word;
-      DestZone           : Word;
+      OrigZone           : SmallWord;
+      DestZone           : SmallWord;
       Fill               : Array[1..20] Of Byte;
       END;
 TYPE  Type22Header       = RECORD
-      OrigNode           : Word;
-      DestNode           : Word;
-      OrigPoint          : Word;
-      DestPoint          : Word;
+      OrigNode           : SmallWord;
+      DestNode           : SmallWord;
+      OrigPoint          : SmallWord;
+      DestPoint          : SmallWord;
       Reserved           : Array[1..8] Of Byte;
-      PktMinVer          : Word; {2}
-      PktMajVer          : Word; {2}
-      OrigNet            : Word;
-      DestNet            : Word;
+      PktMinVer          : SmallWord; {2}
+      PktMajVer          : SmallWord; {2}
+      OrigNet            : SmallWord;
+      DestNet            : SmallWord;
       ProductCode        : Byte;
       ProductVer         : Byte;
       Password           : Array[1..8] Of Char;
-      OrigZone           : Word;
-      DestZone           : Word;
+      OrigZone           : SmallWord;
+      DestZone           : SmallWord;
       OrigDomain         : Array[1..8] Of Char;
       DestDomain         : Array[1..8] Of Char;
       Filler             : Array[1..4] Of Byte;
@@ -199,12 +199,12 @@ TYPE  BigBuffer          = Array[1..48000] Of Char;
 TYPE  PakdMessageHeader  = RECORD
       Signature          : Byte; {Always #2}
       Fill               : Byte;
-      OrigNode           : Word;
-      DestNode           : Word;
-      OrigNet            : Word;
-      DestNet            : Word;
-      Attribute          : Word;
-      Cost               : Word;
+      OrigNode           : SmallWord;
+      DestNode           : SmallWord;
+      OrigNet            : SmallWord;
+      DestNet            : SmallWord;
+      Attribute          : SmallWord;
+      Cost               : SmallWord;
       DateTime           : Array[1..20] Of Char;
       END;
 TYPE  Mail_Queue         = RECORD
@@ -212,13 +212,13 @@ TYPE  Mail_Queue         = RECORD
       MailType           : Byte;       {1-Poll 2-ReqFiles 3-Transmit Files}
       FileName           : String[50]; {For attached files}
       MsgStat            : Byte;       {1-YetToGo 2-Crash 3-Hold 4-Sent}
-      FidoMsg            : Word;
+      FidoMsg            : SmallWord;
       Kill               : Boolean;
       FileKill           : Byte;       {0-None 1-Trunc 2-Kill}
       IsEvent            : Boolean;
       StartTime          : Longint;
       EndTime            : Longint;
-      EventNum           : Word;
+      EventNum           : SmallWord;
       Exclusive          : Boolean;
       Freq               : Boolean;
       END;
@@ -423,14 +423,14 @@ VAR   ListFile           : FileListing;
 
 TYPE  BigFileQueue       = Array[1..15] Of String[100];
 TYPE  InfoRec            = RECORD
-      Protocol           : Array[1..2] Of Word;
-      FileName           : Array[1..2] Of Word;
-      Size               : Array[1..2] Of Word;
-      Sent               : Array[1..2] Of Word;
-      Speed              : Array[1..2] Of Word;
-      Time               : Array[1..2] Of Word;
-      Left               : Array[1..2] Of Word;
-      CPS                : Array[1..2] Of Word;
+      Protocol           : Array[1..2] Of SmallWord;
+      FileName           : Array[1..2] Of SmallWord;
+      Size               : Array[1..2] Of SmallWord;
+      Sent               : Array[1..2] Of SmallWord;
+      Speed              : Array[1..2] Of SmallWord;
+      Time               : Array[1..2] Of SmallWord;
+      Left               : Array[1..2] Of SmallWord;
+      CPS                : Array[1..2] Of SmallWord;
       END;
 VAR   FileQueue          : ^BigFileQueue;
       FilesInQueue       : Byte;

@@ -24,10 +24,10 @@ TYPE File_Info      = RECORD
      END;
 TYPE FFile_Info     = Array[1..1000] Of File_Info;
 TYPE ButCoord       = RECORD
-     x1             : Word;
-     y1             : Word;
-     x2             : Word;
-     y2             : Word;
+     x1             : SmallWord;
+     y1             : SmallWord;
+     x2             : SmallWord;
+     y2             : SmallWord;
      END;
 VAR  STheDrives     : String;
      SCurrentPath   : String;

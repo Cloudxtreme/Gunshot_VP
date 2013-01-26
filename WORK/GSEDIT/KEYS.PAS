@@ -23,7 +23,7 @@ USES Globals,FastW1,Crt,SaveScrn,Misc,DrawScrn,BsFile,
 FUNCTION ChangeCurrentAKA: Boolean;
 TYPE Pick_List  = RECORD
      Text       : String[25];
-     QueueNum   : Word;
+     QueueNum   : SmallWord;
      END;
 TYPE BigPick    = Array[1..800] Of Pick_List;
 VAR  OldX       : Word;

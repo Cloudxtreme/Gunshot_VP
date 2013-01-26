@@ -24,22 +24,22 @@ TYPE  Get_Put1           = RECORD
       END;
 TYPE  Editor_Object      = RECORD
       BodyText           : Array[1..48000] Of Char;
-      YStart             : Word;
-      XStart             : Word;
-      UserX              : Word;
-      UserY              : Word;
-      TopCharNum         : Word;
-      Current            : Word;
-      Total              : Word;
+      YStart             : SmallWord;
+      XStart             : SmallWord;
+      UserX              : SmallWord;
+      UserY              : SmallWord;
+      TopCharNum         : SmallWord;
+      Current            : SmallWord;
+      Total              : SmallWord;
       OnScreen           : Array[1..25] Of String[88];
-      Locators           : Array[1..3000] Of Word;
-      TotalLines         : Word;
+      Locators           : Array[1..3000] Of SmallWord;
+      TotalLines         : SmallWord;
       IsOnScreen         : Boolean;
-      TopLine            : Word;
-      CharsOnScrn        : Word;
+      TopLine            : SmallWord;
+      CharsOnScrn        : SmallWord;
       LinesOnScrn        : Byte;
-      LastPosX           : Word;
-      LastPosY           : Word;
+      LastPosX           : SmallWord;
+      LastPosY           : SmallWord;
       AltKey             : Boolean;
       END;
 TYPE  FidoMsgHeader      = RECORD
@@ -47,16 +47,16 @@ TYPE  FidoMsgHeader      = RECORD
       MsgTo              : Array[1..36] Of Char;
       MsgSubject         : Array[1..72] Of Char;
       DateTime           : Array[1..20] Of Char; {eg: "01 Jan 86  02:34:56"+#0}
-      TimesRead          : Word;
-      DestNode           : Word;
-      OrigNode           : Word;
-      Cost               : Word;
-      OrigNet            : Word;
-      DestNet            : Word;
+      TimesRead          : SmallWord;
+      DestNode           : SmallWord;
+      OrigNode           : SmallWord;
+      Cost               : SmallWord;
+      OrigNet            : SmallWord;
+      DestNet            : SmallWord;
       Fill               : Array[1..8] Of Char;
-      ReplyTo            : Word;
-      Attribute          : Word;
-      NextReply          : Word;
+      ReplyTo            : SmallWord;
+      Attribute          : SmallWord;
+      NextReply          : SmallWord;
       END;
 {                                                                          }
 {    Attribute   bit       meaning                                         }

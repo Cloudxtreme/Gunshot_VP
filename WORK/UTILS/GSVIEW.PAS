@@ -13,7 +13,7 @@ USES Gx2_Bp,Gx2_BpVC,Gr2_Bp,Fx2_Bp,Tx2_Bp,Shotgun,MkFFile,Dos,
 TYPE LiPoint3D       = RECORD
      X,Y,Z           : LongInt;
      END;
-TYPE Poly_Points     = Array[0..32000] Of Integer;
+TYPE Poly_Points     = Array[0..32000] Of SmallInt;
 TYPE GFX_Buffer      = Array[0..65534] Of Byte;
 VAR  FRawFile        : FFileObj;
      RawFile         : _Raw_File;

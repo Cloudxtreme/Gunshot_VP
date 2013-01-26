@@ -9,83 +9,83 @@ USES Shotgun;
 
 
 TYPE  Type2Header        = RECORD
-      OrigNode           : Word;
-      DestNode           : Word;
-      Year               : Word;
-      Month              : Word;
-      Day                : Word;
-      Hour               : Word;
-      Minute             : Word;
-      Second             : Word;
-      Baud               : Word;
+      OrigNode           : SmallWord;
+      DestNode           : SmallWord;
+      Year               : SmallWord;
+      Month              : SmallWord;
+      Day                : SmallWord;
+      Hour               : SmallWord;
+      Minute             : SmallWord;
+      Second             : SmallWord;
+      Baud               : SmallWord;
       PacketType         : Byte;
       Scrap              : Byte;
-      OrigNet            : Word;
-      DestNet            : Word;
+      OrigNet            : SmallWord;
+      DestNet            : SmallWord;
       ProductCode        : Byte;
       SerialNumber       : Byte;
       Password           : Array[1..8] Of Char;
-      OrigZone           : Word;
-      DestZone           : Word;
+      OrigZone           : SmallWord;
+      DestZone           : SmallWord;
       Fill               : Array[1..20] Of Byte;
       END;
 TYPE  Type22Header       = RECORD
-      OrigNode           : Word;
-      DestNode           : Word;
-      OrigPoint          : Word;
-      DestPoint          : Word;
+      OrigNode           : SmallWord;
+      DestNode           : SmallWord;
+      OrigPoint          : SmallWord;
+      DestPoint          : SmallWord;
       Reserved           : Array[1..8] Of Byte;
-      PktMinVer          : Word; {2}
-      PktMajVer          : Word; {2}
-      OrigNet            : Word;
-      DestNet            : Word;
+      PktMinVer          : SmallWord; {2}
+      PktMajVer          : SmallWord; {2}
+      OrigNet            : SmallWord;
+      DestNet            : SmallWord;
       ProductCode        : Byte;
       ProductVer         : Byte;
       Password           : Array[1..8] Of Char;
-      OrigZone           : Word;
-      DestZone           : Word;
+      OrigZone           : SmallWord;
+      DestZone           : SmallWord;
       OrigDomain         : Array[1..8] Of Char;
       DestDomain         : Array[1..8] Of Char;
       Filler             : Array[1..4] Of Byte;
       END;
 TYPE  Type2PHeader       = RECORD
-      OrigNode           : Word;
-      DestNode           : Word;
-      Year               : Word;
-      Month              : Word;
-      Day                : Word;
-      Hour               : Word;
-      Min                : Word;
-      Sec                : Word;
-      Baud               : Word;
-      PktVer             : Word;
-      OrigNet            : Word;
-      DestNet            : Word;
+      OrigNode           : SmallWord;
+      DestNode           : SmallWord;
+      Year               : SmallWord;
+      Month              : SmallWord;
+      Day                : SmallWord;
+      Hour               : SmallWord;
+      Min                : SmallWord;
+      Sec                : SmallWord;
+      Baud               : SmallWord;
+      PktVer             : SmallWord;
+      OrigNet            : SmallWord;
+      DestNet            : SmallWord;
       PrdCodL            : Byte;
       PVMajor            : Byte;
       Password           : Array[1..8] Of Char;
-      QOrigZone          : Word;
-      QDestZone          : Word;
-      Filler             : Word;
-      CapValid           : Word;
+      QOrigZone          : SmallWord;
+      QDestZone          : SmallWord;
+      Filler             : SmallWord;
+      CapValid           : SmallWord;
       PrdCodH            : Byte;
       PVMinor            : Byte;
-      CapWord            : Word;
-      OrigZone           : Word;
-      DestZone           : Word;
-      OrigPoint          : Word;
-      DestPoint          : Word;
+      CapWord            : SmallWord;
+      OrigZone           : SmallWord;
+      DestZone           : SmallWord;
+      OrigPoint          : SmallWord;
+      DestPoint          : SmallWord;
       ProdData           : Longint;
       END;
 TYPE  PakdMessageHeadr   = RECORD
       Signature          : Byte; {Always #2}
       Fill               : Byte;
-      OrigNode           : Word;
-      DestNode           : Word;
-      OrigNet            : Word;
-      DestNet            : Word;
-      Attribute          : Word;
-      Cost               : Word;
+      OrigNode           : SmallWord;
+      DestNode           : SmallWord;
+      OrigNet            : SmallWord;
+      DestNet            : SmallWord;
+      Attribute          : SmallWord;
+      Cost               : SmallWord;
       DateTime           : Array[1..20] Of Char;
       END;
 
@@ -127,7 +127,7 @@ TYPE  _RPktMsg           = RECORD
       ToAddress          : AddrType;
       Password           : String[8];
       ProductVer         : String[30];
-      ProductCode        : Word;
+      ProductCode        : SmallWord;
       END;
 TYPE  _RPktMsgHeader     = RECORD
       MsgHeader          : PakdMessageHeadr;

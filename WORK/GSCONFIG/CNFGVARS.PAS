@@ -15,7 +15,7 @@ TYPE FFF = RECORD
      FileDesc : String[46];
      END;
 TYPE FFFF = RECORD
-     OrigIndex : Word;
+     OrigIndex : SmallWord;
      Info      : String[16];
      InfoNum   : Longint;
      END;
@@ -28,7 +28,7 @@ TYPE File_Info  = Array[1..1000] OF FFF;
 TYPE File_Info2 = Array[1..1000] OF FFFF;
 TYPE File_Info3 = Array[1..1000] OF FFFFF;
 TYPE Rec = RECORD
-     N   : Word;
+     N   : SmallWord;
      V   : String[40];
      END;
 VAR  O                  : Rec;

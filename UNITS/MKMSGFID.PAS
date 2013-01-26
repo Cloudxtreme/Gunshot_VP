@@ -41,14 +41,14 @@ Type FMsgType = Record
   TmpName: String[130];
   TmpOpen: Boolean;
   MsgOpen: Boolean;
-  Error: Word;
+  Error: SmallWord;
   NetMailPath: String[128];
   Dest: AddrType;
   Orig: AddrType;
   MsgStart: LongInt;
   MsgEnd: LongInt;
   MsgSize: LongInt;
-  DefaultZone: Word;
+  DefaultZone: SmallWord;
   QDate: String[10];
   QTime: String[5];
   MsgDone: Boolean;

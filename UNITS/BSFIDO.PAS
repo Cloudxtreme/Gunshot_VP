@@ -85,23 +85,23 @@ TYPE  _FidoMsgHeader     = RECORD
       MsgTo              : Array[1..36] Of Char;
       MsgSubject         : Array[1..72] Of Char;
       DateTime           : Array[1..20] Of Char;
-      TimesRead          : Word;
-      DestNode           : Word;
-      OrigNode           : Word;
-      Cost               : Word;
-      OrigNet            : Word;
-      DestNet            : Word;
-      DestZone           : Word;
-      OrigZone           : Word;
-      DestPoint          : Word;
-      OrigPoint          : Word;
-      ReplyTo            : Word;
+      TimesRead          : SmallWord;
+      DestNode           : SmallWord;
+      OrigNode           : SmallWord;
+      Cost               : SmallWord;
+      OrigNet            : SmallWord;
+      DestNet            : SmallWord;
+      DestZone           : SmallWord;
+      OrigZone           : SmallWord;
+      DestPoint          : SmallWord;
+      OrigPoint          : SmallWord;
+      ReplyTo            : SmallWord;
       Attribute1         : Byte;
       Attribute2         : Byte;
-      NextReply          : Word;
+      NextReply          : SmallWord;
       END;
 TYPE  _WFidoMsg          = RECORD
-      MsgNumber          : Word;
+      MsgNumber          : SmallWord;
       FFile              : FFileObj;
       Application        : String;
       TruncFile          : Boolean;
@@ -113,10 +113,10 @@ TYPE  _WFidoMsg          = RECORD
       MsgTime            : String[8];
       END;
 TYPE  _RFidoMsg          = RECORD
-      NumMsgs            : Word;
-      Indexes            : Array[1..3000] Of Word;
+      NumMsgs            : SmallWord;
+      Indexes            : Array[1..3000] Of SmallWord;
       MsgPath            : String[80];
-      MsgNumber          : Word;
+      MsgNumber          : SmallWord;
       FFile              : FFileObj;
       TruncFile          : Boolean;
       KillFile           : Boolean;
@@ -126,7 +126,7 @@ TYPE  _RFidoMsg          = RECORD
       END;
 TYPE  _EFidoMsg          = RECORD
       MsgPath            : String[80];
-      MsgNumber          : Word;
+      MsgNumber          : SmallWord;
       FFile              : FFileObj;
       TruncFile          : Boolean;
       KillFile           : Boolean;

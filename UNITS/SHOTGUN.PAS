@@ -33,12 +33,19 @@ UNIT Shotgun;
 INTERFACE
 
 
+{$IFDEF MSDOS}
+TYPE
+     SmallInt  = System.Integer;
+     SmallWord = System.Word;
+{$ENDIF}
+     
+     
 {General Type Used For 4D Network AKAs}
 TYPE AddrType = RECORD
-     Zone     : Word;
-     Net      : Word;
-     Node     : Word;
-     Point    : Word;
+     Zone     : SmallWord;
+     Net      : SmallWord;
+     Node     : SmallWord;
+     Point    : SmallWord;
      END;
 
 
@@ -104,7 +111,7 @@ TYPE _USERLIST_SG            = RECORD
      END;
 
 {_NewNodelist_SG}
-{     BytesOfRecord       Word             }
+{     BytesOfRecord       SmallWord        }
 {     Aka                 AddrType         }
 {     Baud                Longint          }
 {     Sysop               LengthByte String}
@@ -129,7 +136,7 @@ TYPE _USERLIST_SG            = RECORD
 {
 TYPE _NewsGroup_Record       = RECORD
      ListOfGroups            : String[40];
-     AutoCreateGroup         : Word;
+     AutoCreateGroup         : SmallWord;
      END;}
 {=======================================================================================================}
 { NEW!                                                                                                  }
@@ -189,7 +196,7 @@ TYPE _External_Apps          = RECORD
 {=======================================================================================================}
 TYPE _Undialable_Systems     = RECORD
      Net_Address             : AddrType;   {Aka of the system that has failed sessions.                 }
-     Retries                 : Word;       {Number of failures.                                         }
+     Retries                 : SmallWord;  {Number of failures.                                         }
      END;
 {=======================================================================================================}
 { NEW!                                                                                                  }
@@ -272,9 +279,9 @@ TYPE _Mailer2_Record         = RECORD
                                            {3 - 50 Lines                                                }
      UseZedZapTransfers      : Boolean;    {True to allow 8k ZedZap file transfers in SGMail.           }
      UseHyrdaTransfers       : Boolean;    {n/a                                                         }
-     CallsBeforeFail         : Word;       {FUCK}
+     CallsBeforeFail         : SmallWord;  {FUCK}
      UseBlanker              : Boolean;    {True to use internal screen saver.                          }
-     BlankerTimeout          : Word;       {Seconds before screen saver is enabled.                     }
+     BlankerTimeout          : SmallWord;  {Seconds before screen saver is enabled.                     }
      UseSound                : Boolean;    {True to allow SGMail to make beeps on mail received etc.    }
      SoundStart              : Longint;    {Seconds after midnight sound is enabled.                    }
      SoundEnd                : Longint;    {Seconds after midnight sound is disabled.                   }
@@ -313,7 +320,7 @@ TYPE _SystemDat_Record       = RECORD
      Show_Empty              : Byte;                   {n/a                                             }
      CD_Roms                 : Byte;                   {1-Enable special handling of CD rom areas.      }
      Use_CD_Temp             : Byte;                   {1-Use disk paging for CD rom areas.             }
-     Access_New_User         : Word;                   {Access level to give new callers to the system. }
+     Access_New_User         : SmallWord;              {Access level to give new callers to the system. }
      TBank_Max               : Longint;                {Maximum minutes allowed in the time bank.       }
      BBank_Max               : Longint;                {Maximum bytes allowed in the byte bank.         }
      TBank_Trans             : Longint;                {Maximum number of minutes allowed to be taken   }
@@ -321,7 +328,7 @@ TYPE _SystemDat_Record       = RECORD
      BBank_Trans             : Longint;                {Maximum number of bytes allowed to be traken    }
                                                        {from the byte bank in one calendar day.         }
      Alias_System            : Boolean;                {'TRUE' to allow the use of alias names.         }
-     PrivateRead             : Word;                   {Access level required to read other people's    }
+     PrivateRead             : SmallWord;              {Access level required to read other people's    }
                                                        {private messages.                               }
      EchoExit                : Byte;                   {DOS errorlevel that SG will exit with when echo }
                                                        {mail is created on the system.                  }
@@ -331,21 +338,21 @@ TYPE _SystemDat_Record       = RECORD
                                                        {generated online by the users.                  }
      MessageDebug            : Byte;                   {1-Display message kludge information locally.   }
      Suspend_FList           : Byte;                   {1-Disable user's time when transferring QWK etc.}
-     MessageCarbonCopy       : Word;                   {Access level required to create carbon copy msgs}
-     MessageCopy             : Word;                   {Access level required to copy messages in bases.}
-     MessageMove             : Word;                   {Access level required to move messages in bases.}
-     MessageForward          : Word;                   {Access level required to forward messages in    }
+     MessageCarbonCopy       : SmallWord;              {Access level required to create carbon copy msgs}
+     MessageCopy             : SmallWord;              {Access level required to copy messages in bases.}
+     MessageMove             : SmallWord;              {Access level required to move messages in bases.}
+     MessageForward          : SmallWord;              {Access level required to forward messages in    }
                                                        {bases.                                          }
-     MessageKill             : Word;                   {Access level required to kill messages in bases.}
-     FileMove                : Word;                   {Access level required to move files in areas.   }
-     FileCopy                : Word;                   {Access level required to copy files in areas.   }
-     FileKill                : Word;                   {Access level required to kill files in areas.   }
+     MessageKill             : SmallWord;              {Access level required to kill messages in bases.}
+     FileMove                : SmallWord;              {Access level required to move files in areas.   }
+     FileCopy                : SmallWord;              {Access level required to copy files in areas.   }
+     FileKill                : SmallWord;              {Access level required to kill files in areas.   }
      ANSIExit                : Byte;                   {DOS errorlevel to exit with when a user selects }
                                                        {a non-SuperVGA interface (for those that use    }
                                                        {multiple BBS packages.                          }
      BadQWK                  : String[40];             {Path to place astray/bad QWK packets.           }
      FileAttach              : String[40];             {Path to place outbound netmail attached files.  }
-     MessageInfo             : Word;                   {Access level required to see msg kludge lines.  }
+     MessageInfo             : SmallWord;              {Access level required to see msg kludge lines.  }
      UTCSetting              : String[3];              {Number of hours (+/-) from the 0 meridian.      }
      QWKWelcome              : String[8];              {Name of the QWK welcome screen.                 }{FUCK}
      QWKNews                 : String[8];              {Name of the QWK news screen.                    }{FUCK}
@@ -376,7 +383,7 @@ TYPE _SystemDat_Record       = RECORD
 {                                                                                                       }
 {=======================================================================================================}
 TYPE _MessageSub_Record      = RECORD
-     Sub_Num                 : Word;                   {The numerical sub group number - for reference. }
+     Sub_Num                 : SmallWord;              {The numerical sub group number - for reference. }
                                                        {MUST NOT be '0'.                                }
      Sub_Name                : String[30];             {The descriptive name of the sub group.          }
 
@@ -389,8 +396,8 @@ TYPE _MessageSub_Record      = RECORD
                                                        {2-Squish.                                       }
                                                        {3-Fido.                                         }
                                                        {4-SG FastBase.                                  }
-     Read_Access             : Word;                   {Minimum access level required to read messages. }
-     Write_Access            : Word;                   {Minimum access level required to write messages.}
+     Read_Access             : SmallWord;              {Minimum access level required to read messages. }
+     Write_Access            : SmallWord;              {Minimum access level required to write messages.}
      Area_Type               : Byte;                   {Message type:                                   }
                                                        { Local:    1-Public  2-Priv  3-Public/Priv      }
                                                        {  Echo:   10-Public 11-Priv 12-Public/Priv      }
@@ -401,14 +408,14 @@ TYPE _MessageSub_Record      = RECORD
                                                        {2-Alias name.                                   }
                                                        {3-Real/Alias name.                              }
      File_Attaches           : Byte;                   {0-Normal, 1-Allow file attaches.                }
-     File_Attaches_Sec       : Word;                   {Minimum access level for attaching files to     }
+     File_Attaches_Sec       : SmallWord;              {Minimum access level for attaching files to     }
                                                        {messages in this area.                          }
      Tags                    : Array[1..10] Of Byte;   {User tags required to see the message area.     }
      Origin                  : Byte;                   {Index to the origin line used for this area.    }
      Address                 : Byte;                   {Index to the network address used for this area.}
      DoGraphics              : Byte;                   {0-Normal, 1-Allow colour codes in message base. }
      CleanLanguage           : Byte;                   {0-Normal, 1-Censor language using BADLANG.      }
-     MaxMsgs                 : Word;                   {Maximum number of messages to keep in the area. }
+     MaxMsgs                 : SmallWord;              {Maximum number of messages to keep in the area. }
      ScanAtLogon             : Boolean;                {'TRUE' if the area is to be scanned in the new  }
                                                        {mail search at logon.                           }
      PassThrough             : Boolean;                {True if defaulted to pass through areas.        }
@@ -430,17 +437,17 @@ TYPE _MessageSub_Record      = RECORD
 {                                                                                                       }
 {=======================================================================================================}
 TYPE _FileSub_Record         = RECORD
-     Sub_Num                 : Word;                   {The numerical sub group number - for reference. }
+     Sub_Num                 : SmallWord;              {The numerical sub group number - for reference. }
                                                        {MUST NOT be '0'.                                }
      Sub_Name                : String[30];             {The descriptive name of the sub group.          }
 
         { The remainder of the record is for setting defaults for new areas created via SGConfig and    }
         { SGFile (the file echo processor).                                                             }
 
-     View_Access             : Word;                   {Minimum access level required to see the area.  }
-     DL_Access               : Word;                   {Minimum access level required to DL files.      }
+     View_Access             : SmallWord;              {Minimum access level required to see the area.  }
+     DL_Access               : SmallWord;              {Minimum access level required to DL files.      }
      Tags                    : Array[1..10] Of Byte;   {User tags required to see the file area.        }
-     Cd_Rom                  : Word;                   {If a CD Rom, the 'number' of the CD rom in the  }
+     Cd_Rom                  : SmallWord;              {If a CD Rom, the 'number' of the CD rom in the  }
                                                        {CD Roms definitions. Otherwise '0'.             }
      Sort                    : Byte;                   {Area sorting method:                            }
                                                        {1-None.                                         }
@@ -455,7 +462,7 @@ TYPE _FileSub_Record         = RECORD
      TicDestFormat           : String[3];              {Target archive format extension.                }
      TicImportDiz            : Boolean;                {'TRUE' to use FILE_ID.DIZ files for description }
                                                        {purposes (if contained in the archive).         }
-     TicReportNumber         : Word;                   {Report number to use for announcing uploads.    }
+     TicReportNumber         : SmallWord;              {Report number to use for announcing uploads.    }
      ScanAtLogon             : Boolean;                {'TRUE' if the area is to be scanned in the new  }
                                                        {file search at logon.                           }
      PassThrough             : Boolean;                {True if defaulted to pass through areas.        }
@@ -499,7 +506,7 @@ TYPE _UsersBBS_Record        = RECORD
      User_Number             : Longint;                {User's user number.                             }
      Alias                   : String[30];             {User's alias name.                              }
      Password                : String[20];             {User's password.                                }
-     Security                : Word;                   {User's access level.                            }
+     Security                : SmallWord;              {User's access level.                            }
      Voice                   : String[20];             {User's voice phone number.                      }
      Data                    : String[20];             {User's data phone number.                       }
      Birth                   : String[6];              {User's birthdate (MM/DD/YY).                    }
@@ -531,10 +538,10 @@ TYPE _UsersBBS_Record        = RECORD
      Total_Calls             : Longint;                {Total calls the user has made to the system.    }
      SecondsRemaining        : Longint;                {Seconds remaining for today's sessions.         }
      Sub_Expiry              : Longint;                {Expiry date of subscription.                    }
-     Expiry_Adjust           : Word;                   {Access level to be demoted to after expiry.     }
+     Expiry_Adjust           : SmallWord;              {Access level to be demoted to after expiry.     }
      Punt                    : Byte;                   {1-User is locked out from the system.           }
-     DefaultArchiver         : Word;                   {Default Archiver - 1 based to ARCUTILS.DAT.     }
-     DefaultProtocol         : Word;                   {Default Protocol:                               }
+     DefaultArchiver         : SmallWord;              {Default Archiver - 1 based to ARCUTILS.DAT.     }
+     DefaultProtocol         : SmallWord;              {Default Protocol:                               }
                                                        {1-ZModem                                        }
                                                        {2-XModem                                        }
                                                        {3-XModem1K                                      }
@@ -546,8 +553,8 @@ TYPE _UsersBBS_Record        = RECORD
      UserList                : Byte;                   {1-User is shown in online userlist.             }
      PageFlag                : Byte;                   {1-User is available for page.                   }
      IBM                     : Byte;                   {1-User has IBM character capability.            }
-     Scrap2                  : Word;                   {n/a                                             }
-     DefaultQuote            : Word;                   {Default Message Quoting:                        }
+     Scrap2                  : SmallWord;              {n/a                                             }
+     DefaultQuote            : SmallWord;              {Default Message Quoting:                        }
                                                        {0 - No default                                  }
                                                        {1 - New Text Only                               }
                                                        {2 - All Text                                    }
@@ -613,7 +620,7 @@ TYPE _Lockout_Record         = RECORD
 TYPE _CallerId_Record        = RECORD
      UseCID                  : Boolean;    {True to use CID information on inbound connections.         }
      AccessLevelForcing      : Boolean;    {True to degrade user's access if no phone # present.        }
-     AccessLevelNoNumber     : Word;       {Access level to give users with no phone # present.         }
+     AccessLevelNoNumber     : SmallWord;  {Access level to give users with no phone # present.         }
      CBVOverRide             : Boolean;    {True to use CID information instead of CBV.                 }
      END;
 {=======================================================================================================}
@@ -627,9 +634,9 @@ TYPE _CallerId_Record        = RECORD
 {                                                                                                       }
 {=======================================================================================================}
 TYPE _MessageArea_Record     = RECORD
-     Scrap1                  : Word;                   {n/a                                             }
+     Scrap1                  : SmallWord;              {n/a                                             }
      Area_Name               : String[40];             {The descriptive name of the message area.       }
-     Sub                     : Word;                   {The message sub group that the area resides.    }
+     Sub                     : SmallWord;              {The message sub group that the area resides.    }
                                                        {This must NOT be '0' and the group must exist.  }
      Dos_Name                : String[50];             {Path/Filename of the message base. For FIDO MSG }
                                                        {areas, this must be a directory name, and for   }
@@ -641,8 +648,8 @@ TYPE _MessageArea_Record     = RECORD
                                                        {2-Squish.                                       }
                                                        {3-Fido.                                         }
                                                        {4-SG FastBase.                                  }
-     Read_Access             : Word;                   {Minimum access level required to read messages. }
-     Write_Access            : Word;                   {Minimum access level required to write messages.}
+     Read_Access             : SmallWord;              {Minimum access level required to read messages. }
+     Write_Access            : SmallWord;              {Minimum access level required to write messages.}
      Area_Type               : Byte;                   {Message type:                                   }
                                                        { Local:    1-Public  2-Priv  3-Public/Priv      }
                                                        {  Echo:   10-Public 11-Priv 12-Public/Priv      }
@@ -653,7 +660,7 @@ TYPE _MessageArea_Record     = RECORD
                                                        {2-Alias name.                                   }
                                                        {3-Real/Alias name.                              }
      File_Attaches           : Byte;                   {0-Normal, 1-Allow file attaches.                }
-     File_Attaches_Sec       : Word;                   {Minimum access level for attaching files to     }
+     File_Attaches_Sec       : SmallWord;              {Minimum access level for attaching files to     }
                                                        {messages in this area.                          }
      Tags                    : Array[1..10] Of Byte;   {User tags required to see the message area.     }
      Origin                  : Byte;                   {Index to the origin line used for this area.    }
@@ -661,9 +668,9 @@ TYPE _MessageArea_Record     = RECORD
      NodeList                : String[50];             {Path to the *.SG nodelist files (for netmail).  }
      DoGraphics              : Byte;                   {0-Normal, 1-Allow colour codes in message base. }
      CleanLanguage           : Byte;                   {0-Normal, 1-Censor language using BADLANG.      }
-     AreaID                  : Word;                   {Unique message area ID number. Every area must  }
+     AreaID                  : SmallWord;              {Unique message area ID number. Every area must  }
                                                        {have an area ID different from all other areas! }
-     MaxMsgs                 : Word;                   {Maximum number of messages to keep in the area. }
+     MaxMsgs                 : SmallWord;              {Maximum number of messages to keep in the area. }
      ForcedTo                : Byte;                   {0-Normal, 1-User can't change the msg recipient.}
      Area_Tag                : String[40];             {Mail echo tag (if applicable).                  }
      PassThrough             : Boolean;                {True if a pass through area.                    }
@@ -681,14 +688,14 @@ TYPE _MessageArea_Record     = RECORD
 {=======================================================================================================}
 TYPE _FileArea_Record        = RECORD
      Area_Name               : String[40];             {The descriptive name of the file area.          }
-     Sub                     : Word;                   {The file sub group that the area resides.       }
+     Sub                     : SmallWord;              {The file sub group that the area resides.       }
                                                        {This must NOT be '0' and the group must exist.  }
      Dos_Name                : String[50];             {The path and file name (no extension!) of the   }
                                                        {file area's *.FIL and *.TXT database files.     }
-     View_Access             : Word;                   {Minimum access level required to see the area.  }
-     Dl_Access               : Word;                   {Minimum access level required to DL files.      }
+     View_Access             : SmallWord;              {Minimum access level required to see the area.  }
+     Dl_Access               : SmallWord;              {Minimum access level required to DL files.      }
      Tags                    : Array[1..10] Of Byte;   {User tags required to see the file area.        }
-     Cd_Rom                  : Word;                   {If a CD Rom, the 'number' of the CD rom in the  }
+     Cd_Rom                  : SmallWord;              {If a CD Rom, the 'number' of the CD rom in the  }
                                                        {CD Roms definitions. Otherwise '0'.             }
      Sort                    : Byte;                   {Area sorting method:                            }
                                                        {1-None.                                         }
@@ -700,15 +707,15 @@ TYPE _FileArea_Record        = RECORD
                                                        {7-Size (Small-Large)                            }
      Area_Path               : String[40];             {Path to where the files are stored.             }
      Area_Tag                : String[12];             {TIC file echo tag (if applicable).              }
-     Num_Files               : Word;                   {Number of files in the area.                    }
+     Num_Files               : SmallWord;              {Number of files in the area.                    }
      Num_Bytes               : Longint;                {Total bytes of files in the area.               }
-     AreaID                  : Word;                   {Unique file area ID number. Every area must     }
+     AreaID                  : SmallWord;              {Unique file area ID number. Every area must     }
                                                        {have an area ID different from all other areas! }
      TicConvertArcs          : Boolean;                {'TRUE' to convert archives when uploaded.       }
      TicDestFormat           : String[3];              {Target archive format extension.                }
      TicImportDiz            : Boolean;                {'TRUE' to use FILE_ID.DIZ files for description }
                                                        {purposes (if contained in the archive).         }
-     TicReportNumber         : Word;                   {Report number to use for announcing uploads.    }
+     TicReportNumber         : SmallWord;         {Report number to use for announcing uploads.    }
      PassThrough             : Boolean;                {True if a pass through area.                    }
      Scrap                   : Array[1..122] Of Byte;  {n/a                                             }
      END;
@@ -873,10 +880,10 @@ TYPE _Archiver_Utilities     = RECORD
 {                                                                                                       }
 {=======================================================================================================}
 TYPE _Link_Groups_Record     = RECORD
-     FileGroups              : Array[1..200] Of Word;  {Array of all file groups the link has access.   }
-     MessageGroups           : Array[1..200] Of Word;  {Array of all msg groups the link has access.    }
-     CreateFileGroup         : Word;                   {File sub to auto-create areas for this link.    }
-     CreateMsgGroup          : Word;                   {Message sub to auto-create areas for this link. }
+     FileGroups              : Array[1..200] Of SmallWord; {Array of all file groups the link has access}
+     MessageGroups           : Array[1..200] Of SmallWord; {Array of all msg groups the link has access.}
+     CreateFileGroup         : SmallWord;             {File sub to auto-create areas for this link.}
+     CreateMsgGroup          : SmallWord;           {Message sub to auto-create areas for this link}
      END;
 {=======================================================================================================}
 { CHANGED!                                                                                              }
@@ -895,7 +902,7 @@ TYPE _Links_Record           = RECORD
      SGEchoPacket            : String[8];              {Password for message bundles.                   }
      SGEchoAreaFix           : String[8];              {Password for SGEcho's Areafix.                  }
      SendNotify              : Boolean;                {True to send list of echoes using -NOTIFY       }
-     AccessLevel             : Word;                   {Defines what areas the remote can access.       }
+     AccessLevel             : SmallWord;         {Defines what areas the remote can access.       }
      Scrap                   : Array[1..37] Of Byte;   {n/a                                             }
      AkaToUse                : Byte;                   {Index to the AKA your system is to use with     }
                                                        {this link.                                      }
@@ -1006,10 +1013,10 @@ TYPE _Poll_Event             = RECORD
      Active                  : Boolean;                {'TRUE' if event is enabled.                     }
      CallAddress             : AddrType;               {Net address to dial. ie: '100:1000/0'.          }
      Description             : String[40];             {Verbal description of the event.                }
-     AkaToUse                : Word;                   {n/a                                             }
-     LastMonth               : Word;                   {Last numeric month event was run.               }
-     LastDay                 : Word;                   {Last numeric day event was run.                 }
-     LastYear                : Word;                   {Last numeric year event was run.                }
+     AkaToUse                : SmallWord;              {n/a                                             }
+     LastMonth               : SmallWord;              {Last numeric month event was run.               }
+     LastDay                 : SmallWord;              {Last numeric day event was run.                 }
+     LastYear                : SmallWord;              {Last numeric year event was run.                }
      END;
 {=======================================================================================================}
 { \SHOTGUN\DATA\EVENTSS.xxx                                                                             }
@@ -1026,10 +1033,10 @@ TYPE _Send_Event             = RECORD
      Active                  : Boolean;                {'TRUE' if event is enabled.                     }
      CallAddress             : AddrType;               {Net address to dial. ie: '100:1000/0'.          }
      Description             : String[40];             {Verbal description of the event.                }
-     AkaToUse                : Word;                   {n/a                                             }
-     LastMonth               : Word;                   {Last numeric month event was run.               }
-     LastDay                 : Word;                   {Last numeric day event was run.                 }
-     LastYear                : Word;                   {Last numeric year event was run.                }
+     AkaToUse                : SmallWord;              {n/a                                             }
+     LastMonth               : SmallWord;              {Last numeric month event was run.               }
+     LastDay                 : SmallWord;              {Last numeric day event was run.                 }
+     LastYear                : SmallWord;              {Last numeric year event was run.                }
      END;
 {=======================================================================================================}
 { \SHOTGUN\DATA\NETWORK.DAT                                                                             }
@@ -1101,7 +1108,7 @@ TYPE _CallRouting_Record     = RECORD
 {=======================================================================================================}
 TYPE _SGEchoDat_Record       = RECORD
      Aka                     : AddrType;               {Network address of the link.                    }
-     AreaID                  : Word;                   {AreaID of the file echo connected to the system.}
+     AreaID                  : SmallWord;              {AreaID of the file echo connected to the system.}
      END;
 {=======================================================================================================}
 { \SHOTGUN\DATA\SGFILE.DAT                                                                              }
@@ -1112,7 +1119,7 @@ TYPE _SGEchoDat_Record       = RECORD
 {=======================================================================================================}
 TYPE _SGFileDat_Record       = RECORD
      Aka                     : AddrType;               {Network address of the link.                    }
-     AreaID                  : Word;                   {AreaID of the file echo connected to the system.}
+     AreaID                  : SmallWord;              {AreaID of the file echo connected to the system.}
      END;
 {=======================================================================================================}
 { \SHOTGUN\DATA\UUCP.DAT                                                                                }
@@ -1147,7 +1154,7 @@ TYPE _Mailer_Inits           = RECORD
 {                                                                                                       }
 {=======================================================================================================}
 TYPE _Access_Record          = RECORD
-     Access_Level            : Word;                   {Numeric access level.                           }
+     Access_Level            : SmallWord;              {Numeric access level.                           }
      Name                    : String[15];             {Verbal name for access level.                   }
      Time                    : Longint;                {Daily time limit in seconds.                    }
      Ratio_Start             : Longint;                {Number of DL bytes before ratio enforcement.    }
@@ -1163,7 +1170,7 @@ TYPE _Access_Record          = RECORD
      BBank                   : Longint;                {Byte bank bonus - in bytes.                     }
      Verified                : Byte;                   {0-Not verified, 1-Verified.                     }
      QWKBytes                : Longint;                {Maximum bytes per QWK packet.                   }
-     QWKMessages             : Word;                   {Maximum messages per QWK packet.                }
+     QWKMessages             : SmallWord;              {Maximum messages per QWK packet.                }
      QWKFree                 : Byte;                   {0-Normal, 1-Time returned for QWK downloads.    }
      NoFileRatio             : Byte;                   {0-Normal, 1-No file ratio enforcing.            }
      SubModel                : Byte;                   {Subscription model:                             }
@@ -1175,7 +1182,7 @@ TYPE _Access_Record          = RECORD
      SubMinutes              : Longint;                {Number of max minutes for subscription.         }
      SubCalendarDays         : Longint;                {Number of max calendar days for subscription.   }
      SubCallDays             : Longint;                {Number of max call days for subscription.       }
-     ExpiryAccessLevel       : Word;                   {Access level to expire to.                      }
+     ExpiryAccessLevel       : SmallWord;              {Access level to expire to.                      }
      END;
 {=======================================================================================================}
 { \SHOTGUN\DATA\ARCHIVE.DAT                                                                             }
@@ -1211,7 +1218,7 @@ TYPE _BadLang_Record         = RECORD
 TYPE _CallBack_Record        = RECORD
      ForceUse                : Byte;                   {0-Bypass the CBV, 1-Use always.                 }
      VerifyLD                : Byte;                   {0-Normal, 1-Allow verification of LD callers.   }
-     VAccess                 : Word;                   {Numeric access level after verification.        }
+     VAccess                 : SmallWord;              {Numeric access level after verification.        }
      CBVStart                : Longint;                {Seconds past midnight CBV can begin.            }
      CBVEnd                  : Longint;                {Seconds past midnight CBV will halt.            }
      Template                : String[20];             {n/a                                             }
@@ -1241,7 +1248,7 @@ TYPE _CallBack_Translation   = RECORD
 TYPE _CDRom_Record           = RECORD
      CDName                  : String[30];             {Descriptive name of the CD Rom.                 }
      CDEnabled               : Byte;                   {0-CD is offline, 1-CD is online.                }
-     CDNumber                : Word;                   {The numerical reference used by the system.     }
+     CDNumber                : SmallWord;              {The numerical reference used by the system.     }
      END;
 {=======================================================================================================}
 { \SHOTGUN\ENGLISH\LANG\COLOURS.ANS                                                                     }
@@ -1352,9 +1359,9 @@ TYPE _Exit_Event             = RECORD
      ErrorLevel              : Byte;                   {DOS errorlevel to exit with.                    }
      Days                    : Array[1..7] Of Boolean; {Sunday-Saturday. 'TRUE' for active that day.    }
      Active                  : Boolean;                {'TRUE' if event is enabled.                     }
-     LastMonth               : Word;                   {Last numeric month event was run.               }
-     LastDay                 : Word;                   {Last numeric day event was run.                 }
-     LastYear                : Word;                   {Last numeric year event was run.                }
+     LastMonth               : SmallWord;              {Last numeric month event was run.               }
+     LastDay                 : SmallWord;              {Last numeric day event was run.                 }
+     LastYear                : SmallWord;              {Last numeric year event was run.                }
      Description             : String[40];             {Verbal description of the event.                }
      Scrap                   : Array[1..32] Of Byte;   {n/a                                             }
      END;
@@ -1385,14 +1392,14 @@ TYPE _FaxBaseHeader_Record   = RECORD
      FaxFile                 : String[12];             {The name of the received fax file.              }
      Received                : Boolean;                {'TRUE' if fax has been read by sysop.           }
      StationID               : String[30];             {The station ID (usually phone #) of the sender. }
-     Year                    : Word;                   {Numeric year the fax was received.              }
-     Month                   : Word;                   {Numeric month the fax was received.             }
-     Day                     : Word;                   {Numeric day the fax was received.               }
-     DayOfWeek               : Word;                   {Numeric day of the week the fax was received.   }
-     Hour                    : Word;                   {Numeric hour the fax was received.              }
-     Minute                  : Word;                   {Numeric minute the fax was received.            }
-     Second                  : Word;                   {Numeric second the fax was received.            }
-     Sec100                  : Word;                   {1/100ths of a second the fax was received.      }
+     Year                    : SmallWord;              {Numeric year the fax was received.              }
+     Month                   : SmallWord;              {Numeric month the fax was received.             }
+     Day                     : SmallWord;              {Numeric day the fax was received.               }
+     DayOfWeek               : SmallWord;              {Numeric day of the week the fax was received.   }
+     Hour                    : SmallWord;              {Numeric hour the fax was received.              }
+     Minute                  : SmallWord;              {Numeric minute the fax was received.            }
+     Second                  : SmallWord;              {Numeric second the fax was received.            }
+     Sec100                  : SmallWord;              {1/100ths of a second the fax was received.      }
      END;
 {=======================================================================================================}
 { xxxxxxxx.FIL                                                                                          }
@@ -1507,8 +1514,8 @@ TYPE _LastSGMailCalls_Record = RECORD
      FrmAddress              : String[20];             {Net AKA of the last system to call your system. }
      FrmCallDate             : String[20];             {Date of the last call to your system.           }
      FrmCallTime             : String[20];             {Time of the last call to your system.           }
-     CallMonth               : Word;                   {The last month this file was updated.           }
-     CallDay                 : Word;                   {The last day this file was updated.             }
+     CallMonth               : SmallWord;              {The last month this file was updated.           }
+     CallDay                 : SmallWord;              {The last day this file was updated.             }
      BBSCalls                : Longint;                {Number of human callers for the current day.    }
      MailCalls               : Longint;                {Number of mail calls for the current day.       }
      FaxCalls                : Longint;                {Number of fax calls for the current day.        }
@@ -1525,13 +1532,13 @@ TYPE _LastSGMailCalls_Record = RECORD
 TYPE _Menu_Record            = RECORD
      Title                   : String[30];             {Menu option title.                              }
      HotKey                  : Char;                   {Keypress required to select the option.         }
-     Option                  : Word;                   {n/a                                             }
+     Option                  : SmallWord;              {n/a                                             }
      Second                  : String[40];             {n/a                                             }
      Third                   : String[40];             {n/a                                             }
-     Access                  : Word;                   {Minimum access level required to see the option.}
+     Access                  : SmallWord;              {Minimum access level required to see the option.}
      Tags                    : Array[1..10] Of Byte;   {User tags required to see the menu option.      }
-     Sub                     : Word;                   {n/a                                             }
-     Area                    : Word;                   {n/a                                             }
+     Sub                     : SmallWord;              {n/a                                             }
+     Area                    : SmallWord;              {n/a                                             }
      Ansi                    : Byte;                   {1 to enable the option for the ANSI interface.  }
      Rip                     : Byte;                   {1 to enable the option for the RIP interface.   }
      Svga                    : Byte;                   {1 to enable the option for the SVGA interface.  }
@@ -1563,7 +1570,7 @@ TYPE _Modems_Record     = RECORD
      Init2              : String[60];                  {2nd initialization string.                      }
      Init3              : String[60];                  {3rd initialization string.                      }
      Answer             : String[20];                  {Hayes command to answer the phone.              }
-     CommandDelay       : Word;                        {Milliseconds between sent command strings.      }
+     CommandDelay       : SmallWord;                   {Milliseconds between sent command strings.      }
      CompCodes          : String[20];                  {Compatability codes (protocols).                }
      DialString         : String[20];                  {Hayes command to use as a dial prefix.          }
      ConnectSpeed       : Array[1..30] Of Longint;     {Connect speed values.                           }
@@ -1579,9 +1586,9 @@ TYPE _Modems_Record     = RECORD
 TYPE _Mouse_Def    = RECORD
      Cursor        : Array[1..16,1..16] Of Boolean;    {Cursor bit matrix. 'TRUE' for bit set.          }
      Mask          : Array[1..16,1..16] Of Boolean;    {Cursor mask bit matrix. 'TRUE' for bit set.     }
-     Colour        : Word;                             {Cursor colour index to palette.                 }
-     HotX          : Word;                             {Pointer's X hotspot (from upper right corner).  }
-     HotY          : Word;                             {Pointer's Y hotspot (from upper right corner).  }
+     Colour        : SmallWord;                        {Cursor colour index to palette.                 }
+     HotX          : SmallWord;                        {Pointer's X hotspot (from upper right corner).  }
+     HotY          : SmallWord;                        {Pointer's Y hotspot (from upper right corner).  }
      END;
 {=======================================================================================================}
 { \SHOTGUN\DATA\NAMES.DAT                                                                               }
@@ -1672,14 +1679,14 @@ TYPE _Node_Record       = RECORD
                                                        {1-CTS/RTS.                                      }
                                                        {2-DTR/DSR.                                      }
                                                        {3-XON/XOFF.                                     }
-     CommandDelay       : Word;                        {Milliseconds between sent command strings.      }
+     CommandDelay       : SmallWord;                   {Milliseconds between sent command strings.      }
      InitString         : Array[1..3] Of String[40];   {Initialization strings.                         }
      OnHook             : String[16];                  {Hayes command to place the modem on hook.       }
      Offhook            : String[16];                  {Hayes command to take the modem off hook.       }
      Answer             : String[16];                  {Hayes command to answer the phone.              }
      Dial               : String[16];                  {Hayes command to use as a dial prefix.          }
      AllowNewUsers      : Byte;                        {1-Allow new users to this node.                 }
-     AccessMinimum      : Word;                        {Minimum access level required to log on to this }
+     AccessMinimum      : SmallWord;                   {Minimum access level required to log on to this }
                                                        {node.                                           }
      Tags               : Array[1..10] Of Byte;        {User access tags required to log on to this node}
      UseBlaster         : Boolean;                     {'TRUE' to use SB for paging sysop etc.          }
@@ -1715,7 +1722,7 @@ TYPE _NodeFile_Record        = RECORD
      Activity                : String[40];             {Brief description of the user's activity.       }
      Available               : Boolean;                {'TRUE' if user is available for chat.           }
      PageFlag                : Byte;                   {1-User accepts paging from other nodes.         }
-     Node                    : Word;                   {The node the user is logged on to.              }
+     Node                    : SmallWord;              {The node the user is logged on to.              }
      END;
 {=======================================================================================================}
 { \SHOTGUN\ENGLISH\LANG\OPENING.DAT                                                                     }
@@ -1739,8 +1746,8 @@ TYPE _Opening_Record         = RECORD
                                                        {11-Date Specific Screen.                        }
                                                        {12-User Birthday Screen.                        }
      Forced                  : Byte;                   {1-User is forced to undergo the function.       }
-     Sub                     : Word;                   {n/a                                             }
-     Area                    : Word;                   {n/a                                             }
+     Sub                     : SmallWord;              {n/a                                             }
+     Area                    : SmallWord;              {n/a                                             }
      FileName                : String[60];             {Path and file name of display/text files used   }
                                                        {for certain functions.                          }
      END;
@@ -1781,7 +1788,7 @@ TYPE _Report_Record          = RECORD
                                                        {5-File area auto-create.                        }
                                                        {6-Message area auto-create.                     }
      ReportNumber            : Byte;                   {The numerical report number (for reference).    }
-     MsgAreaNumber           : Word;                   {AreaID of the msg area the report is to be made.}
+     MsgAreaNumber           : SmallWord;              {AreaID of the msg area the report is to be made.}
      MsgFrom                 : String[30];             {Msg from.                                       }
      MsgTo                   : String[30];             {Msg to.                                         }
      MsgSubject              : String[50];             {Msg subject.                                    }
@@ -1817,22 +1824,22 @@ TYPE _VirusScanners_Record = RECORD
 {=======================================================================================================}
 TYPE _Raw_File               = RECORD
      Return                  : Char;                   {n/a                                             }
-     Number                  : Word;                   {n/a                                             }
-     x1                      : Word;                   {n/a                                             }
-     y1                      : Word;                   {n/a                                             }
-     x2                      : Word;                   {n/a                                             }
-     y2                      : Word;                   {n/a                                             }
-     Style                   : Word;                   {n/a                                             }
-     Colour1                 : Integer;                {n/a                                             }
-     Colour2                 : Integer;                {n/a                                             }
-     Colour3                 : Integer;                {n/a                                             }
-     Colour4                 : Integer;                {n/a                                             }
-     Colour5                 : Integer;                {n/a                                             }
-     Colour6                 : Integer;                {n/a                                             }
-     Colour7                 : Integer;                {n/a                                             }
-     Colour8                 : Integer;                {n/a                                             }
-     Colour9                 : Integer;                {n/a                                             }
-     Colour10                : Integer;                {n/a                                             }
+     Number                  : SmallWord;              {n/a                                             }
+     x1                      : SmallWord;              {n/a                                             }
+     y1                      : SmallWord;              {n/a                                             }
+     x2                      : SmallWord;              {n/a                                             }
+     y2                      : SmallWord;              {n/a                                             }
+     Style                   : SmallWord;              {n/a                                             }
+     Colour1                 : SmallInt;               {n/a                                             }
+     Colour2                 : SmallInt;               {n/a                                             }
+     Colour3                 : SmallInt;               {n/a                                             }
+     Colour4                 : SmallInt;               {n/a                                             }
+     Colour5                 : SmallInt;               {n/a                                             }
+     Colour6                 : SmallInt;               {n/a                                             }
+     Colour7                 : SmallInt;               {n/a                                             }
+     Colour8                 : SmallInt;               {n/a                                             }
+     Colour9                 : SmallInt;               {n/a                                             }
+     Colour10                : SmallInt;               {n/a                                             }
      ObjFile                 : String[12];             {n/a                                             }
      Text                    : String[78];             {n/a                                             }
      Crc32                   : String[8];              {n/a                                             }
@@ -1926,9 +1933,9 @@ TYPE _FreqRecord             = RECORD
      AllowFreqs              : Boolean;                {'TRUE' to allow users to request offline files. }
      DaysToKeepRequests      : Byte;                   {Number of days the system will try to fill the  }
                                                        {request before it is erased.                    }
-     Access                  : Word;                   {Minimum access level required to freq files.    }
+     Access                  : SmallWord;              {Minimum access level required to freq files.    }
      Tags                    : Array[1..10] Of Byte;   {User tags required to freq files.               }
-     SysopMessageAreaID      : Word;                   {AreaID of msg area used for note to the sysop.  }
+     SysopMessageAreaID      : SmallWord;              {AreaID of msg area used for note to the sysop.  }
      SysopMessageTo          : String[30];             {'Msg To' field for the node sent to the sysop.  }
      END;
 {=======================================================================================================}
@@ -1956,7 +1963,7 @@ TYPE _SGConfig_Record        = RECORD
      Printer                 : Byte;                   {Printer port of connected printer.              }
      AnsiEditor              : String[40];             {Full path and file name of ANSI screen editor.  }
      RIPEditor               : String[40];             {Full path and file name of RIP screen editor.   }
-     PrinterModel            : Word;                   {Printer make/model:                             }
+     PrinterModel            : SmallWord;              {Printer make/model:                             }
                                                        {1-Epson.                                        }
                                                        {2-Epson24.                                      }
                                                        {3-Hp150.                                        }

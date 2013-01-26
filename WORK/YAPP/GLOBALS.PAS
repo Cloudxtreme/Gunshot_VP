@@ -72,7 +72,7 @@ TYPE Screen_Info  = RECORD
      MoveX        : Integer;
      MoveY        : Integer;
      END;
-TYPE Poly_Points  = Array[0..PolySize] Of Integer;
+TYPE Poly_Points  = Array[0..PolySize] Of SmallInt;
 TYPE FieldInfo    = RECORD
      x1           : Word;
      y1           : Word;

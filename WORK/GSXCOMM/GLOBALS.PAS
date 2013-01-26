@@ -73,7 +73,7 @@ TYPE Message_Header          = RECORD
      Dest                    : AddrType;
      Orig                    : AddrType;
      END;
-TYPE Msg_Index               = Array[1..3000] Of Word;
+TYPE Msg_Index               = Array[1..3000] Of SmallWord;
 TYPE Pager                   = RECORD
      UserName                : String[30];
      UserAlias               : String[30];

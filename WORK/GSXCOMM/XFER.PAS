@@ -18,14 +18,14 @@ USES ApAbsPcl,ApZmodem,Globals,BsString,BsFile,BsVideo,Crt,ApTimer,
 
 
 TYPE InfoRec  = RECORD
-     Protocol   : Array[1..2] Of Word;
-     FileName   : Array[1..2] Of Word;
-     Size       : Array[1..2] Of Word;
-     Sent       : Array[1..2] Of Word;
-     Speed      : Array[1..2] Of Word;
-     Time       : Array[1..2] Of Word;
-     Left       : Array[1..2] Of Word;
-     CPS        : Array[1..2] Of Word;
+     Protocol   : Array[1..2] Of SmallWord;
+     FileName   : Array[1..2] Of SmallWord;
+     Size       : Array[1..2] Of SmallWord;
+     Sent       : Array[1..2] Of SmallWord;
+     Speed      : Array[1..2] Of SmallWord;
+     Time       : Array[1..2] Of SmallWord;
+     Left       : Array[1..2] Of SmallWord;
+     CPS        : Array[1..2] Of SmallWord;
      END;
 TYPE TransferModeType    = (Transmit,Receive);
 VAR  TransferMode        : TransferModeType;

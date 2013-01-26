@@ -12,8 +12,8 @@ TYPE  File_Buffer = Array[1..48000] Of Char;
 {$ENDIF}
 TYPE  Buff_File   = RECORD
       FFile       : File;
-      InBuff      : Word;
-      BuffPoint   : Word;
+      InBuff      : SmallWord;
+      BuffPoint   : SmallWord;
       Buffer      : File_Buffer;
       EndOfFile   : Boolean;
       FFilePos    : Longint;
