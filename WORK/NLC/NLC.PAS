@@ -1,4 +1,6 @@
+{$IFDEF MSDOS}
 {$M 32000,0,655360}
+{$ENDIF}
 PROGRAM ShotgunNodelistCompiler;
 
 {$I DEFINES.INC}

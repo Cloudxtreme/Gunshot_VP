@@ -35,7 +35,7 @@ BEGIN
      24:  _AltToNormal := 'O';
      25:  _AltToNormal := 'P';
      16:  _AltToNormal := 'Q';
-     17:  _AltToNormal := 'R';
+     19:  _AltToNormal := 'R';
      31:  _AltToNormal := 'S';
      20:  _AltToNormal := 'T';
      22:  _AltToNormal := 'U';

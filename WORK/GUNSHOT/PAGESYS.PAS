@@ -29,9 +29,14 @@ VAR  GoodTime : Boolean;
           BEGIN
                FOR Loop := 1 TO 3 DO
                BEGIN
+{$IFDEF MSDOS}
                     sound(1600);  delay(30);
                     sound(1900);  delay(30);
                     nosound;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO PAGESYS page'); Halt;
+{$ENDIF}
                     delay(350);
                END;
           END;

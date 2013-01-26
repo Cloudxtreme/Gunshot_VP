@@ -1,5 +1,7 @@
 {$I DEFINES.INC}
+{$IFDEF MSDOS}
 {$M 32000,0,512000}
+{$ENDIF}
 PROGRAM GraphicsCompiler;
 
 
@@ -64,13 +66,23 @@ BEGIN
      SavedY := WhereY;
      SavedAttr := TextAttr;
      _HideCursor;
+{$IFDEF MSDOS}
      Move(MEM[SegB800:0],SAVESCRNScr[1],4000);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO GCOMPILE SaveTheScreen'); Halt;
+{$ENDIF}
 END;
 
 
 PROCEDURE RestoreTheScreen;
 BEGIN
+{$IFDEF MSDOS}
      Move(SAVESCRNScr[1],MEM[SegB800:0],4000);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO GCOMPILE RestoreTheScreen'); Halt;
+{$ENDIF}
      GotoXy(SavedX,SavedY);
      TextAttr := SavedAttr;
      _ShowCursor;

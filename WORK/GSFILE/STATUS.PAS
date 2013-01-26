@@ -21,7 +21,12 @@ USES Globals,FastW1,Crt,Dos,BsString,LogFile,BsFile,BsAkas,ApTimer,BsTime,BsVide
 
 PROCEDURE SaveScreen;
 BEGIN
+{$IFDEF MSDOS}
      Move(MEM[SegB800:0],SavedScreen,4000);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO STATUS SaveScreen'); Halt;
+{$ENDIF}
      WhereXYAbs(SavedScreenXY);
      TextBackGround(0);
      TextColor(7);
@@ -31,7 +36,12 @@ END;
 
 PROCEDURE RestoreScreen;
 BEGIN
+{$IFDEF MSDOS}
      Move(SavedScreen,MEM[SegB800:0],4000);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO STATUS RestoreScreen'); Halt;
+{$ENDIF}
      GotoXYAbs(SavedScreenXY);
 END;
 

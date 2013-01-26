@@ -36,7 +36,7 @@ PROCEDURE DrawMain;
 VAR  Loop : Word;
 BEGIN
      HighVideo;
-     TextMode(C80);
+     TextMode(CO80);
      Window(1,1,80,25);
      _HighBackGrounds(True);
      FOR Loop := 1 TO 25 DO
@@ -155,5 +155,5 @@ BEGIN
      TextBackground(0);
      ClrScr;
      _HighBackGrounds(False);
-     TextMode(C80);
+     TextMode(CO80);
 END.

@@ -25,7 +25,12 @@ IMPLEMENTATION
 {$IFDEF DPMI}
 USES Dos;
 {$ELSE}
+{$IFDEF MSDOS}
 USES Exec;
+{$ENDIF}
+{$IFDEF WIN32}
+USES Dos;
+{$ENDIF}
 {$ENDIF}
 
 
@@ -38,9 +43,14 @@ BEGIN
      SwapVectors;
      DoExec := DosExitCode;
      {$ELSE}
+{$IFDEF MSDOS}     
      IF SwpDir[LENGTH(SwpDir)]='\' THEN Dec(SwpDir[0]);
      TheSwapDirectory := SwpDir;
      DoExec := RunExec(xfn,pars,spawn,$ffff,True);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO BSEXEC DoExec'); Halt;
+{$ENDIF}
      {$ENDIF}
 END;
 
@@ -48,7 +58,9 @@ END;
 PROCEDURE PutEnviro(EnvVar: String);
 BEGIN
      {$IFNDEF DPMI}
+{$IFDEF MSDOS}     
      PutEnv(EnvVar);
+{$ENDIF}
      {$ENDIF}
 END;
 

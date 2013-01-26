@@ -10,9 +10,13 @@ Function GetResultCode: Integer;
 Function TimeOut(Time:LongInt):Boolean; {If time is later than current time
   in timerticks}
 
+{$IFDEF MSDOS}
 Var
   TimeCounter: LongInt Absolute $40:$6C;
-
+{$ENDIF}
+{$IFDEF WIN32}
+Function TimeCounter: LongInt;
+{$ENDIF}
 
 
 Implementation
@@ -24,6 +28,14 @@ Uses
   {$ELSE}
   Dos;
   {$ENDIF}
+
+
+{$IFDEF WIN32}
+Function TimeCounter: LongInt;
+  Begin
+    WriteLn('REETODO MKDOS TimeCounter'); Halt;
+  End;
+{$ENDIF}
 
 
 Function TimeOut(Time:LongInt):Boolean;
@@ -46,7 +58,7 @@ Function TimeOut(Time:LongInt):Boolean;
   End;
 
 
-
+{$IFDEF MSDOS}
 Function GetResultCode: Integer;
   Var
     Result: Byte;
@@ -82,6 +94,13 @@ Function GetResultCode: Integer;
   {$ENDIF}
   GetResultCode := Result;
   End;
+{$ENDIF}
+{$IFDEF WIN32}
+Function GetResultCode: Integer;
+  Begin
+    WriteLn('REETODO MKDOS GetResultCode'); Halt;
+  End;
+{$ENDIF}
 
 
 Function GetDosDate: LongInt;

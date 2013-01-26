@@ -1,7 +1,9 @@
 {$IFDEF DPMI}
   NO DPMI!
 {$ENDIF}
+{$IFDEF MSDOS}
 {$M 60000,0,655360}
+{$ENDIF}
 PROGRAM ShotgunClientServer;
 {$I DEFINES.INC}
 

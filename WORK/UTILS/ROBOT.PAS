@@ -3,7 +3,9 @@ Hello there???
 {$ENDIF}
 {$I DEFINES.INC}
 PROGRAM Robot;
+{$IFDEF MSDOS}
 {$M 64000,0,655360}
+{$ENDIF}
 
 
 USES MKMsgAbs,MKOpen,MKGlobT,MKDos,Dos,Crt,BsAkas,

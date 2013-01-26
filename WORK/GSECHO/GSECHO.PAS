@@ -4,7 +4,9 @@ Hello there???
 
 {$I DEFINES.INC}
 
+{$IFDEF MSDOS}
 {$M 32768,0,655360}
+{$ENDIF}
 PROGRAM SgEcho;
 
 

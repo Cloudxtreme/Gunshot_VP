@@ -174,14 +174,24 @@ BEGIN
      x := ((yy2*160)+(xx1*2))+1;
      FOR Loop := xx1 to xx2 DO
      BEGIN
+{$IFDEF MSDOS}
           Mem[SegB800:x] := 8;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO XFER Shadow'); Halt;
+{$ENDIF}
           INC(x,2);
      END;
      y := ((yy1*160)+((xx2)*2))+1;
      FOR Loop := yy1 to yy2 DO
      BEGIN
+{$IFDEF MSDOS}
           Mem[SegB800:y] := 8;
-          INC(y,160);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO XFER Shadow'); Halt;
+{$ENDIF}
+  INC(y,160);
      END;
 END;
 

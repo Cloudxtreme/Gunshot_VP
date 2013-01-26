@@ -17,4 +17,11 @@
 {$ENDIF}
 
 {.$DEFINE OPRO}             {Remove dot to use with OPRO}
-
+
+{$IFDEF VPASCAL}
+  {&AlignRec-}
+  {&Delphi-}
+  {&Use32+}
+  {$H-}
+  {$V-}
+{$ENDIF}

@@ -367,7 +367,7 @@ BEGIN
      Textcolor(7);
      Textbackground(0);
      ClrScr;
-     TextMode(C80);
+     TextMode(CO80);
      Window(1,1,80,24);
      IF NOT(DirectWrites) THEN DirectVideo := False;
      _CreatePath(shotgun_directory+'\NODE'+NodeString);

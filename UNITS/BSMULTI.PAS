@@ -32,6 +32,7 @@ IMPLEMENTATION
 USES ApTimer,Dos,BsString,Crt;
 
 
+{$IFDEF MSDOS}
 PROCEDURE InitMulti; ASSEMBLER;
 ASM
   mov  Task.OS, 0
@@ -79,8 +80,16 @@ ASM
   mov  Task.OS, 4
 @Fin:
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+PROCEDURE InitMulti;
+BEGIN
+  WriteLn('REETODO BSMULTI InitMulti'); Halt;
+END;
+{$ENDIF}
 
 
+{$IFDEF MSDOS}
 PROCEDURE TimeSlice; ASSEMBLER;
 ASM
   cmp  GiveUpSlices,0
@@ -100,6 +109,13 @@ ASM
   int  2Fh
 @Fin:
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+PROCEDURE TimeSlice;
+BEGIN
+  WriteLn('REETODO BSMULTI TimeSlice'); Halt;
+END;
+{$ENDIF}
 
 
 PROCEDURE _Delay(MSecs: Word);

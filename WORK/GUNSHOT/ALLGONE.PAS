@@ -99,6 +99,7 @@ BEGIN
           WRITELN('Waiting for sysop reply....... <PRESS A KEY!>');
           WRITELN;
           NewTimerSecs(TimerInfo,300);
+{$IFDEF MSDOS}
           REPEAT
                 sound(900);
                 _delay(50);
@@ -110,6 +111,10 @@ BEGIN
                 _delay(1000);
           UNTIL ((KeyPressed) OR (TimerExpired(TimerInfo)));
           nosound;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO ALLGONE Dispatcher'); Halt;
+{$ENDIF}
           IF KeyPressed THEN c := ReadKey;
           IF NOT(LocalLogon) THEN Hangup;
      END;

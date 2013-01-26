@@ -1,6 +1,8 @@
 {$I DEFINES.INC}
 PROGRAM GipTosser;
+{$IFDEF MSDOS}
 {$M 32000,0,655360}
+{$ENDIF}
 
 
 USES Crt,Dos,BsMulti,FastW1,BsVideo,Version,Shotgun,ApMisc,BsString,BsFile,BsTime,BsCrc;

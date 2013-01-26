@@ -338,7 +338,9 @@ Procedure FlushFile(Var F); {Dupe file handle, close dupe handle}
   {$IFDEF BASMINT}
     Tmp: Word;
   {$ELSE}
+{$IFDEF MSDOS}
     Regs: Registers;
+{$ENDIF}
   {$ENDIF}
 
   Begin
@@ -355,6 +357,7 @@ Procedure FlushFile(Var F); {Dupe file handle, close dupe handle}
     @JFlush:
     End;
   {$ELSE}
+{$IFDEF MSDOS}
   Regs.ah := $45;
   Regs.bx := Handle;
   MsDos(Regs);
@@ -364,6 +367,10 @@ Procedure FlushFile(Var F); {Dupe file handle, close dupe handle}
     Regs.Ah := $3e;
     MsDos(Regs);
     End;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO MKFILE FlushFile'); Halt;
+{$ENDIF}
   {$ENDIF}
   End;
 
@@ -377,7 +384,9 @@ Function LockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
     LgHi: Word;
     LgLo: Word;
   {$IFNDEF BASMINT}
+{$IFDEF MSDOS}
     Regs: Registers;
+{$ENDIF}
   {$ENDIF}
 
   Begin
@@ -402,6 +411,7 @@ Function LockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
     Mov Tmp, ax;
     End;
   {$ELSE}
+{$IFDEF MSDOS}
   Regs.ah := $5c;
   Regs.al := $00;
   Regs.bx := Tmp;
@@ -415,6 +425,10 @@ Function LockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
     Regs.ax := 0;
     End;
   Tmp := Regs.ax;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO MKFILE LockFile'); Halt;
+{$ENDIF}
   {$ENDIF}
   If Tmp = 1 Then
     Tmp := 0;
@@ -431,7 +445,9 @@ Function UnLockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
     LgHi: Word;
     LgLo: Word;
   {$IFNDEF BASMINT}
+{$IFDEF MSDOS}
     Regs: Registers;
+{$ENDIF}
   {$ENDIF}
 
   Begin
@@ -456,6 +472,7 @@ Function UnLockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
     Mov Tmp, ax;
     End;
   {$ELSE}
+{$IFDEF MSDOS}
   Regs.ah := $5c;
   Regs.al := $01;
   Regs.bx := Tmp;
@@ -469,6 +486,10 @@ Function UnLockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
     Regs.ax := 0;
     End;
   Tmp := Regs.ax;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO MKFILE UnLockFile'); Halt;
+{$ENDIF}
   {$ENDIF}
   If Tmp = 1 Then
     Tmp := 0;
@@ -806,7 +827,9 @@ Function IsDevice(FilePath: String): Boolean;
     Handle: Word Absolute F;
     Tmp: Word;
   {$IFNDEF BASMINT}
+{$IFDEF MSDOS}
     Regs: Registers;
+{$ENDIF}
   {$ENDIF}
 
   Begin
@@ -831,11 +854,16 @@ Function IsDevice(FilePath: String): Boolean;
       Mov @Result, al;
       End;
 {$ELSE}
+{$IFDEF MSDOS}
     Regs.ah := $44;
     Regs.al := $00;
     Regs.bx := Tmp;
     MsDos(Regs);
     IsDevice := (Regs.Dx and $80) <> 0;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO MKFILE IsDevice'); Halt;
+{$ENDIF}
 {$ENDIF}
     End;
   Close(F);
@@ -1009,6 +1037,7 @@ Function  CreateTempDir(FN: String): String;
   For i := 1 to 16 Do
    TmpStr[Length(TmpStr) + i] := #0;
   i := 0;
+{$IFDEF MSDOS}
   Asm
     Mov bx, TSeg;
     Mov ax, TOfs;
@@ -1052,6 +1081,10 @@ Function  CreateTempDir(FN: String): String;
     @JEnd:
     Pop ds;
     End;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO MKFILE CreateTempDir'); Halt;
+{$ENDIF}
   TmpStr[0] := #255;
   TmpStr[0] := Chr(Pos(#0, TmpStr) - 1);
   If i = 0 Then
@@ -1078,6 +1111,7 @@ Function  GetTempName(FN: String): String;
   For i := 1 to 16 Do
    TmpStr[Length(TmpStr) + i] := #0;
   i := 0;
+{$IFDEF MSDOS}
   Asm
     Push ds;
     Mov ah, $5a;
@@ -1110,6 +1144,10 @@ Function  GetTempName(FN: String): String;
     @JEnd:
     Pop ds;
     End;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO MKFILE GetTempName'); Halt;
+{$ENDIF}
   TmpStr[0] := #255;
   TmpStr[0] := Chr(Pos(#0, TmpStr) - 1);
   If i = 0 Then
@@ -1129,7 +1167,9 @@ Function  GetTextPos(Var F: Text): LongInt;
    Tmp: LongInt;
    Handle: Word;
    {$IFNDEF BASMINT}
-     Regs: Registers;
+{$IFDEF MSDOS}
+      Regs: Registers;
+{$ENDIF}
    {$ENDIF}
 
   Begin
@@ -1150,6 +1190,7 @@ Function  GetTextPos(Var F: Text): LongInt;
     Mov WordRec(Tmp).LongHi, dx;
     End;
   {$ELSE}
+{$IFDEF MSDOS}
   Regs.ah := $42;
   Regs.al := $01;
   Regs.bx := Handle;
@@ -1163,6 +1204,10 @@ Function  GetTextPos(Var F: Text): LongInt;
     End;
   WordRec(Tmp).LongLo := Regs.Ax;
   WordRec(Tmp).LongHi := Regs.Dx;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO MKFILE GetTextPos'); Halt;
+{$ENDIF}
   {$ENDIF}
   If Tmp >= 0 Then
     Inc(Tmp, TR.BufPos);

@@ -257,7 +257,12 @@ BEGIN
           Temp := '';
           FOR Loop2 := 1 TO 80 DO
           BEGIN
+{$IFDEF MSDOS}
                Temp := Temp+Chr(Mem[SegB800:Loop]);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO INTRFACE DumpTheScreen'); Halt;
+{$ENDIF}
                INC(Loop,2);
           END;
           WRITELN(TFile,Temp);
@@ -638,7 +643,12 @@ BEGIN
      GotoXY(1,1);
      WRITE(_PadBoth('SHOTGUN PROFESSIONAL '+ShotgunVersion+' - Configuration Module',80));
      GotoXY(1,1);
+{$IFDEF MSDOS}
      Move(MEM[SegB800:0],SavedScreen,160*25);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO INTRFACE DrawPullDownMenu'); Halt;
+{$ENDIF}
      _ShowMouse;
 END;
 
@@ -648,7 +658,12 @@ VAR  FFile        : File;
      SavedScreen2 : Array[1..4000] Of Byte;
 BEGIN
      _HideMouse;
+{$IFDEF MSDOS}
      Move(MEM[SegB800:0],SavedScreen2,160*25);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO INTRFACE _SaveWindow'); Halt;
+{$ENDIF}
      ASSIGN(FFile,FileName);
      REWRITE(FFile,1);
      BLOCKWRITE(FFile,SavedScreen2,160*25);
@@ -667,7 +682,12 @@ BEGIN
      CLOSE(FFile);
      ERASE(FFile);
      _HideMouse;
+{$IFDEF MSDOS}
      Move(SavedScreen2,Mem[SegB800:0],160*25);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO INTRFACE LoadWindow'); Halt;
+{$ENDIF}
      _ShowMouse;
 END;
 
@@ -681,7 +701,12 @@ BEGIN
      BLOCKREAD(FFile,SavedScreen2,160*25);
      CLOSE(FFile);
      _HideMouse;
+{$IFDEF MSDOS}
      Move(SavedScreen2,Mem[SegB800:0],160*25);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO INTRFACE LoadWindowNoKill'); Halt;
+{$ENDIF}
      _ShowMouse;
 END;
 
@@ -969,7 +994,12 @@ END;
 PROCEDURE DeActivate(Number: Word);
 BEGIN
      _HideMouse;
+{$IFDEF MSDOS}
      Move(SavedScreen,Mem[SegB800:0],160*25);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO INTRFACE DeActivate'); Halt;
+{$ENDIF}
      DrawLanguage;
      _ShowMouse;
 END;
@@ -986,13 +1016,23 @@ BEGIN
      x := ((yy2*160)+(xx1*2))+1;
      FOR Loop := xx1 to xx2 DO
      BEGIN
+{$IFDEF MSDOS}
           Mem[SegB800:x] := 8;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO INTRFACE Shadow'); Halt;
+{$ENDIF}
           INC(x,2);
      END;
      y := ((yy1*160)+((xx2)*2))+1;
      FOR Loop := yy1 to yy2 DO
      BEGIN
+{$IFDEF MSDOS}
           Mem[SegB800:y] := 8;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO INTRFACE Shadow'); Halt;
+{$ENDIF}
           INC(y,160);
      END;
      _ShowMouse;

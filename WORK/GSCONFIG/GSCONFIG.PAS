@@ -1,7 +1,9 @@
 {$IFDEF DPMI}
 Hello there???
 {$ENDIF}
+{$IFDEF MSDOS}
 {$M 60000,0,655360}
+{$ENDIF}
 PROGRAM GSConfig;
 
 
@@ -224,7 +226,7 @@ BEGIN
      END;
      OriginalMode := LastMode;
      HighVideo;
-     TextMode(C80);
+     TextMode(CO80);
      ClrScr;
      ProgramFinished := False;
      New(Buttons);

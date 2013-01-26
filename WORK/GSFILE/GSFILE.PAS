@@ -3,7 +3,9 @@ Hello there???
 {$ENDIF}
 {$I DEFINES.INC}
 PROGRAM SgFile;
+{$IFDEF MSDOS}
 {$M 32000,0,655360}
+{$ENDIF}
 
 
 USES FMode,StartUp,Process,BsFile,Globals,ApTimer,AreaFix,Status,LogFile,MsgWrite;

@@ -1,6 +1,9 @@
 {$A+,B-,D-,E-,F+,G+,I+,L-,N-,O+,P-,Q-,R-,S-,T-,V+,X+,Y-}
 Unit RipLink;
 
+{$IFDEF WIN32}
+{$I DEFINES.INC}
+{$ENDIF}
 
 {$DEFINE MOUSE}          { is to be used or not.  DEBUGIT and DEBUGPAUSE  }
 
@@ -320,8 +323,10 @@ Implementation
 Uses FMode,BsString;
 
 
+{$IFDEF MSDOS}
 Var
   Regs           : registers;
+{$ENDIF}
 
 
 Constructor Root.Init;
@@ -1280,8 +1285,14 @@ end;
 
 Constructor RipObj.Init(userip : boolean;fontname : string);
 var
+  {$IFDEF MSDOS}
   GrDriver      : integer;
   GrMode        : Integer;
+  {$ENDIF}
+  {$IFDEF WIN32}
+  GrDriver      : smallint;
+  GrMode        : smallint;
+  {$ENDIF}
   success       : boolean;
   tres          : integer;
   rnd1          : word;
@@ -1332,8 +1343,13 @@ begin
       success := false;
     GetMem(driverptr,5527);
     blockread(charfile,driverptr^,5527);
+{$IFDEF MSDOS}
     if RegisterBGIdriver(driverptr) < 0 then
       success := false;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO RIPLINK RegisterBGIdriver'); Halt;
+{$ENDIF}
     FontPtr       := nil;
     FontSize      := 0;
 
@@ -1343,10 +1359,17 @@ begin
       Fail;
     end;
 
+{$IFDEF MSDOS}
     GrDriver := Graph.EGA64;
     GrMode   := Graph.EGA64Hi;
     SetGraphBufSize(4096);
     InitGraph(GrDriver, GrMode,'');
+{$ENDIF}
+{$IFDEF WIN32}
+    GrDriver := D4bit;
+    GrMode := m640x350;
+    InitGraph(GrDriver, GrMode,'Graphics Provided by R&M RipLink');
+{$ENDIF}
     tres := graphresult;
     if tres <> grOk then
       success := false;
@@ -1403,9 +1426,14 @@ begin
     close(textfontfile);
     FreeMem(Queue,QueueSize);
     {$IFDEF MOUSE}
+{$IFDEF MSDOS}    
     regs.ax := $0000;
     intr($33,regs);
     mouseexist := (regs.ax = $ffff);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO RIPLINK RipObj.Done'); Halt;
+{$ENDIF}
     {$ENDIF}
     if ClipB <> nil then
     begin
@@ -2607,9 +2635,14 @@ end;
 {$IFDEF MOUSE}
 Procedure RipObj.MouseInit;
 begin
+{$IFDEF MSDOS}
   regs.ax := $0000;
   intr($33,regs);
   mouseexist := (regs.ax = $ffff);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO RIPLINK RipObj.MouseInit'); Halt;
+{$ENDIF}
   fillchar(regionarray,sizeof(mouseregionrecord)*128,#0);
   lastbutton := 0;
   inverted := 0;
@@ -2627,8 +2660,13 @@ begin
     exit;
   if RIPMouseOverride then
     exit;
+{$IFDEF MSDOS}
   regs.ax := $01;
   intr($33,regs);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO RIPLINK RipObj.MouseOn'); Halt;
+{$ENDIF}
 end;
 
 Procedure RipObj.MouseOff;
@@ -2637,8 +2675,13 @@ begin
     exit;
   if RIPMouseOverride then
     exit;
+{$IFDEF MSDOS}
   regs.ax := $02;
   intr($33,regs);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO RIPLINK RipObj.MouseOff'); Halt;
+{$ENDIF}
 end;
 
 Procedure RipObj.GetPosition(var ButtonStatus,xPos,yPos:Integer);
@@ -2649,11 +2692,16 @@ Procedure RipObj.GetPosition(var ButtonStatus,xPos,yPos:Integer);
 begin
   if not mouseexist then
     exit;
+{$IFDEF MSDOS}
   regs.ax := $03;
   intr($33,regs);
   buttonstatus := regs.bx;
   xpos := regs.cx;
   ypos := regs.dx;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO RIPLINK RipObj.GetPosition'); Halt;
+{$ENDIF}
 end;
 
 Procedure RipObj.SetMousePos(x,y:Integer);
@@ -2661,16 +2709,22 @@ Procedure RipObj.SetMousePos(x,y:Integer);
 begin
   if not mouseexist then
     exit;
+{$IFDEF MSDOS}
   regs.ax := $04;
   regs.cx := x;
   regs.dx := y;
   intr($33,regs);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO RIPLINK RipObj.SetMousePos'); Halt;
+{$ENDIF}
 end;
 
 Procedure RipObj.IsButtonDown(Button:Integer; var Status,DnCount,xPos,yPos:Integer);
 begin
   if not mouseexist then
     exit;
+{$IFDEF MSDOS}
   regs.ax := $05;
   regs.bx := button;
   intr($33,regs);
@@ -2678,19 +2732,27 @@ begin
   dncount := regs.bx;
   xpos := regs.cx;
   ypos := regs.dx;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO RIPLINK RipObj.IsButtonDown'); Halt;
+{$ENDIF}
 end;
 
 Procedure RipObj.IsButtonUp(Button:Integer; var Status,UpCount,xPos,yPos:Integer);
 begin
   if not mouseexist then
     exit;
-  regs.ax := $06;
+{$IFDEF MSDOS}  regs.ax := $06;
   regs.bx := button;
   intr($33,regs);
   status := regs.ax;
   upcount := regs.bx;
   xpos := regs.cx;
   ypos := regs.dx;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO RIPLINK RipObj.IsButtonUp'); Halt;
+{$ENDIF}
 end;
 
 Function FlagOn(Flags : word; FlagMask : word) : Boolean;

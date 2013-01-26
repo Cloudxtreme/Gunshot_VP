@@ -22,13 +22,23 @@ USES Globals,Crt,ANSIMisc,BsKeys;
 
 PROCEDURE Save_Screen2;
 BEGIN
+{$IFDEF MSDOS}
      Move(MEM[SegB800:0],SAVESCRN_Scr2[1],4000);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO SAVESCRN Save_Screen2'); Halt;
+{$ENDIF}
 END;
 
 
 PROCEDURE Restore_Screen2;
 BEGIN
+{$IFDEF MSDOS}
      Move(SAVESCRN_Scr2[1],MEM[SegB800:0],4000);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO SAVESCRN Restore_Screen2'); Halt;
+{$ENDIF}
 END;
 
 
@@ -37,7 +47,12 @@ END;
 
 PROCEDURE Save_Screen;
 BEGIN
+{$IFDEF MSDOS}
      Move(MEM[SegB800:0],SAVESCRN_Scr[1],3840);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO SAVESCRN Save_Screen'); Halt;
+{$ENDIF}
      SAVESCRN_X := WhereX;
      SAVESCRN_Y := WhereY;
      SAVESCRN_Attr := TextAttr;

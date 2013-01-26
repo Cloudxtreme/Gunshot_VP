@@ -3,7 +3,9 @@
 {$ENDIF}
 
 {$I DEFINES.INC}
+{$IFDEF MSDOS}
 {$M 32000,0,655360}
+{$ENDIF}
 PROGRAM SGEditMailEditor;
 
 

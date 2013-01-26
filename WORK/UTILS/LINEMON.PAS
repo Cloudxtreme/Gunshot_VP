@@ -1,4 +1,6 @@
+{$IFDEF MSDOS}
 {$M 8192,0,64000}
+{$ENDIF}
 PROGRAM LineMonitorForDOS;
 {$I DEFINES.INC}
 USES Crt,Dos,Version,FMode,Shotgun,BsString,BsMulti,BsFile,BsKeys,BsVideo;

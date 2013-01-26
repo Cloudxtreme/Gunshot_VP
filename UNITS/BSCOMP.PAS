@@ -17,7 +17,9 @@ FUNCTION  DecompressFile(Source,Dest: String): Boolean;
 
 IMPLEMENTATION
 
+{$IFDEF MSDOS}
 {$L IMPLODE.OBJ}
+{$ENDIF}
 
 USES Dos;
 
@@ -29,8 +31,21 @@ VAR  DictionarySize  : Word;
      CMP_BINARY      : Word;
 
 
+{$IFDEF MSDOS}
 {$F+}FUNCTION Implode(Read:IntFunc;Write:IntFunc;VAR Buf:BuffType;VAR Ctype:Word;VAR bSize:Word):Integer;EXTERNAL;{$F-}
 {$F+}FUNCTION Explode(Read:IntFunc;Write:IntFunc;VAR Buf:BuffType):Integer;EXTERNAL;{$F-}
+{$ENDIF}
+{$IFDEF WIN32}
+FUNCTION Implode(Read:IntFunc;Write:IntFunc;VAR Buf:BuffType;VAR Ctype:Word;VAR bSize:Word):Integer;
+BEGIN
+     WriteLn('REETODO BSCOMP Implode'); Halt;
+END;
+
+FUNCTION Explode(Read:IntFunc;Write:IntFunc;VAR Buf:BuffType):Integer;
+BEGIN
+     WriteLn('REETODO BSCOMP Explode'); Halt;
+END;
+{$ENDIF}
 
 {$F+}
 FUNCTION ReadData(VAR CBuffer : BuffType; VAR BufferSize : Word): Word;

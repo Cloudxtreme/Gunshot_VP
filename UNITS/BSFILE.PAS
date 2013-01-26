@@ -561,6 +561,7 @@ BEGIN
 END;
 
 
+{$IFDEF MSDOS}
 FUNCTION IsCDROMDrive(wDrive: Word): Boolean; ASSEMBLER;
 VAR  wTempDrive: word;
 ASM  mov  ax,wDrive
@@ -587,16 +588,27 @@ ASM  mov  ax,wDrive
      or   ax,ax
 @no_mscdex:
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+FUNCTION IsCDROMDrive(wDrive: Word): Boolean;
+BEGIN
+     WriteLn('REETODO BSFILE IsCDROMDrive'); Halt;
+END;
+{$ENDIF}
 
 
 FUNCTION NetworkDrive(wDrive: Char): Boolean;
-VAR  Reg   : Registers;
+VAR  
+{$IFDEF MSDOS}
+     Reg   : Registers;
+{$ENDIF}
      IsNet : Boolean;
 BEGIN
      IsNet  := False;
      wDrive := UpCase(wDrive);
      IF (wDrive IN ['A'..'Z']) THEN
      BEGIN
+{$IFDEF MSDOS}     
        Reg.BL := Ord(wDrive)-64;
        Reg.AX := $4409;
        MsDos(Reg);
@@ -605,6 +617,10 @@ BEGIN
          IF Odd(Reg.DX SHR 12) THEN IsNet := True
                                ELSE IsNet := False;
        END;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO BSFILE NetworkDrive'); Halt;
+{$ENDIF}
      END;
      NetworkDrive := IsNet;
 END;
