@@ -130,7 +130,7 @@ ASM
 END;
 {$ENDIF}
 {$IFDEF WIN32}
-FUNCTION _RemoveSpaces(InString: String): String; Assembler;
+FUNCTION _RemoveSpaces(InString: String): String;
 BEGIN
   WriteLn('REETODO BSSTRING _RemoveSpaces'); Halt;
 END;
@@ -194,7 +194,7 @@ ASM
 END;
 {$ENDIF}
 {$IFDEF WIN32}
-FUNCTION _RemoveUnderScores(InString: String): String; Assembler;
+FUNCTION _RemoveUnderScores(InString: String): String;
 BEGIN
   WriteLn('REETODO BSSTRING _RemoveUnderScores'); Halt;
 END;
@@ -314,7 +314,7 @@ ASM
 END;
 {$ENDIF}
 {$IFDEF WIN32}
-FUNCTION _Pos2(Objct,Target: String; StartPos: Byte): Byte; Assembler;
+FUNCTION _Pos2(Objct,Target: String; StartPos: Byte): Byte;
 BEGIN
   WriteLn('REETODO BSSTRING _Pos2'); Halt;
 END;
@@ -348,7 +348,7 @@ ASM
 END;
 {$ENDIF}
 {$IFDEF WIN32}
-FUNCTION _UpperCase(InString: String): String; Assembler;
+FUNCTION _UpperCase(InString: String): String;
 BEGIN
   WriteLn('REETODO BSSTRING _UpperCase'); Halt;
 END;
@@ -382,7 +382,7 @@ ASM
 END;
 {$ENDIF}
 {$IFDEF WIN32}
-FUNCTION _LowerCase(InString: String): String; Assembler;
+FUNCTION _LowerCase(InString: String): String;
 BEGIN
   WriteLn('REETODO BSSTRING _LowerCase'); Halt;
 END;

@@ -68,7 +68,7 @@ ASM
 END;
 {$ENDIF}
 {$IFDEF WIN32}
-PROCEDURE _HideCursor; Assembler;
+PROCEDURE _HideCursor;
 BEGIN
   WriteLn('REETODO BSKEYS _HideCursor'); Halt;
 END;
@@ -84,7 +84,7 @@ ASM
 END;
 {$ENDIF}
 {$IFDEF WIN32}
-PROCEDURE _ShowCursor; Assembler;
+PROCEDURE _ShowCursor;
 BEGIN
   WriteLn('REETODO BSKEYS _ShowCursor'); Halt;
 END;
