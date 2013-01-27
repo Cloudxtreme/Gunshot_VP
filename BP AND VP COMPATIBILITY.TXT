@@ -19,15 +19,21 @@ I've put a + next to the ones that are relevant, and a - next to the ones that a
   possible to revert to the original 16-bit integer types by including the 
   Use16 unit in the uses clause.  This unit simply reverts the changes 
   done by the Use32 unit. 
+  [ All instances of Word and Integer in RECORDs should have been converted 
+    to SmallWord and SmallInt now.  Also TYPE instances of "of Word" and
+    "of Integer" should have been similarly converted.
+    Still REETODO: Weird cases like doing a BlockRead() with Word or Integer ]
 
 - The Mark and Release real mode procedures are not implemented. 
+  [ Don't appear to have been used, luckily! ]
 
 + Since VP operates with a flat 32-bit memory model as opposed to a 
   16:16 bit segmented one, the Ptr function accepts only one argument, 
   Offset.  
 
-- Two new procedures for converting between 16:16 and 0:32 pointer 
+  Two new procedures for converting between 16:16 and 0:32 pointer 
   types, SelToFlat and FlatToSel have been added.
+  [ Any place Ptr() is being used likely needs to be rewritten anyway ]
 
 + Two new 16-bit integer types, SmallInt and SmallWord are introduced.
 
@@ -38,9 +44,12 @@ I've put a + next to the ones that are relevant, and a - next to the ones that a
   ReWrite is used on a file of type Text.  The file mode variables are all 
   declared as threadvar and can safely be used in multi-threaded 
   programs. 
+  [ Still REETODO to investigate whether this needs changing anywhere ]
 
 + The Sound and NoSound procedures are not implemented; the VP 
   procedure PlaySound implements a combination of both. 
+  [ Sound() can potentially be replaced with Windows.Beep -- I found that
+    Windows.Beep didn't work for short durations though, I recommend >= 200ms ]
 
 + Procedures specific to the DOS operating system (Intr, MsDos, 
   GetCBreak, SetCBreak, Keep, GetIntVec and SetIntVec) are not 
@@ -49,7 +58,7 @@ I've put a + next to the ones that are relevant, and a - next to the ones that a
 + The built-in assembler of VP supports all 386, 486 and Pentium 
   instructions. Assembler code written for Borland Pascal or 16-bit Delphi 
   should be rewritten to 32 bit
-  [ NOTE: I'm just avoiding ASM in the 32bit port ]
+  [ As with Ptr(), ASM bits likely need to be rewritten anyway ]
 
 + The Inline procedure defined by Borland Pascal, where numbers 
   representing machine code language can be entered directly, is not 
@@ -59,8 +68,8 @@ I've put a + next to the ones that are relevant, and a - next to the ones that a
   terminated, the value of the FOR control variable is 1 greater than the 
   maximum bound. Programs should not rely on the value of a for 
   control variable outside the for loop.
-  [ NOTE: I know at least one instance where this is a problem -- not sure
-          what the easiest way to find other instances will be ]
+  [ I know at least one instance where this is a problem -- not sure what the 
+    easiest way to find other instances will be, but it's a REETODO item ]
 
 + Case statements cause more efficient code to be generated. As opposed 
   to Borland Pascal, VP does not allow overlapping case selectors.
