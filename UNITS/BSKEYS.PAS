@@ -158,7 +158,7 @@ BEGIN
      'O': _NormalToAlt := #24;
      'P': _NormalToAlt := #25;
      'Q': _NormalToAlt := #16;
-     'R': _NormalToAlt := #17;
+     'R': _NormalToAlt := #19;
      'S': _NormalToAlt := #31;
      'T': _NormalToAlt := #20;
      'U': _NormalToAlt := #22;

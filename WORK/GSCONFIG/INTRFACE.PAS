@@ -1024,7 +1024,7 @@ BEGIN
                WRITE('´ ');
           END;
      END;
-     GotoXY(x,3+y+1);
+     GotoXY(x,3+MenuItems[Number]+1); { REENOTE for loop fix: y->MenuItems[Number] }
      WRITE(' À'); FOR Loop := 1 TO L DO WRITE('Ä'); WRITE('Ù ');
      _ShowMouse;
 END;
@@ -1682,42 +1682,45 @@ BEGIN
           ScrollBarX  := PickListX+52;
           ScrollBarY1 := PickListY+3;
           ScrollBarY2 := PickListY+2+PickListPerPage;
-          ASSIGN(FPickListFile,WorkDir+'\PICK.LST');
-          RESET(FPickListFile);
-          SEEK(FPickListFile,PickTop-1);
-          FOR Loop := 1 TO PickListPerPage DO
-          BEGIN
-               IF NOT(EOF(FPickListFile)) THEN
-               BEGIN
-                    IF (PickTop-1+Loop)=PickItem THEN TextBackGround_BS(3);
-                    TextColor_BS(14);
-                    GotoXY(PickListX-4,PickListY+2+Loop);
-                    WRITE(_PadRight(_String(PickTop-1+Loop),6));
-                    READ(FPickListFile,PickListFile);
-               END
-               ELSE
-               BEGIN
-                    GotoXY(PickListX-4,PickListY+2+Loop);
-                    WRITE('      ');
-                    PickListFile.A := '';
-                    PickListFile.B := '';
-               END;
-               TextColor_BS(15);
-               GotoXY(PickListX+2,PickListY+2+Loop);
-               WRITE(_PadRight(PickListFile.A,40));
-               TextColor_BS(11);
-               GotoXY(PickListX+42,PickListY+2+Loop);
-               WRITE(_PadRight(PickListFile.B,10));
-               IF ((Loop<>1) AND (Loop<>PickListPerPage)) THEN
-               BEGIN
-                    TextColor_BS(8);
-                    TextBackGround_BS(0);
-                    GotoXY(PickListX+52,PickListY+2+Loop);
-                    WRITE('²');
-               END;
-               TextBackGround_BS(Colour.WindowBackGround);
-          END;
-          CLOSE(FPickListFile);
+          if (PickListItems > 0) then
+          begin
+            ASSIGN(FPickListFile,WorkDir+'\PICK.LST');
+            RESET(FPickListFile);
+            SEEK(FPickListFile,PickTop-1);
+            FOR Loop := 1 TO PickListPerPage DO
+            BEGIN
+                 IF NOT(EOF(FPickListFile)) THEN
+                 BEGIN
+                      IF (PickTop-1+Loop)=PickItem THEN TextBackGround_BS(3);
+                      TextColor_BS(14);
+                      GotoXY(PickListX-4,PickListY+2+Loop);
+                      WRITE(_PadRight(_String(PickTop-1+Loop),6));
+                      READ(FPickListFile,PickListFile);
+                 END
+                 ELSE
+                 BEGIN
+                      GotoXY(PickListX-4,PickListY+2+Loop);
+                      WRITE('      ');
+                      PickListFile.A := '';
+                      PickListFile.B := '';
+                 END;
+                 TextColor_BS(15);
+                 GotoXY(PickListX+2,PickListY+2+Loop);
+                 WRITE(_PadRight(PickListFile.A,40));
+                 TextColor_BS(11);
+                 GotoXY(PickListX+42,PickListY+2+Loop);
+                 WRITE(_PadRight(PickListFile.B,10));
+                 IF ((Loop<>1) AND (Loop<>PickListPerPage)) THEN
+                 BEGIN
+                      TextColor_BS(8);
+                      TextBackGround_BS(0);
+                      GotoXY(PickListX+52,PickListY+2+Loop);
+                      WRITE('²');
+                 END;
+                 TextBackGround_BS(Colour.WindowBackGround);
+            END;
+            CLOSE(FPickListFile);
+          end;
           TextColor_BS(15);
           TextBackGround_BS(7);
           GotoXY(ScrollBarX,ScrollBarY1);
@@ -1752,37 +1755,49 @@ BEGIN
      IF UseTwoColumn=True THEN
      BEGIN
           _HideMouse;
-          ASSIGN(FPickListFile,WorkDir+'\PICK.LST');
-          RESET(FPickListFile);
-          SEEK(FPickListFile,PickTop-1);
-          FOR Loop := 1 TO PickListPerPage DO
-          BEGIN
-               IF EOF(FPickListFile) THEN
-               BEGIN
-                    PickListFile.A := '';
-                    PickListFile.B := '';
-                    Temp           := '      ';
-                    CurBack        := (Colour.WindowBackGround*16);
-               END
-               ELSE
-               BEGIN
-                    READ(FPickListFile,PickListFile);
-                    IF (PickTop-1+Loop)=PickItem THEN CurBack := (3*16)
-                                                 ELSE CurBack := (Colour.WindowBackGround*16);
-                    Temp := _PadRight(_String(PickTop-1+Loop),6);
-               END;
-               FastWrite(Temp,PickListY+2+Loop,PickListX-4,CurBack+14);
-               FastWrite(_PadRight(PickListFile.A,40),PickListY+2+Loop,PickListX+2,CurBack+15);
-               FastWrite(_PadRight(PickListFile.B,10),PickListY+2+Loop,PickListX+42,CurBack+11);
-               IF (OldPadY<>ScrollPadY) THEN
-               BEGIN
-                    IF ((Loop<>1) AND (Loop<>PickListPerPage)) THEN
-                    BEGIN
-                         FastWrite('²',PickListY+2+Loop,PickListX+52,8);
-                    END;
-               END;
-          END;
-          CLOSE(FPickListFile);
+          if (PickListItems = 0) then   
+          begin
+            PickListFile.A := '';
+            PickListFile.B := '';
+            Temp           := '      ';
+            CurBack        := (Colour.WindowBackGround*16);
+            FastWrite(Temp,PickListY+2+1,PickListX-4,CurBack+14);
+            FastWrite(_PadRight(PickListFile.A,40),PickListY+2+1,PickListX+2,CurBack+15);
+            FastWrite(_PadRight(PickListFile.B,10),PickListY+2+1,PickListX+42,CurBack+11);
+          end else
+          begin
+            ASSIGN(FPickListFile,WorkDir+'\PICK.LST');
+            RESET(FPickListFile);
+            SEEK(FPickListFile,PickTop-1);
+            FOR Loop := 1 TO PickListPerPage DO
+            BEGIN
+                 IF EOF(FPickListFile) THEN
+                 BEGIN
+                      PickListFile.A := '';
+                      PickListFile.B := '';
+                      Temp           := '      ';
+                      CurBack        := (Colour.WindowBackGround*16);
+                 END
+                 ELSE
+                 BEGIN
+                      READ(FPickListFile,PickListFile);
+                      IF (PickTop-1+Loop)=PickItem THEN CurBack := (3*16)
+                                                   ELSE CurBack := (Colour.WindowBackGround*16);
+                      Temp := _PadRight(_String(PickTop-1+Loop),6);
+                 END;
+                 FastWrite(Temp,PickListY+2+Loop,PickListX-4,CurBack+14);
+                 FastWrite(_PadRight(PickListFile.A,40),PickListY+2+Loop,PickListX+2,CurBack+15);
+                 FastWrite(_PadRight(PickListFile.B,10),PickListY+2+Loop,PickListX+42,CurBack+11);
+                 IF (OldPadY<>ScrollPadY) THEN
+                 BEGIN
+                      IF ((Loop<>1) AND (Loop<>PickListPerPage)) THEN
+                      BEGIN
+                           FastWrite('²',PickListY+2+Loop,PickListX+52,8);
+                      END;
+                 END;
+            END;
+            CLOSE(FPickListFile);
+          end;
           IF (OldPadY<>ScrollPadY) THEN FastWrite(Chr(254),ScrollBarY1+1+ScrollPadY,ScrollBarX,(7*16)+15);
           _ShowMouse;
      END;
