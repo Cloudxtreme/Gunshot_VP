@@ -131,8 +131,25 @@ END;
 {$ENDIF}
 {$IFDEF WIN32}
 FUNCTION _RemoveSpaces(InString: String): String;
+VAR
+  I: Integer;
+  OutString: String;
 BEGIN
-  WriteLn('REETODO BSSTRING _RemoveSpaces'); Halt;
+  if (Pos(' ', InString) > 0) then
+  begin
+    OutString := '';
+    for I := 1 to Length(InString) do
+    begin
+      if (InString[I] <> ' ') then
+      begin
+        OutString := OutString + InString[I];
+      end;
+    end;
+    _RemoveSpaces := OutString;
+  end else
+  begin
+    _RemoveSpaces := InString;
+  end;
 END;
 {$ENDIF}
 

@@ -49,7 +49,8 @@ BEGIN
      DoExec := RunExec(xfn,pars,spawn,$ffff,True);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO BSEXEC DoExec'); Halt;
+     Exec(xfn,pars);
+     DoExec := DosExitCode;
 {$ENDIF}
      {$ENDIF}
 END;
