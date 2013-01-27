@@ -348,9 +348,22 @@ ASM
 END;
 {$ENDIF}
 {$IFDEF WIN32}
+// Found in SWAG, claims to be roughly 40% faster than for loop using UpCase()
 FUNCTION _UpperCase(InString: String): String;
+VAR
+  i, len : Integer;
 BEGIN
-  WriteLn('REETODO BSSTRING _UpperCase'); Halt;
+  i := 0;
+  len := Ord(InString[0]);
+  Repeat
+    Inc(i);
+    If i > len Then
+      Break;
+    If InString[i] in ['a'..'z'] Then
+      Dec(InString[i], 32);
+  Until False;
+  
+  _UpperCase := InString;
 END;
 {$ENDIF}
 
