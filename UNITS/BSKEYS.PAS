@@ -15,6 +15,12 @@ PROCEDURE _ShowCursor;
 IMPLEMENTATION
 
 
+{$IFDEF WIN32}
+USES 
+  VPUtils;
+{$ENDIF}
+
+
 FUNCTION _AltToNormal(C: Char): Char;
 BEGIN
      CASE ORD(C) OF
@@ -70,7 +76,7 @@ END;
 {$IFDEF WIN32}
 PROCEDURE _HideCursor;
 BEGIN
-  WriteLn('REETODO BSKEYS _HideCursor'); Halt;
+  HideCursor;
 END;
 {$ENDIF}
 
@@ -86,7 +92,7 @@ END;
 {$IFDEF WIN32}
 PROCEDURE _ShowCursor;
 BEGIN
-  WriteLn('REETODO BSKEYS _ShowCursor'); Halt;
+  ShowCursor;
 END;
 {$ENDIF}
 

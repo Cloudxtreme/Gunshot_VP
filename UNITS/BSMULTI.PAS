@@ -36,7 +36,7 @@ FUNCTION  _GetOperatingSystem: String;
 IMPLEMENTATION
 
 
-USES ApTimer,Dos,BsString,Crt;
+USES ApTimer,Dos,BsString,Crt{$IFDEF WIN32},Windows{$ENDIF};
 
 
 {$IFDEF MSDOS}
@@ -91,7 +91,8 @@ END;
 {$IFDEF WIN32}
 PROCEDURE InitMulti;
 BEGIN
-  WriteLn('REETODO BSMULTI InitMulti'); Halt;
+  Task.OS := 1;
+  Task.Version := 0;
 END;
 {$ENDIF}
 
@@ -120,7 +121,7 @@ END;
 {$IFDEF WIN32}
 PROCEDURE TimeSlice;
 BEGIN
-  WriteLn('REETODO BSMULTI TimeSlice'); Halt;
+  Sleep(1);
 END;
 {$ENDIF}
 
