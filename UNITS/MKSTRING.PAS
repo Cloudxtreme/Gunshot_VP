@@ -24,6 +24,12 @@ Uses WinDos,BsString;
 Uses Dos,BsString;
 {$ENDIF}
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
 Procedure MKStrCat(Var St: String; AStr: String);
 Function LoCase(Ch: Char): Char;
 Function padright(st:string;ch:char;l:integer):string;

@@ -1,0 +1,66 @@
+Notes from Chapter 4 of the Virtual Pascal 2.1 User Guide: Compatibility with Borland Pascal and Delphi
+
+I've put a + next to the ones that are relevant, and a - next to the ones that are probably not.
+
++ All Integer and Word type parameters to standard procedures and 
+  functions as well as function return values of these types have been 
+  extended to Longint.
+
+  For this reason, the Use32 unit should always be included in the uses 
+  clause before trying to recompile 16-bit code written with Borland 
+  Pascal. If it is not, variable parameters of types Word and Integer 
+  will cause Type mismatch errors when compiling.
+  
+  To ease this process, the compiler can be instructed to implicitly 
+  include the Use32 unit in the uses clause by specifying the 
+  {&Use32+} state.
+  
+  When using {&Use32+} to include the Use32 unit implicitly, it is 
+  possible to revert to the original 16-bit integer types by including the 
+  Use16 unit in the uses clause.  This unit simply reverts the changes 
+  done by the Use32 unit. 
+
+- The Mark and Release real mode procedures are not implemented. 
+
++ Since VP operates with a flat 32-bit memory model as opposed to a 
+  16:16 bit segmented one, the Ptr function accepts only one argument, 
+  Offset.  
+
+- Two new procedures for converting between 16:16 and 0:32 pointer 
+  types, SelToFlat and FlatToSel have been added.
+
++ Two new 16-bit integer types, SmallInt and SmallWord are introduced.
+
++ Three new variables supplementing FileMode are defined: 
+  FileModeReadWrite, which is used when using ReWrite on a typed or 
+  untyped file instead of FileMode, TextModeRead, used when Reset is 
+  used on a file of type Text, and TextModeReadWrite, used when 
+  ReWrite is used on a file of type Text.  The file mode variables are all 
+  declared as threadvar and can safely be used in multi-threaded 
+  programs. 
+
++ The Sound and NoSound procedures are not implemented; the VP 
+  procedure PlaySound implements a combination of both. 
+
++ Procedures specific to the DOS operating system (Intr, MsDos, 
+  GetCBreak, SetCBreak, Keep, GetIntVec and SetIntVec) are not 
+  implemented. 
+
++ The built-in assembler of VP supports all 386, 486 and Pentium 
+  instructions. Assembler code written for Borland Pascal or 16-bit Delphi 
+  should be rewritten to 32 bit
+  [ NOTE: I'm just avoiding ASM in the 32bit port ]
+
++ The Inline procedure defined by Borland Pascal, where numbers 
+  representing machine code language can be entered directly, is not 
+  supported.
+
++ VP generates very efficient for loop code. However, after the loop has 
+  terminated, the value of the FOR control variable is 1 greater than the 
+  maximum bound. Programs should not rely on the value of a for 
+  control variable outside the for loop.
+  [ NOTE: I know at least one instance where this is a problem -- not sure
+          what the easiest way to find other instances will be ]
+
++ Case statements cause more efficient code to be generated. As opposed 
+  to Borland Pascal, VP does not allow overlapping case selectors.

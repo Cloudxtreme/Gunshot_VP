@@ -45,15 +45,15 @@ USES Dos,BsString,ApUart,ApFossil,ApDigi14,ApInt14,
 
 FUNCTION bsGetFossilName(fport: Byte): String;
 TYPE fossilrec = RECORD
-     strsize   : Word;
+     strsize   : SmallWord;
      majrev    : Byte;
      minver    : Byte;
-     idofs     : Word;
-     idseg     : Word;
-     ibuff     : Word;
-     ifree     : Word;
-     obuff     : Word;
-     ofree     : Word;
+     idofs     : SmallWord;
+     idseg     : SmallWord;
+     ibuff     : SmallWord;
+     ifree     : SmallWord;
+     obuff     : SmallWord;
+     ofree     : SmallWord;
      swidth    : Byte;
      sheight   : Byte;
      dte       : Byte;

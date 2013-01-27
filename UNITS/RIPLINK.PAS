@@ -64,7 +64,7 @@ type
   LastCharStatus= (lNone,lChar,lCR,lLF,lPipe,lBackSlash,lExcl);
 
   MouseRegionRecord = record
-    x0,y0,x1,y1     : word;
+    x0,y0,x1,y1     : SmallWord;
     invert,reset    : boolean;
     thetext         : str50;
   end; {61}
@@ -591,7 +591,7 @@ end;
 Procedure RipObj.rBezier(x0,y0,x1,y1,x2,y2,x3,y3,count:word);
 type
   coord = record
-    x,y : integer;
+    x,y : SmallInt;
   end;
 
   CurveDataRec = array[0..65521 div sizeof(coord)] of coord;
@@ -671,8 +671,8 @@ end;
 Procedure RipObj.rPolygon(numpoints:word; var PolyPoints; complete:boolean);
 type
   PointRec = record
-    X : word;
-    Y : word;
+    X : SmallWord;
+    Y : SmallWord;
   end;
 
   TempType = Array[1..512] of PointRec;
@@ -835,7 +835,7 @@ Procedure RipObj.rButton(tx0,ty0,tx1,ty1,hotkey:word; flags:byte; icon:str12; sL
 type
   IconHdr = record
     tWid,
-    tHgt : word;
+    tHgt : SmallWord;
   end;
 
 var
@@ -1772,8 +1772,8 @@ end;
 Function RipObj.DoRipChar(c : char): boolean;
 type
   PointRec = record
-    X : word;
-    Y : word;
+    X : SmallWord;
+    Y : SmallWord;
   end;
 
   TempType = Array[1..512] of PointRec;

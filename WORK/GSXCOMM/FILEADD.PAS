@@ -5,6 +5,13 @@ UNIT FileAdd;
 INTERFACE
 
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
+
 PROCEDURE AddFile(OPath: String; FSub,FArea: Word);
 
 
@@ -17,7 +24,7 @@ USES Globals,MiscStr,BsString,FilHeadr,BsFile;
 {FILE MUST ALREADY BE CONVERTED AND FFileDesc & FFileDefs Intact Globally}
 PROCEDURE AddFile(OPath: String; FSub,FArea: Word);
 TYPE FFFF = RECORD
-     OrigIndex : Word;
+     OrigIndex : SmallWord;
      Info      : String[16];
      InfoNum   : Longint;
      END;

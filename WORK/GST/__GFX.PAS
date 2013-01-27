@@ -73,8 +73,8 @@ TYPE  Screen_Info     = RECORD
       OrigY1          : SmallWord;
       OrigX2          : SmallWord;
       OrigY2          : SmallWord;
-      XOffset         : Integer;
-      YOffSet         : Integer;
+      XOffset         : SmallInt;
+      YOffSet         : SmallInt;
       Title           : String;
       HelpTopic       : SmallWord;
       END;

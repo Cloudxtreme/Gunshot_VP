@@ -22,19 +22,19 @@ TYPE LiPoint3D               = RECORD
 TYPE Saved_Cutouts           = RECORD
      Cutout                  : GXHeader;
      Active                  : Boolean;
-     Coordinates             : Array[1..4] Of Word;
+     Coordinates             : Array[1..4] Of SmallWord;
      KeepWindow              : Boolean;
      FileName                : String[40];
-     MoveX                   : Integer;
-     MoveY                   : Integer;
+     MoveX                   : SmallInt;
+     MoveY                   : SmallInt;
      WindowDef               : _Raw_File;
      END;
 TYPE ButtonInfo              = RECORD
      Return                  : Char;
-     x1                      : Word;
-     y1                      : Word;
-     x2                      : Word;
-     y2                      : Word;
+     x1                      : SmallWord;
+     y1                      : SmallWord;
+     x2                      : SmallWord;
+     y2                      : SmallWord;
      BType                   : Byte;
      FillC                   : Byte;
      HBorder                 : Byte;
@@ -42,24 +42,24 @@ TYPE ButtonInfo              = RECORD
      Holdable                : Boolean;
      END;
 TYPE Screen_Info             = RECORD
-     x1                      : Word;
-     y1                      : Word;
-     x2                      : Word;
-     y2                      : Word;
-     OrigX1                  : Word;
-     OrigY1                  : Word;
-     OrigX2                  : Word;
-     OrigY2                  : Word;
+     x1                      : SmallWord;
+     y1                      : SmallWord;
+     x2                      : SmallWord;
+     y2                      : SmallWord;
+     OrigX1                  : SmallWord;
+     OrigY1                  : SmallWord;
+     OrigX2                  : SmallWord;
+     OrigY2                  : SmallWord;
      HasWindow               : Boolean;
-     MoveX                   : Integer;
-     MoveY                   : Integer;
+     MoveX                   : SmallInt;
+     MoveY                   : SmallInt;
      END;
-TYPE Poly_Points             = Array[0..32000] Of Integer;
+TYPE Poly_Points             = Array[0..32000] Of SmallInt;
 TYPE FieldInfo               = RECORD
-     x1                      : Word;
-     y1                      : Word;
-     x2                      : Word;
-     y2                      : Word;
+     x1                      : SmallWord;
+     y1                      : SmallWord;
+     x2                      : SmallWord;
+     y2                      : SmallWord;
      Text                    : String[70];
      CursorPos               : Byte;
      EntryType               : Byte;
@@ -72,18 +72,18 @@ TYPE FieldInfo               = RECORD
 TYPE Custom_Controls         = RECORD
      Icon1                   : GXHeader;
      Icon2                   : GXHeader;
-     x1                      : Word;
-     y1                      : Word;
-     x2                      : Word;
-     y2                      : Word;
+     x1                      : SmallWord;
+     y1                      : SmallWord;
+     x2                      : SmallWord;
+     y2                      : SmallWord;
      END;
 TYPE Animated_Controls       = RECORD
      Icon                    : Array[1..8] Of GXHeader;
-     Current                 : Word;
-     x1                      : Word;
-     y1                      : Word;
-     x2                      : Word;
-     y2                      : Word;
+     Current                 : SmallWord;
+     x1                      : SmallWord;
+     y1                      : SmallWord;
+     x2                      : SmallWord;
+     y2                      : SmallWord;
      END;
 TYPE Animated_Record         = Array[1..10] Of Animated_Controls;
 TYPE Custom_Record           = Array[1..20] Of Custom_Controls;
@@ -91,23 +91,23 @@ TYPE Button_Record           = Array[1..40] Of ButtonInfo;
 TYPE Field_Record            = Array[1..15] Of FieldInfo;
 TYPE Pick_Info               = RECORD
      Active                  : Boolean;
-     x1                      : Word;
-     y1                      : Word;
-     x2                      : Word;
-     y2                      : Word;
-     Top                     : Word;
-     NumItems                : Word;
-     ItemsOnScrn             : Word;
-     Current                 : Word;
-     MaxChars                : Word;
-     Locator                 : Word;
+     x1                      : SmallWord;
+     y1                      : SmallWord;
+     x2                      : SmallWord;
+     y2                      : SmallWord;
+     Top                     : SmallWord;
+     NumItems                : SmallWord;
+     ItemsOnScrn             : SmallWord;
+     Current                 : SmallWord;
+     MaxChars                : SmallWord;
+     Locator                 : SmallWord;
      Pickable                : Boolean;
      UsingDisk               : Boolean;
      END;
 TYPE Pick_List               = RECORD
      Line                    : String[100];
      Pickable                : Boolean;
-     TrueIndex               : Word;
+     TrueIndex               : SmallWord;
      END;
 TYPE Massive_Pick            = Array[1..MaxPick] Of Pick_List;
 TYPE BigQWKBuffer            = Array[1..MaxMsgBuffer] Of Char;
@@ -123,8 +123,8 @@ TYPE QWK_Header              = RECORD
      MSGReference            : Array[1..8] Of Char;
      MSGNumText              : Array[1..6] Of Char;
      MSGKilled               : Byte;
-     MSGConf                 : Word;
-     Spare1                  : Word;
+     MSGConf                 : SmallWord;
+     Spare1                  : SmallWord;
      Spare2                  : Char;
      END;
 TYPE Message_Header          = RECORD
@@ -158,7 +158,7 @@ TYPE ListRecord              = RECORD
      MsgSubject              : String[30];
      MsgPrivate              : Boolean;
      MsgRecv                 : Boolean;
-     MsgNum                  : Word;
+     MsgNum                  : SmallWord;
      END;
 TYPE BSingle                 = Array [0..3] Of Byte;
 TYPE QWK_Index               = RECORD
@@ -167,12 +167,12 @@ TYPE QWK_Index               = RECORD
      END;
 TYPE QWKLastRead             = RECORD
      Area                    : String[51];
-     Pointer                 : Word;
+     Pointer                 : SmallWord;
      DoReceived              : Boolean;
      DoPointer               : Boolean;
-     MaxMsgs                 : Word;
+     MaxMsgs                 : SmallWord;
      END;
-TYPE Msg_Index               = Array[1..3000] Of Word;
+TYPE Msg_Index               = Array[1..3000] Of SmallWord;
 TYPE BufferItem              = RECORD
      Token                   : String[80];
      Replacement             : String[100];
@@ -183,10 +183,10 @@ TYPE Toggle_Info             = RECORD
      Current                 : Longint;
      Last                    : Longint;
      Active                  : Boolean;
-     x1                      : Word;
-     y1                      : Word;
-     x2                      : Word;
-     y2                      : Word;
+     x1                      : SmallWord;
+     y1                      : SmallWord;
+     x2                      : SmallWord;
+     y2                      : SmallWord;
      Colour                  : Byte;
      Horizontal              : Boolean;
      END;
@@ -202,7 +202,7 @@ TYPE Pager                   = RECORD
      UserName                : String[30];
      UserAlias               : String[30];
      Message                 : String[30];
-     LineNumber              : Word;
+     LineNumber              : SmallWord;
      END;
 TYPE FileDescriptions2       = Array[1..18] Of _FileDescriptions;
 TYPE FileSearchIndexes       = RECORD
@@ -222,8 +222,8 @@ TYPE TaggedFileRecord        = RECORD
      CDRom                   : Boolean;
      Description             : String[25];
      FreeFile                : Boolean;
-     FileArea                : Word;
-     FileSub                 : Word;
+     FileArea                : SmallWord;
+     FileSub                 : SmallWord;
      TransferOk              : Boolean;
      FileCPS                 : Longint;
      END;
@@ -233,7 +233,7 @@ TYPE GFX_Buffer              = Array[0..32767] Of Byte;
 TYPE BigLastCallers          = Array[0..10] Of _Last10Callers_Record;
 TYPE MessageBody             = Array[1..MaxMsgBuffer] Of Char;
 TYPE OnScreen1               = Array[1..17] Of String[88];
-TYPE Locators1               = Array[1..3000] Of Word;
+TYPE Locators1               = Array[1..3000] Of SmallWord;
 
 VAR  FArcDefs                : File Of _Archiver_Record;
      FBadLang                : File Of _BadLang_Record;

@@ -5,6 +5,13 @@ UNIT BsGlobal;
 INTERFACE
 
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
+
 {
 1 - ! Button
 2 - ! On/Off Toggle

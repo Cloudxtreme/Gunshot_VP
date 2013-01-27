@@ -20,6 +20,13 @@ Interface
 Uses Dos;
 
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
+
 Const
   fmReadOnly = 0;          {FileMode constants}
   fmWriteOnly = 1;

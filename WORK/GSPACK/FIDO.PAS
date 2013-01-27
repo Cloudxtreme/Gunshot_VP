@@ -5,6 +5,13 @@ UNIT Fido;
 INTERFACE
 
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
+
 FUNCTION  LastAppropriateFido(LRP: Word): Word;
 PROCEDURE PurgeFido;
 PROCEDURE RenumberFido;

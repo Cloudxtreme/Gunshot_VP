@@ -1,6 +1,13 @@
 USES BsExec,BsString,BsFile,FMode;
 
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
+
 TYPE Yapp_DropFile    = RECORD
      Port             : Byte;
      PortAddr         : String[4];

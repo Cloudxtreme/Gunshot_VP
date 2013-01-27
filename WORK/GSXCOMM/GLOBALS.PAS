@@ -42,7 +42,7 @@ TYPE ListRecord              = RECORD
      MsgSubject              : String[30];
      MsgPrivate              : Boolean;
      MsgRecv                 : Boolean;
-     MsgNum                  : Word;
+     MsgNum                  : SmallWord;
      END;
 TYPE Menus                   = Array[1..150] Of _Menu_Record;
 TYPE MessageTextLines        = RECORD
@@ -78,14 +78,14 @@ TYPE Pager                   = RECORD
      UserName                : String[30];
      UserAlias               : String[30];
      Message                 : String[30];
-     LineNumber              : Word;
+     LineNumber              : SmallWord;
      END;
 TYPE QWKLastRead             = RECORD
      Area                    : String[51];
-     Pointer                 : Word;
+     Pointer                 : SmallWord;
      DoReceived              : Boolean;
      DoPointer               : Boolean;
-     MaxMsgs                 : Word;
+     MaxMsgs                 : SmallWord;
      END;
 TYPE QWK_Header              = RECORD
      MSGStatus               : Char;
@@ -99,8 +99,8 @@ TYPE QWK_Header              = RECORD
      MSGReference            : Array[1..8] Of Char;
      MSGNumText              : Array[1..6] Of Char;
      MSGKilled               : Byte;
-     MSGConf                 : Word;
-     Spare1                  : Word;
+     MSGConf                 : SmallWord;
+     Spare1                  : SmallWord;
      Spare2                  : Char;
      END;
 TYPE QWK_Index               = RECORD
@@ -115,8 +115,8 @@ TYPE TaggedFileRecord        = RECORD
      CDRom                   : Boolean;
      Description             : String[25];
      FreeFile                : Boolean;
-     FileArea                : Word;
-     FileSub                 : Word;
+     FileArea                : SmallWord;
+     FileSub                 : SmallWord;
      TransferOk              : Boolean;
      FileCPS                 : Longint;
      END;
@@ -125,10 +125,10 @@ TYPE Toggle_Info             = RECORD
      Current                 : Longint;
      Percent                 : Byte;
      Active                  : Boolean;
-     x1                      : Word;
-     y1                      : Word;
-     x2                      : Word;
-     y2                      : Word;
+     x1                      : SmallWord;
+     y1                      : SmallWord;
+     x2                      : SmallWord;
+     y2                      : SmallWord;
      Colour                  : Byte;
      Horizontal              : Boolean;
      END;

@@ -5,6 +5,13 @@ UNIT FileAdd;
 INTERFACE
 
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
+
 PROCEDURE AddFile(OPath: String; FSub,FArea: Word);
 
 

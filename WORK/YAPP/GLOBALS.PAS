@@ -21,18 +21,18 @@ TYPE File_Info      = RECORD
      IsDir          : Boolean;
      END;
 TYPE ButCoord       = RECORD
-     x1             : Word;
-     y1             : Word;
-     x2             : Word;
-     y2             : Word;
+     x1             : SmallWord;
+     y1             : SmallWord;
+     x2             : SmallWord;
+     y2             : SmallWord;
      END;
 TYPE Toggle_Info = RECORD
      Percent     : Byte;
      Active      : Boolean;
-     x1          : Word;
-     y1          : Word;
-     x2          : Word;
-     y2          : Word;
+     x1          : SmallWord;
+     y1          : SmallWord;
+     x2          : SmallWord;
+     y2          : SmallWord;
      Colour      : Byte;
      Horizontal  : Boolean;
      END;
@@ -40,19 +40,19 @@ TYPE Toggle_Info = RECORD
 TYPE Saved_Cutouts = RECORD
      Cutout       : GXHeader;
      Active       : Boolean;
-     Coordinates  : Array[1..4] Of Word;
+     Coordinates  : Array[1..4] Of SmallWord;
      KeepWindow   : Boolean;
      FileName     : String[40];
-     MoveX        : Integer;
-     MoveY        : Integer;
+     MoveX        : SmallInt;
+     MoveY        : SmallInt;
      WindowDef    : _Raw_File;
      END;
 TYPE ButtonInfo   = RECORD
      Return       : Char;
-     x1           : Word;
-     y1           : Word;
-     x2           : Word;
-     y2           : Word;
+     x1           : SmallWord;
+     y1           : SmallWord;
+     x2           : SmallWord;
+     y2           : SmallWord;
      BType        : Byte;
      FillC        : Byte;
      HBorder      : Byte;
@@ -60,24 +60,24 @@ TYPE ButtonInfo   = RECORD
      Holdable     : Boolean;
      END;
 TYPE Screen_Info  = RECORD
-     x1           : Word;
-     y1           : Word;
-     x2           : Word;
-     y2           : Word;
-     OrigX1       : Word;
-     OrigY1       : Word;
-     OrigX2       : Word;
-     OrigY2       : Word;
+     x1           : SmallWord;
+     y1           : SmallWord;
+     x2           : SmallWord;
+     y2           : SmallWord;
+     OrigX1       : SmallWord;
+     OrigY1       : SmallWord;
+     OrigX2       : SmallWord;
+     OrigY2       : SmallWord;
      HasWindow    : Boolean;
-     MoveX        : Integer;
-     MoveY        : Integer;
+     MoveX        : SmallInt;
+     MoveY        : SmallInt;
      END;
 TYPE Poly_Points  = Array[0..PolySize] Of SmallInt;
 TYPE FieldInfo    = RECORD
-     x1           : Word;
-     y1           : Word;
-     x2           : Word;
-     y2           : Word;
+     x1           : SmallWord;
+     y1           : SmallWord;
+     x2           : SmallWord;
+     y2           : SmallWord;
      Text         : String[70];
      CursorPos    : Byte;
      EntryType    : Byte;
@@ -90,18 +90,18 @@ TYPE FieldInfo    = RECORD
 TYPE Custom_Controls = RECORD
      Icon1        : GXHeader;
      Icon2        : GXHeader;
-     x1           : Word;
-     y1           : Word;
-     x2           : Word;
-     y2           : Word;
+     x1           : SmallWord;
+     y1           : SmallWord;
+     x2           : SmallWord;
+     y2           : SmallWord;
      END;
 TYPE Animated_Controls = RECORD
      Icon         : Array[1..8] Of GXHeader;
      Current      : Byte;
-     x1           : Word;
-     y1           : Word;
-     x2           : Word;
-     y2           : Word;
+     x1           : SmallWord;
+     y1           : SmallWord;
+     x2           : SmallWord;
+     y2           : SmallWord;
      END;
 TYPE Animated_Record = Array[1..10] Of Animated_Controls;
 TYPE Custom_Record = Array[1..20] Of Custom_Controls;
@@ -109,16 +109,16 @@ TYPE Button_Record = Array[1..40] Of ButtonInfo;
 TYPE Field_Record = Array[1..15] Of FieldInfo;
 TYPE Pick_Info    = RECORD
      Active       : Boolean;
-     x1           : Word;
-     y1           : Word;
-     x2           : Word;
-     y2           : Word;
-     Top          : Word;
-     NumItems     : Word;
-     ItemsOnScrn  : Word;
-     Current      : Word;
-     MaxChars     : Word;
-     Locator      : Word;
+     x1           : SmallWord;
+     y1           : SmallWord;
+     x2           : SmallWord;
+     y2           : SmallWord;
+     Top          : SmallWord;
+     NumItems     : SmallWord;
+     ItemsOnScrn  : SmallWord;
+     Current      : SmallWord;
+     MaxChars     : SmallWord;
+     Locator      : SmallWord;
      Pickable     : Boolean;
      END;
 TYPE Pick_List    = RECORD
@@ -146,7 +146,7 @@ TYPE YappDropFile = RECORD
      Sound        : Boolean;
      UlDir        : String[50];
      DlDir        : String[50];
-     VideoSize    : Word;
+     VideoSize    : SmallWord;
      END;
 TYPE MassiveGraphBuffer = Array[1..64000] Of Byte;
 TYPE BufferItem              = RECORD

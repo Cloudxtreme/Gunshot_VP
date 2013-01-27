@@ -5,6 +5,13 @@ UNIT ListFile;
 INTERFACE
 
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
+
 PROCEDURE list_files(override: string);
 
 

@@ -10,28 +10,28 @@ USES ApTimer,Globals,Shotgun;
 
 TYPE Pick_Info    = RECORD
      Active       : Boolean;
-     x1           : Word;
-     y1           : Word;
-     x2           : Word;
-     y2           : Word;
-     Top          : Word;
-     NumItems     : Word;
-     ItemsOnScrn  : Word;
-     Current      : Word;
-     MaxChars     : Word;
-     Locator      : Word;
+     x1           : SmallWord;
+     y1           : SmallWord;
+     x2           : SmallWord;
+     y2           : SmallWord;
+     Top          : SmallWord;
+     NumItems     : SmallWord;
+     ItemsOnScrn  : SmallWord;
+     Current      : SmallWord;
+     MaxChars     : SmallWord;
+     Locator      : SmallWord;
      Pickable     : Boolean;
      END;
 TYPE Pick_List    = RECORD
      Line         : String[100];
      Pickable     : Boolean;
-     TrueIndex    : Word;
+     TrueIndex    : SmallWord;
      END;
 TYPE FieldInfo    = RECORD
-     x1           : Word;
-     y1           : Word;
-     x2           : Word;
-     y2           : Word;
+     x1           : SmallWord;
+     y1           : SmallWord;
+     x2           : SmallWord;
+     y2           : SmallWord;
      Text         : String[70];
      CursorPos    : Byte;
      EntryType    : Byte;
@@ -292,8 +292,8 @@ END;
 
 FUNCTION ScaleImage(Source: String; Var W,H: Word; SetW,SetH: Word) : Boolean;
 TYPE ReturnRecord = RECORD
-     W            : Word;
-     H            : Word;
+     W            : SmallWord;
+     H            : SmallWord;
      Success      : Boolean;
      END;
 VAR  ReturnR      : ReturnRecord;

@@ -5,6 +5,13 @@ UNIT BsMulti;
 INTERFACE
 
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
+
 { TaskRec.OS    0 : No MultiTasking  }
 {               1 : Windows          }
 {               2 : OS/2             }

@@ -5,6 +5,13 @@ UNIT BsBuff;
 INTERFACE
 
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
+
 {$IFDEF DPMI}
 TYPE  File_Buffer = Array[1..60000] Of Char;
 {$ELSE}

@@ -5,6 +5,13 @@ UNIT BsEditor;
 INTERFACE
 
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
+
 CONST EditorAttr         : Byte = (7*16)+0;
 CONST edSave             : Byte = 1;
       edAbort            : Byte = 2;

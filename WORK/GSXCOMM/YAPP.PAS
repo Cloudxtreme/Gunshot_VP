@@ -5,6 +5,13 @@ UNIT YAPP;
 INTERFACE
 
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
+
 FUNCTION TransmitYAPP (FName: String; LogIt: Boolean) : Boolean;
 FUNCTION GetYAPPAck                                   : Boolean;
 
@@ -33,7 +40,7 @@ END;
 
 FUNCTION TransmitYAPP(FName: String; LogIt: Boolean): Boolean;
 TYPE Needed_Stuff  = RECORD
-     BytesRead     : Word;
+     BytesRead     : SmallWord;
      Crc           : Longint;
      END;
 VAR  Needed        : Needed_Stuff;

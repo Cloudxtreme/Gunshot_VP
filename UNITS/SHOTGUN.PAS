@@ -35,8 +35,8 @@ INTERFACE
 
 {$IFDEF MSDOS}
 TYPE
-     SmallInt  = System.Integer;
-     SmallWord = System.Word;
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
 {$ENDIF}
      
      

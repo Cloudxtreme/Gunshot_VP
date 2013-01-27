@@ -42,13 +42,13 @@ var
 type
    prep_block = record
                   xmm: longint;           {e XMM entry address }
-                  first_mcb: integer;     {e Segment of first MCB }
-                  psp_mcb: integer;       {e Segment of MCB of our PSP }
-                  env_mcb: integer;       {e MCB of Environment segment }
-                  noswap_mcb: integer;    {e MCB that may not be swapped }
-                  ems_pageframe: integer; {e EMS page frame address }
-                  handle: integer;        {e EMS/XMS/File handle }
-                  total_mcbs: integer;    {e Total number of MCBs }
+                  first_mcb: SmallInt;     {e Segment of first MCB }
+                  psp_mcb: SmallInt;       {e Segment of MCB of our PSP }
+                  env_mcb: SmallInt;       {e MCB of Environment segment }
+                  noswap_mcb: SmallInt;    {e MCB that may not be swapped }
+                  ems_pageframe: SmallInt; {e EMS page frame address }
+                  handle: SmallInt;        {e EMS/XMS/File handle }
+                  total_mcbs: SmallInt;    {e Total number of MCBs }
                   swapmethod: byte;       {e Method for swapping }
                   swapfilename: array [0..80] of char;
                   end;

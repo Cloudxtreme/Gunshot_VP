@@ -17,7 +17,7 @@ USES Globals,MiscStr,BsFile,FilHeadr,BsString;
 {FILE MUST ALREADY BE CONVERTED AND FFileDesc & FFileDefs Intact Globally}
 PROCEDURE AddFile(OPath: String; FSub,FArea: Word);
 TYPE FFFF = RECORD
-     OrigIndex : Word;
+     OrigIndex : SmallWord;
      Info      : String[16];
      InfoNum   : Longint;
      END;

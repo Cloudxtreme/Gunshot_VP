@@ -5,6 +5,13 @@ UNIT BaseInfo;
 INTERFACE
 
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
+
 PROCEDURE JamBase_MessageBaseInfo(FullPath: String);
 
 

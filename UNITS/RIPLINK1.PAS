@@ -3,6 +3,12 @@ Unit RipLink1;
 
 interface
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
 {Include file for RipLink(tm) - Copyright (C) 1994 by InterProgramming}
 {                               All rights reserved                   }
 
@@ -13,7 +19,7 @@ Type
     Top,
     Bow,
     Base,
-    Drop : word;
+    Drop : SmallWord;
   end;
 
   MetricArrayType = Array[0..10,1..10] of MetricRec;

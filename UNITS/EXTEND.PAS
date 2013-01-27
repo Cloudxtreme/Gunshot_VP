@@ -71,6 +71,12 @@ unit Extend;
 
 interface
 
+{$IFDEF MSDOS}
+TYPE
+    SmallInt  = System.Integer;
+    SmallWord = System.Word;
+{$ENDIF}
+
 procedure SwapVectorsExtend;
   { Swap interrupt vectors taken over by Extend unit with system vectors }
 
@@ -131,8 +137,8 @@ procedure ExtendHandles;
   function Linear(P: pointer): longint;
     { Convert a real pointer into a linear address }
     type Split = record
-           Ofs: word;
-           Seg: word
+           Ofs: SmallWord;
+           Seg: SmallWord
            end;
     begin
     Linear := (longint(Split(P).Seg) shl 4) + Split(P).Ofs
