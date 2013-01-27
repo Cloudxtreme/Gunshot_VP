@@ -30,7 +30,7 @@ BEGIN
      Intr($10,Regs);
 {$ENDIF}
 {$IFDEF WIN32}
-     WriteLn('REETODO BSVIDEO _HighBackGrounds'); Halt;
+  // REENOTE Win32 dropped blink in favour of permanent high background, so nothing to do here
 {$ENDIF}
 END;
 
