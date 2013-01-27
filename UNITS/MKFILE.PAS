@@ -148,7 +148,7 @@ Uses
   {$IFDEF OPRO}
   OpCrt;
   {$ELSE}
-  Crt;
+  Crt{$IFDEF WIN32},Windows{$ENDIF};
   {$ENDIF}
 
 
@@ -382,6 +382,7 @@ Procedure FlushFile(Var F); {Dupe file handle, close dupe handle}
   End;
 
 
+{$IFDEF MSDOS}
 Function LockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
   Var
     Handle: Word Absolute F;
@@ -391,9 +392,7 @@ Function LockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
     LgHi: Word;
     LgLo: Word;
   {$IFNDEF BASMINT}
-{$IFDEF MSDOS}
     Regs: Registers;
-{$ENDIF}
   {$ENDIF}
 
   Begin
@@ -418,7 +417,6 @@ Function LockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
     Mov Tmp, ax;
     End;
   {$ELSE}
-{$IFDEF MSDOS}
   Regs.ah := $5c;
   Regs.al := $00;
   Regs.bx := Tmp;
@@ -432,17 +430,35 @@ Function LockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
     Regs.ax := 0;
     End;
   Tmp := Regs.ax;
-{$ENDIF}
-{$IFDEF WIN32}
-  WriteLn('REETODO MKFILE LockFile'); Halt;
-{$ENDIF}
   {$ENDIF}
   If Tmp = 1 Then
     Tmp := 0;
   LockFile := Tmp;
   End;
+{$ENDIF}
+{$IFDEF WIN32}
+// From ELEBBS (and modified)
+Function LockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
+var Tmp: Word;
+    StrtHi: Longint;
+    StrtLo: Longint;
+    LgHi: Longint;
+    LgLo: Longint;
+begin
+  StrtHi := LongHi(LockStart);
+  StrtLo := LongLo(LockStart);
+  LgHi := LongHi(LockLength);
+  LgLo := LongLo(LockLength);
 
+  if NOT Windows.LockFile(FileRec(F).Handle, StrtLo, StrtHi, LgLo, LgHi) then
+      Tmp := GetLastError
+       else Tmp := 00;
 
+  LockFile := Tmp;
+end; { func. LockFile }
+{$ENDIF}
+
+{$IFDEF MSDOS}
 Function UnLockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
   Var
     Handle: Word Absolute F;
@@ -452,9 +468,7 @@ Function UnLockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
     LgHi: Word;
     LgLo: Word;
   {$IFNDEF BASMINT}
-{$IFDEF MSDOS}
     Regs: Registers;
-{$ENDIF}
   {$ENDIF}
 
   Begin
@@ -479,7 +493,6 @@ Function UnLockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
     Mov Tmp, ax;
     End;
   {$ELSE}
-{$IFDEF MSDOS}
   Regs.ah := $5c;
   Regs.al := $01;
   Regs.bx := Tmp;
@@ -493,16 +506,32 @@ Function UnLockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
     Regs.ax := 0;
     End;
   Tmp := Regs.ax;
-{$ENDIF}
-{$IFDEF WIN32}
-  WriteLn('REETODO MKFILE UnLockFile'); Halt;
-{$ENDIF}
   {$ENDIF}
   If Tmp = 1 Then
     Tmp := 0;
   UnLockFile := Tmp;
   End;
+{$ENDIF}
+{$IFDEF WIN32}
+Function UnLockFile(Var F; LockStart: LongInt; LockLength: LongInt): Word;
+var Tmp: Word;
+    StrtHi: Longint;
+    StrtLo: Longint;
+    LgHi: Longint;
+    LgLo: Longint;
+begin
+  StrtHi := LongHi(LockStart);
+  StrtLo := LongLo(LockStart);
+  LgHi := LongHi(LockLength);
+  LgLo := LongLo(LockLength);
 
+   if NOT Windows.UnLockFile(FileRec(F).Handle, StrtLo, StrtHi, LgLo, LgHi) then
+     Tmp := GetLastError
+       else Tmp := 00;
+
+  UnLockFile := Tmp;
+end; { func. UnLockFile }
+{$ENDIF}
 
 Function LongLo(InNum: LongInt): Word;
   Begin
@@ -1111,6 +1140,7 @@ Function  CreateTempDir(FN: String): String;
     CreateTempDir := '';
   End;
 
+{$IFDEF MSDOS}
 Function  GetTempName(FN: String): String;
   Var
     TOfs: Word;
@@ -1129,7 +1159,6 @@ Function  GetTempName(FN: String): String;
   For i := 1 to 16 Do
    TmpStr[Length(TmpStr) + i] := #0;
   i := 0;
-{$IFDEF MSDOS}
   Asm
     Push ds;
     Mov ah, $5a;
@@ -1162,10 +1191,6 @@ Function  GetTempName(FN: String): String;
     @JEnd:
     Pop ds;
     End;
-{$ENDIF}
-{$IFDEF WIN32}
-  WriteLn('REETODO MKFILE GetTempName'); Halt;
-{$ENDIF}
   TmpStr[0] := #255;
   TmpStr[0] := Chr(Pos(#0, TmpStr) - 1);
   If i = 0 Then
@@ -1173,6 +1198,39 @@ Function  GetTempName(FN: String): String;
   Else
     GetTempName := '';
   End;
+{$ENDIF}
+{$IFDEF WIN32}
+// From ELEBBS
+Function  GetTempName(FN: String): String;
+var Counter  : Byte;
+    TempName : String;
+    TempCH   : Char;
+begin
+  If Fn[Length(Fn)] <> '\' Then
+       begin
+         FN[00] := Chr(Length(FN) + 01);
+         Fn[Length(Fn)] := '\';
+       end; { Add trailing backslash }
+
+  Randomize;
+  TempName[0] := #12;
+
+  For Counter := 01 to 12 do
+    begin
+      If Counter=09 then TempName[Counter] := '.'
+       else begin
+              TempCH := #00;
+
+              While NOT (TempCH in ['A'..'Z', 'a'..'z', '0'..'9']) do
+                TempCH := Chr(Random(256));
+
+              TempName[Counter] := TempCH;
+            end;
+    end; { create random name }
+
+  GetTempName := FN + TempName;
+end; { func. GetTempName }
+{$ENDIF}
 
 Function  GetTextPos(Var F: Text): LongInt;
   Type WordRec = Record
