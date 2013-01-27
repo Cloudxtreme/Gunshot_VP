@@ -782,6 +782,10 @@ Function  JamMsgObj.WriteMsg: Word;
 
 
 Function JamMsgObj.GetChar: Char;
+{$IFDEF WIN32}
+  Var
+    NumRead: LongInt;
+{$ENDIF}
   Begin
   If JM^.TxtPos < 0 Then
     Begin
@@ -802,7 +806,13 @@ Function JamMsgObj.GetChar: Char;
       Error := IoResult;
       If Error = 0 Then
         Begin
+{$IFDEF MSDOS}
         BlockRead(JM^.TxtFile, TxtBuf^, SizeOf(TxtBuf^), JM^.TxtRead);
+{$ENDIF}
+{$IFDEF WIN32}
+        BlockRead(JM^.TxtFile, TxtBuf^, SizeOf(TxtBuf^), NumRead);
+        JM^.TxtRead := NumRead;
+{$ENDIF}
         Error := IoResult;
         End;
       End;
@@ -1408,11 +1418,21 @@ Function JamMsgObj.MsgBaseExists: Boolean;
 
 
 Function JamMsgObj.ReadIdx: Word;
+{$IFDEF WIN32}
+  Var
+    NumRead: LongInt;
+{$ENDIF}
   Begin
   If JM^.IdxStart < 0 Then
     JM^.IdxStart := 0;
   Seek(JM^.IdxFile, JM^.IdxStart);
+{$IFDEF MSDOS}
   BlockRead(JM^.IdxFile, JamIdx^, JamIdxBufSize, JM^.IdxRead);
+{$ENDIF}
+{$IFDEF WIN32}
+  BlockRead(JM^.IdxFile, JamIdx^, JamIdxBufSize, NumRead);
+  JM^.IdxRead := NumRead;
+{$ENDIF}
   ReadIdx := IoResult;
   End;
 

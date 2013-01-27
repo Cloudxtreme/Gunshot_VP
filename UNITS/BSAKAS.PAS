@@ -12,7 +12,7 @@ VAR _LastMsgId : Longint;
 
 
 PROCEDURE AddressStringBreakup   (InAddress: String; VAR Zone,Net,Node,Point: String);
-PROCEDURE AddressStringBreakupW  (InAddress: String; VAR Zone,Net,Node,Point: Word);
+PROCEDURE AddressStringBreakupW  (InAddress: String; VAR Zone,Net,Node,Point: SmallWord);
 PROCEDURE StringToAddress        (InString: String; VAR Aka: AddrType);
 FUNCTION  AddressToString        (Aka: AddrType): String;
 FUNCTION  AddressToStringNoPoint (Aka: AddrType): String;
@@ -159,7 +159,7 @@ BEGIN
 END;
 
 
-PROCEDURE AddressStringBreakupW(InAddress: String; VAR Zone,Net,Node,Point: Word);
+PROCEDURE AddressStringBreakupW(InAddress: String; VAR Zone,Net,Node,Point: SmallWord);
 VAR  Work : Word;
 BEGIN
      {Erase Domain}

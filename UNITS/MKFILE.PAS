@@ -569,10 +569,21 @@ Function FindPath(FileName: String):String;
 
 
 Procedure TFile.BufferRead;
+{$IFDEF WIN32}
+  Var
+    NumRead: LongInt;
+{$ENDIF}
   Begin
   TF^.BufferStart := FilePos(TF^.BufferFile);
+{$IFDEF MSDOS}
   if Not shRead (TF^.BufferFile,TF^.MsgBuffer^ , TF^.BufferSize, TF^.BufferChars) Then
     TF^.BufferChars := 0;
+{$ENDIF}
+{$IFDEF WIN32}
+  if Not shRead (TF^.BufferFile,TF^.MsgBuffer^ , TF^.BufferSize, NumRead) Then
+    NumRead := 0;
+  TF^.BufferChars := NumRead;
+{$ENDIF}
   TF^.BufferPtr := 1;
   End;
 
