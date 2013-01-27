@@ -412,9 +412,22 @@ ASM
 END;
 {$ENDIF}
 {$IFDEF WIN32}
+// Inverse of _UpperCase, which was found in SWAG
 FUNCTION _LowerCase(InString: String): String;
+VAR
+  i, len : Integer;
 BEGIN
-  WriteLn('REETODO BSSTRING _LowerCase'); Halt;
+  i := 0;
+  len := Ord(InString[0]);
+  Repeat
+    Inc(i);
+    If i > len Then
+      Break;
+    If InString[i] in ['A'..'Z'] Then
+      Inc(InString[i], 32);
+  Until False;
+  
+  _LowerCase := InString;
 END;
 {$ENDIF}
 

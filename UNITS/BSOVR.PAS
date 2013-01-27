@@ -59,6 +59,6 @@ BEGIN
      _OverLayBufferSize := OvrGetBuf;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO BSOVR Constructor'); Halt;
+  // REENOTE Win32 doesn't need overlays
 {$ENDIF}
 END.

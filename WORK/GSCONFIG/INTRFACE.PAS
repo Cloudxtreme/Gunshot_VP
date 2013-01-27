@@ -89,7 +89,12 @@ VAR  Toggle                   : Array[1..8] OF Flip;
      Mouse_Y                  : Word;
      MouseB                   : Byte;
      OriginalMode             : Word;
+{$IFDEF MSDOS}
      SavedScreen              : Array[1..4000] Of Byte;
+{$ENDIF}
+{$IFDEF WIN32}
+     SavedScreen              : TScreenBuf;
+{$ENDIF}
      ProgramFinished          : Boolean;
      Colour                   : ColourScheme;
      MenuUsed                 : Array[1..MaxMenus,1..19] Of Boolean;
@@ -218,7 +223,7 @@ PROCEDURE Memory;
 IMPLEMENTATION
 
 
-USES Misc,Version,BsString,BsFile;
+USES Misc,Version,BsString,BsFile{$IFDEF WIN32},VPSysLow{$ENDIF};
 
 
 PROCEDURE TextColor_BS(Fore: Byte);
@@ -259,11 +264,11 @@ BEGIN
           BEGIN
 {$IFDEF MSDOS}
                Temp := Temp+Chr(Mem[SegB800:Loop]);
+               INC(Loop,2);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO INTRFACE DumpTheScreen'); Halt;
+               Temp := Temp + SysReadCharAt(Loop2 - 1, Loop1 - 1);
 {$ENDIF}
-               INC(Loop,2);
           END;
           WRITELN(TFile,Temp);
      END;
@@ -647,31 +652,43 @@ BEGIN
      Move(MEM[SegB800:0],SavedScreen,160*25);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO INTRFACE DrawPullDownMenu'); Halt;
+     RPSaveScreen(SavedScreen);
 {$ENDIF}
      _ShowMouse;
 END;
 
 
+{$IFDEF MSDOS}
 PROCEDURE _SaveWindow(FileName: String);
 VAR  FFile        : File;
      SavedScreen2 : Array[1..4000] Of Byte;
 BEGIN
      _HideMouse;
-{$IFDEF MSDOS}
      Move(MEM[SegB800:0],SavedScreen2,160*25);
-{$ENDIF}
-{$IFDEF WIN32}
-  WriteLn('REETODO INTRFACE _SaveWindow'); Halt;
-{$ENDIF}
      ASSIGN(FFile,FileName);
      REWRITE(FFile,1);
      BLOCKWRITE(FFile,SavedScreen2,160*25);
      CLOSE(FFile);
      _ShowMouse;
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+PROCEDURE _SaveWindow(FileName: String);
+VAR  FFile        : File;
+     SavedScreen2  : TScreenBuf;
+BEGIN
+     _HideMouse;
+     RPSaveScreen(SavedScreen2);
+     ASSIGN(FFile,FileName);
+     REWRITE(FFile,1);
+     BLOCKWRITE(FFile,SavedScreen2,SizeOf(TScreenBuf));
+     CLOSE(FFile);
+     _ShowMouse;
+END;
+{$ENDIF}
 
 
+{$IFDEF MSDOS}
 PROCEDURE LoadWindow(FileName: String);
 VAR  FFile        : File;
      SavedScreen2 : Array[1..4000] Of Byte;
@@ -682,16 +699,28 @@ BEGIN
      CLOSE(FFile);
      ERASE(FFile);
      _HideMouse;
-{$IFDEF MSDOS}
      Move(SavedScreen2,Mem[SegB800:0],160*25);
-{$ENDIF}
-{$IFDEF WIN32}
-  WriteLn('REETODO INTRFACE LoadWindow'); Halt;
-{$ENDIF}
      _ShowMouse;
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+PROCEDURE LoadWindow(FileName: String);
+VAR  FFile        : File;
+     SavedScreen2  : TScreenBuf;
+BEGIN
+     ASSIGN(FFile,FileName);
+     RESET(FFile,1);
+     BLOCKREAD(FFile,SavedScreen2,SizeOf(TScreenBuf));
+     CLOSE(FFile);
+     ERASE(FFile);
+     _HideMouse;
+     RPRestoreScreen(SavedScreen2);
+     _ShowMouse;
+END;
+{$ENDIF}
 
 
+{$IFDEF MSDOS}
 PROCEDURE LoadWindowNoKill(FileName: String);
 VAR  FFile        : File;
      SavedScreen2 : Array[1..4000] Of Byte;
@@ -701,14 +730,24 @@ BEGIN
      BLOCKREAD(FFile,SavedScreen2,160*25);
      CLOSE(FFile);
      _HideMouse;
-{$IFDEF MSDOS}
      Move(SavedScreen2,Mem[SegB800:0],160*25);
-{$ENDIF}
-{$IFDEF WIN32}
-  WriteLn('REETODO INTRFACE LoadWindowNoKill'); Halt;
-{$ENDIF}
      _ShowMouse;
 END;
+{$ENDIF}
+{$IFDEF WIN32}
+PROCEDURE LoadWindowNoKill(FileName: String);
+VAR  FFile        : File;
+     SavedScreen2  : TScreenBuf;
+BEGIN
+     ASSIGN(FFile,FileName);
+     RESET(FFile,1);
+     BLOCKREAD(FFile,SavedScreen2,SizeOf(TScreenBuf));
+     CLOSE(FFile);
+     _HideMouse;
+     RPRestoreScreen(SavedScreen2);
+     _ShowMouse;
+END;
+{$ENDIF}
 
 
 PROCEDURE DoMenus;
@@ -998,7 +1037,7 @@ BEGIN
      Move(SavedScreen,Mem[SegB800:0],160*25);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO INTRFACE DeActivate'); Halt;
+     RPRestoreScreen(SavedScreen);
 {$ENDIF}
      DrawLanguage;
      _ShowMouse;
@@ -1020,7 +1059,7 @@ BEGIN
           Mem[SegB800:x] := 8;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO INTRFACE Shadow'); Halt;
+          RPSetAttrAt(Loop, yy2, 8);
 {$ENDIF}
           INC(x,2);
      END;
@@ -1031,7 +1070,7 @@ BEGIN
           Mem[SegB800:y] := 8;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO INTRFACE Shadow'); Halt;
+          RPSetAttrAt(xx2, Loop, 8);
 {$ENDIF}
           INC(y,160);
      END;

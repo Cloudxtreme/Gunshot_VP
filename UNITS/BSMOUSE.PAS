@@ -27,6 +27,16 @@ PROCEDURE _HideMouse;
 IMPLEMENTATION
 
 
+{$IFDEF WIN32}
+USES
+  VPSysLow, Windows;
+
+VAR
+  _MouseX, _MouseY: Word;
+  StdIn: THandle;
+{$ENDIF}
+
+
 FUNCTION _InitMouse : Word;
 BEGIN
 {$IFDEF MSDOS}
@@ -35,12 +45,24 @@ BEGIN
      _InitMouse := Mouse_Reg.Ax;
 {$ENDIF}
 {$IFDEF WIN32}
-     WriteLn('REETODO BSMOUSE _InitMouse'); Halt;
+     // Enable the mouse in the console
+     _ShowMouse;
+  
+     // Default mouse position
+     _MouseX := 1;
+     _MouseY := 1;
+
+     // 65535 seems to be the result value for success
+     _InitMouse := 65535;
 {$ENDIF}
 END;
 
 
 PROCEDURE _ShowMouse;
+{$IFDEF WIN32}
+VAR
+  Mode: LongInt;
+{$ENDIF}
 BEGIN
      IF NOT(Mouse_Installed) THEN Exit;
 {$IFDEF MSDOS}     
@@ -48,12 +70,21 @@ BEGIN
      Intr($33,Mouse_Reg);
 {$ENDIF}
 {$IFDEF WIN32}
-     WriteLn('REETODO BSMOUSE _ShowMouse'); Halt;
+     // Tell the console that we want mouse events
+     if (GetConsoleMode(StdIn, Mode)) then
+     begin
+       Mode := Mode OR ENABLE_MOUSE_INPUT;
+       SetConsoleMode(StdIn, Mode);
+     end;
 {$ENDIF}     
 END;
 
 
 PROCEDURE _HideMouse;
+{$IFDEF WIN32}
+VAR
+  Mode: LongInt;
+{$ENDIF}
 BEGIN
      IF NOT(Mouse_Installed) THEN Exit;
 {$IFDEF MSDOS}
@@ -61,12 +92,21 @@ BEGIN
      Intr($33,Mouse_Reg);
 {$ENDIF}
 {$IFDEF WIN32}
-     WriteLn('REETODO BSMOUSE _HideMouse'); Halt;
+     // Tell the console that we don't want mouse events
+     if (GetConsoleMode(StdIn, Mode)) then
+     begin
+       Mode := Mode AND NOT ENABLE_MOUSE_INPUT;
+       SetConsoleMode(StdIn, Mode);
+     end;
 {$ENDIF}
 END;
 
 
 FUNCTION _MousePosition(VAR MouseX,MouseY : Word) : Word;
+{$IFDEF WIN32}
+VAR
+  MouseEvent: TSysMouseEvent;
+{$ENDIF}
 BEGIN
      IF NOT(Mouse_Installed) THEN
      BEGIN
@@ -86,7 +126,20 @@ BEGIN
      END;
 {$ENDIF}
 {$IFDEF WIN32}
-     WriteLn('REETODO BSMOUSE _MousePosition'); Halt;
+     // Try to get a new mouse event
+     if (SysTVGetMouseEvent(MouseEvent)) then
+     begin
+       // We have an event to handle
+       _MouseX := MouseEvent.smePos.X + 1;
+       _MouseY := MouseEvent.smePos.Y + 1;
+       _MousePosition := MouseEvent.smeButtons;
+     end else
+     begin
+       // No event waiting
+       _MousePosition := 0;
+     end;
+     MouseX := _MouseX;
+     MouseY := _MouseY;
 {$ENDIF}
 END;
 
@@ -103,7 +156,8 @@ BEGIN
      IsMouseInstalled := Reg.Ax = 65535;
 {$ENDIF}
 {$IFDEF WIN32}
-     WriteLn('REETODO BSMOUSE IsMouseInstalled'); Halt;
+     // REENOTE Probably a safe assumption
+     IsMouseInstalled := True;
 {$ENDIF}
 END;
 
@@ -121,12 +175,15 @@ BEGIN
      Intr($33,Regs);
 {$ENDIF}
 {$IFDEF WIN32}
-     WriteLn('REETODO BSMOUSE _SetPixeltoMickey'); Halt;
+     // REETODO sets the ratio between physical cursor movement (mickeys) and screen coordinate changes
 {$ENDIF}
 END;
 
 
 BEGIN
+{$IFDEF WIN32}
+     StdIn := GetStdHandle(STD_INPUT_HANDLE);
+{$ENDIF}
      Mouse_Error := _InitMouse;
      Mouse_Installed := Mouse_Error = 65535;
 END.
