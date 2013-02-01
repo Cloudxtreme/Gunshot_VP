@@ -12,7 +12,7 @@ PROCEDURE FinishLogFile;
 IMPLEMENTATION
 
 
-USES Globals,BsString,Version,BsTime,FastW1,Status,ApTimer,BsVideo,KeyCheck,BsLog;
+USES Globals,BsString,Version,BsTime,FastW1,Status,ApTimer,BsVideo,KeyCheck,BsLog{$IFDEF WIN32},VPSysLow{$ENDIF};
 
 
 PROCEDURE Get(x1,y1,x2,y2: Word);
@@ -60,8 +60,13 @@ BEGIN
      Temp := _PadLeft(_GetPrettyTime,7)+'  '+InString;
      IF MainScreenActive THEN
      BEGIN
+{$IFDEF MSDOS}
        Get(4,19,76,23);
        Put(4,18);
+{$ENDIF}
+{$IFDEF WIN32}
+       SysScrollUp(4-1, 18-1, 76-1, 23-1, 1, 7);
+{$ENDIF}
        FastWrite(_PadRight(' '+Temp,73),23,4,7);
      END;
 END;

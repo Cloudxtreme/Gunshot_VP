@@ -5,37 +5,16 @@ UNIT BsVideo;
 INTERFACE
 
 
-{$IFDEF WIN32}
-USES 
-  Windows;
-
-
-TYPE
-  TScreenBuf = Array[1..25, 1..80] of TCharInfo; // REETODO Don't hardcode to 80x25
-{$ENDIF}
-
-
 PROCEDURE _HighBackGrounds(TurnOn: Boolean);
 PROCEDURE FastWrite(St: String; Row,Col,Attr: Byte);
 PROCEDURE ExtendedVideoMode(NumLines: Byte);
 PROCEDURE AppHeader(InString: String);
-{$IFDEF WIN32}
-PROCEDURE RPRestoreScreen(var AScreenBuf: TScreenBuf);
-PROCEDURE RPSaveScreen(var AScreenBuf: TScreenBuf);
-PROCEDURE RPSetAttrAt(x, y, attr: Word);
-{$ENDIF}
 
 
 IMPLEMENTATION
 
 
 USES Dos,FastW1,Crt,Version;
-
-
-{$IFDEF WIN32}
-VAR
-  StdOut: THandle;
-{$ENDIF}
 
 
 PROCEDURE _HighBackGrounds(TurnOn: Boolean);
@@ -151,59 +130,4 @@ BEGIN
 END;
 
 
-{$IFDEF WIN32}
-{ REETODO Should detect screen size }
-PROCEDURE RPRestoreScreen(var AScreenBuf: TScreenBuf);
-VAR
-  BufSize    : TCoord;
-  WritePos   : TCoord;
-  DestRect   : TSmallRect;
-BEGIN
-  BufSize.X       := 80;
-  BufSize.Y       := 25;
-  WritePos.X      := 0;
-  WritePos.Y      := 0;
-  DestRect.Left   := 0;
-  DestRect.Top    := 0;
-  DestRect.Right  := 79;
-  DestRect.Bottom := 24;
-  WriteConsoleOutput(StdOut,@AScreenBuf[1][1],BufSize,WritePos,DestRect);
-END;
-
-
-{ REETODO Should detect screen size }
-PROCEDURE RPSaveScreen(var AScreenBuf: TScreenBuf);
-VAR
-  BufSize    : TCoord;
-  ReadPos    : TCoord;
-  SourceRect : TSmallRect;
-BEGIN
-  BufSize.X         := 80;
-  BufSize.Y         := 25;
-  ReadPos.X         := 0;
-  ReadPos.Y         := 0;
-  SourceRect.Left   := 0;
-  SourceRect.Top    := 0;
-  SourceRect.Right  := 79;
-  SourceRect.Bottom := 24;
-  ReadConsoleOutput(StdOut,@AScreenBuf[1][1],BufSize,ReadPos,SourceRect);
-end;
-
-
-PROCEDURE RPSetAttrAt(x, y, attr: Word);
-VAR
-  NumWritten: Longint;
-  WriteCoord: TCoord;
-BEGIN
-  WriteCoord.X := x;
-  WriteCoord.Y := y;
-  WriteConsoleOutputAttribute(StdOut, @Attr, 1, WriteCoord, NumWritten);
-END;
-{$ENDIF}
-
-
-{$IFDEF WIN32}
-BEGIN
-  StdOut := GetStdHandle(STD_OUTPUT_HANDLE);
-{$ENDIF}
 END.

@@ -5,13 +5,17 @@
 PROGRAM GraphicsCompiler;
 
 
-USES Dos,ApMisc,BsFrames,BsComp,BsKeys,Crt,Shotgun,Version,BsString,BsFile,BsCrc,BsVideo,MkFFile,FMode;
+USES Dos,ApMisc,BsFrames,BsComp,BsKeys,Crt,Shotgun,Version,BsString,
+     BsFile,BsCrc,BsVideo,MkFFile,FMode{$IFDEF WIN32},RPScreen{$ENDIF};
 
 
 TYPE BigBuffer = Array[1..8192] Of Byte;
 TYPE FileNameBuffer = Array[1..3000] Of String[12];
 TYPE SAVESCRNAScreen = Array[1..4000] Of Byte;
 VAR  SAVESCRNScr   : SAVESCRNAScreen;
+{$IFDEF WIN32}
+     SavedScreen   : TScreenBuf;
+{$ENDIF}
      FFile         : File;
      Work          : Longint;
      Buffer        : ^BigBuffer;
@@ -70,7 +74,7 @@ BEGIN
      Move(MEM[SegB800:0],SAVESCRNScr[1],4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO GCOMPILE SaveTheScreen'); Halt;
+     RPSaveScreen(SavedScreen);
 {$ENDIF}
 END;
 
@@ -81,7 +85,7 @@ BEGIN
      Move(SAVESCRNScr[1],MEM[SegB800:0],4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO GCOMPILE RestoreTheScreen'); Halt;
+     RPRestoreScreen(SavedScreen);
 {$ENDIF}
      GotoXy(SavedX,SavedY);
      TextAttr := SavedAttr;

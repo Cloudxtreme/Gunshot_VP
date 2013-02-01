@@ -5,7 +5,7 @@ UNIT Intrface;
 INTERFACE
 
 
-USES Dos,BsMouse,CNFGVARS,Dispatch,DosShell,Crt,FastW1,BsMulti,BsEditor,BsKeys,BsVideo;
+USES Dos,BsMouse,CNFGVARS,Dispatch,DosShell,Crt,FastW1,BsMulti,BsEditor,BsKeys,BsVideo{$IFDEF WIN32},RPScreen{$ENDIF};
 
 {ÄÂ³ÅÁÚ¿ÀÙ´ÃÛ²±}
 

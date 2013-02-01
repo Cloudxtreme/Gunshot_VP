@@ -5,12 +5,15 @@
 PROGRAM GIPDecompiler;
 
 
-USES Dos,ApMisc,Crt,FastW1,BsComp,BsVideo,Version,Shotgun,BsString,BsKeys,BsFile;
+USES Dos,ApMisc,Crt,FastW1,BsComp,BsVideo,Version,Shotgun,BsString,BsKeys,BsFile{$IFDEF WIN32},RPScreen{$ENDIF};
 
 
 TYPE BigBuffer       = Array[1..8192] Of Byte;
 TYPE SAVESCRNAScreen = Array[1..4000] Of Byte;
 VAR  SAVESCRNScr     : SAVESCRNAScreen;
+{$IFDEF WIN32}
+     SavedScreen     : TScreenBuf;
+{$ENDIF}
      FFile           : File;
      FFile2          : File;
      Buffer          : ^BigBuffer;
@@ -42,7 +45,7 @@ BEGIN
      Move(MEM[SegB800:0],SAVESCRNScr[1],4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO UNPAKGIP SaveTheScreen'); Halt;
+     RPSaveScreen(SavedScreen);
 {$ENDIF}
 END;
 
@@ -53,7 +56,7 @@ BEGIN
      Move(SAVESCRNScr[1],MEM[SegB800:0],4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO UNPAKGIP RestoreTheScreen'); Halt;
+     RPRestoreScreen(SavedScreen);
 {$ENDIF}
      GotoXy(SavedX,SavedY);
      TextAttr := SavedAttr;
@@ -75,7 +78,7 @@ BEGIN
           Mem[SegB800:x] := 8;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO PAKGIP Shadow'); Halt;
+          RPSetAttrAt(Loop, yy2, 8);
 {$ENDIF}
           INC(x,2);
      END;
@@ -86,7 +89,7 @@ BEGIN
           Mem[SegB800:y] := 8;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO PAKGIP Shadow'); Halt;
+          RPSetAttrAt(xx2, Loop, 8);
 {$ENDIF}
           INC(y,160);
      END;

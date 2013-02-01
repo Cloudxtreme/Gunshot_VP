@@ -13,7 +13,7 @@ PROCEDURE InvertedBox       (x1,y1,x2,y2: Word);
 IMPLEMENTATION
 
 
-USES Crt,FastW1,Globals,Time,SaveScrn,Misc,Version,BsString,BsVideo;
+USES Crt,FastW1,Globals,Time,SaveScrn,Misc,Version,BsString,BsVideo{$IFDEF WIN32},RPScreen{$ENDIF};
 
 
 PROCEDURE DrawWindow(x1,y1,x2,y2: Word; Title: String; Shad: Boolean);
@@ -70,7 +70,7 @@ BEGIN
           Mem[SegB800:x] := 8;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO DRAWSCRN DropShadow'); Halt;
+          RPSetAttrAt(Loop, yy2, 8);
 {$ENDIF}
           INC(x,2);
      END;
@@ -81,7 +81,7 @@ BEGIN
           Mem[SegB800:y] := 8;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO DRAWSCRN DropShadow'); Halt;
+          RPSetAttrAt(xx2, Loop, 8);
 {$ENDIF}
           INC(y,160);
      END;

@@ -16,7 +16,13 @@ PROCEDURE Restore_Screen3;
 IMPLEMENTATION
 
 
-USES Globals;
+USES Globals{$IFDEF WIN32},RPScreen{$ENDIF};
+
+
+{$IFDEF WIN32}
+var
+  SavedScreen1, SavedScreen2, SavedScreen3: TScreenBuf;
+{$ENDIF}
 
 
 PROCEDURE Save_Screen;
@@ -25,7 +31,7 @@ BEGIN
      Move(MEM[SegB800:0],SaveScreen1,4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO SAVESCRN Save_Screen'); Halt;
+     RPSaveScreen(SavedScreen1);
 {$ENDIF}
 END;
 
@@ -36,7 +42,7 @@ BEGIN
      Move(SaveScreen1,MEM[SegB800:0],4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO SAVESCRN Restore_Screen'); Halt;
+     RPRestoreScreen(SavedScreen1);
 {$ENDIF}
 END;
 
@@ -47,7 +53,7 @@ BEGIN
      Move(MEM[SegB800:0],SaveScreen2^,4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO SAVESCRN Save_Screen2'); Halt;
+     RPSaveScreen(SavedScreen2);
 {$ENDIF}
 END;
 
@@ -58,7 +64,7 @@ BEGIN
      Move(SaveScreen2^,MEM[SegB800:0],4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO SAVESCRN Restore_Screen2'); Halt;
+     RPRestoreScreen(SavedScreen2);
 {$ENDIF}
 END;
 
@@ -69,7 +75,7 @@ BEGIN
      Move(MEM[SegB800:0],SaveScreen3^,4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO SAVESCRN Save_Screen3'); Halt;
+     RPSaveScreen(SavedScreen3);
 {$ENDIF}
 END;
 
@@ -80,7 +86,7 @@ BEGIN
      Move(SaveScreen3^,MEM[SegB800:0],4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO SAVESCRN Restore_Screen3'); Halt;
+     RPRestoreScreen(SavedScreen3)
 {$ENDIF}
 END;
 

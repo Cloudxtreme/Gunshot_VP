@@ -16,7 +16,13 @@ PROCEDURE SaveScreen;
 IMPLEMENTATION
 
 
-USES Globals,FastW1,Crt,Dos,BsString,LogFile,BsFile,BsAkas,ApTimer,BsTime,BsVideo;
+USES Globals,FastW1,Crt,Dos,BsString,LogFile,BsFile,BsAkas,ApTimer,BsTime,BsVideo{$IFDEF WIN32},RPScreen{$ENDIF};
+
+
+{$IFDEF WIN32}
+var
+  SavedScreen: TScreenBuf;
+{$ENDIF}
 
 
 PROCEDURE SaveScreen;
@@ -25,7 +31,7 @@ BEGIN
      Move(MEM[SegB800:0],SavedScreen,4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO STATUS SaveScreen'); Halt;
+     RPSaveScreen(SavedScreen);
 {$ENDIF}
      WhereXYAbs(SavedScreenXY);
      TextBackGround(0);
@@ -40,7 +46,7 @@ BEGIN
      Move(SavedScreen,MEM[SegB800:0],4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO STATUS RestoreScreen'); Halt;
+     RPRestoreScreen(SavedScreen);
 {$ENDIF}
      GotoXYAbs(SavedScreenXY);
 END;

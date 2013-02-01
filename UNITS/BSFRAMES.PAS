@@ -15,7 +15,7 @@ PROCEDURE winWindowFrame(x1,y1,x2,y2 : Word);
 IMPLEMENTATION
 
 
-USES BsGlobal,BsMouse,BsString,BsVideo;
+USES BsGlobal,BsMouse,BsString,BsVideo{$IFDEF WIN32},RPScreen{$ENDIF};
 
 
 PROCEDURE winDisabledFrame(x1,y1,x2,y2: Word);
@@ -53,7 +53,7 @@ BEGIN
           Mem[SegB800:x] := 8;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO BSFRAMES winDropShadow'); Halt;
+          RPSetAttrAt(Loop, y2, 8);
 {$ENDIF}
           INC(x,2);
      END;
@@ -64,7 +64,7 @@ BEGIN
           Mem[SegB800:y] := 8;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO BSFRAMES winDropShadow'); Halt;
+          RPSetAttrAt(x2, Loop, 8);
 {$ENDIF}
           INC(y,160);
      END;
