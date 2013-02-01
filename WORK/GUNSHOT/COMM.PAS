@@ -47,14 +47,15 @@ BEGIN
      ReturnRate := WorkRate;
 END;
 
-(*REETODO Change device to always be 2 on Win32
-          should we do inside this function, or in the place that calls this function?*)
 FUNCTION Comm_init(ThePort,Device: Longint): Boolean;
 CONST BufferSize = 4096;
 VAR   BaseAddr   : Word;
       NewAddr    : Word;
       TVector    : Array[0..15] Of Byte;
 BEGIN
+{$IFDEF WIN32}
+     Device := 2;
+{$ENDIF}
      IF LocalLogon THEN Exit;
      DefPortOptions := DefPortOptionsSimple;
      IF NodeInfo.ptBufferGetChar THEN DefPortOptions := (DefPortOptions OR ptBufferGetChar);
@@ -100,6 +101,9 @@ BEGIN
           8:   SetUart(COM8,NewAddr,NodeInfo.IRQ,TVector[NodeInfo.IRQ]);
           END;
      END;
+{$IFDEF WIN32}
+     Apro_Use_Old_Handle := SocketHandle;
+{$ENDIF}	 
      CASE ThePort OF
      1:   InitPortKeep(BBSPort,COM1,BufferSize,BufferSize+30);
      2:   InitPortKeep(BBSPort,COM2,BufferSize,BufferSize+30);

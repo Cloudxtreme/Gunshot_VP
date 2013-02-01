@@ -120,7 +120,7 @@ procedure SwapVectorsExtend;
     OldInt21 := TempVector
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO EXTEND SwapVectorsExtend'); Halt;
+  // REENOTE Not needed on Win32
 {$ENDIF}
     end
   {$ENDIF}
@@ -196,7 +196,7 @@ procedure ExtendHandles;
 {$IFDEF WIN32}
 procedure ExtendHandles;
   begin
-    WriteLn('REETODO EXTEND ExtendHandles'); Halt;
+    // REENOTE Not needed on Win32
   end;
 {$ENDIF}
 

@@ -14,7 +14,7 @@ IMPLEMENTATION
 
 USES ApAbsPcl,ApXmodem,ApYmodem,ApZmodem,Globals,Crt,ApTimer,BsVideo,
      BsString,ApCom,ApPort,Dos,ApMisc,BsMulti,BsLog,SaveScrn,CDS,
-     MkFFile,FMode,BsFile,BsTime,BsKeys;
+     MkFFile,FMode,BsFile,BsTime,BsKeys{$IFDEF WIN32},RPScreen{$ENDIF};
 
 
 TYPE InfoRec  = RECORD
@@ -178,7 +178,7 @@ BEGIN
           Mem[SegB800:x] := 8;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO XFER Shadow'); Halt;
+          RPSetAttrAt(Loop, yy2, 8);
 {$ENDIF}
           INC(x,2);
      END;
@@ -189,7 +189,7 @@ BEGIN
           Mem[SegB800:y] := 8;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO XFER Shadow'); Halt;
+          RPSetAttrAt(xx2, Loop, 8);
 {$ENDIF}
   INC(y,160);
      END;

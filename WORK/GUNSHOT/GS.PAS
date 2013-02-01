@@ -15,7 +15,7 @@ USES BsOvr,Extend,Comm,Globals,KeyInput,Startup,LoadMenu,BsLog,NodeFile,
      MsgSrch3,MsgSrch4,MsgSrch5,MsgSrch6,WriteMsg,ReadMail,KillOld,GotoMsg,
      ULMsg,Report,SysScrn,FileSrch,ViewTFil,ListMsgs,CBV,FileList,UserEdit,
      ByteBank,TimeBank,ChatFull,CheckSig,ResetLR,QWKDL,QWKUL,UserList,
-     GroupMsg,FileBoxs,DEntry,Dial_Out,DoorFile,Crt,Carrier,MiscStr,
+     GroupMsg,FileBoxs,DEntry,{$IFDEF MSDOS}Dial_Out,{$ENDIF}DoorFile,Crt,Carrier,MiscStr,
      FilGroup,MsgGroup,ChangeFG,ChangeMG,GetArc,GetProto,SaveIt,FMode,
      CDRomMan,GetQuote,BsFile,BsString;
 
@@ -605,10 +605,12 @@ BEGIN
                   END;
              111: IF NOT(LocalLogon) THEN
                   BEGIN
+{$IFDEF MSDOS}
                     DoNodeActivity(41,'');
                     DialOut(Menu^[Reserve[MainLoop]].Third,
                             Menu^[Reserve[MainLoop]].Second,
                             Menu^[Reserve[MainLoop]].Sub);
+{$ENDIF}
                   END;
              112: BEGIN
                     CreateCustomDropFile(Menu^[Reserve[MainLoop]].Second,

@@ -257,6 +257,13 @@ BEGIN
                END;
           END;
      END;
+{$IFDEF WIN32}
+     IF ActualBaud > 0 THEN
+     BEGIN
+          SocketHandle := ActualBaud;
+	      ActualBaud := 57600;
+     END;
+{$ENDIF}
      IF ActualBaud=0 THEN LocalLogon := true;
      IF NOT(LocalLogon) THEN LogonUser := 999999999;
      IF (EventMinutes<>32000) THEN

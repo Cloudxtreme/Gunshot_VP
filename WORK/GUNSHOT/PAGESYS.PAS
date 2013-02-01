@@ -12,7 +12,7 @@ IMPLEMENTATION
 
 
 USES Globals,Crt,ANSIMisc,Screens,BsLog,KeyInput,Execute,Time,
-     BsMulti,BsFile;
+     BsMulti,BsFile{$IFDEF WIN32},Windows{$ENDIF};
 
 
 PROCEDURE page;
@@ -35,7 +35,7 @@ VAR  GoodTime : Boolean;
                     nosound;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO PAGESYS page'); Halt;
+                    Windows.Beep(1750, 100);
 {$ENDIF}
                     delay(350);
                END;

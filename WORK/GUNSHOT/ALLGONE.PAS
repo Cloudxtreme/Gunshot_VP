@@ -13,7 +13,7 @@ IMPLEMENTATION
 
 USES ApTimer,Globals,Time,BsLog,Screens,UserFile,ANSIMisc,
      Calls,Comm,Crt,ApCom,ExtDos,NodeFile,BsFile,BsTime,
-     BsMulti,BsString;
+     BsMulti,BsString{$IFDEF WIN32},Windows{$ENDIF};
 
 
 PROCEDURE Dispatcher(dispatch_type: byte);
@@ -93,14 +93,14 @@ BEGIN
           BEGIN
                _Delay(1000);
                ClearInBuffer;
-               SetDTR(BBSPort,True);
+               {$IFDEF WIN32}APCom.{$ENDIF}SetDTR(BBSPort,True);
                PutStringTimeout(BBSPort,NodeInfo.OffHook+#13,182);
           END;
           WRITELN('Waiting for sysop reply....... <PRESS A KEY!>');
           WRITELN;
           NewTimerSecs(TimerInfo,300);
-{$IFDEF MSDOS}
           REPEAT
+{$IFDEF MSDOS}
                 sound(900);
                 _delay(50);
                 nosound;
@@ -109,12 +109,13 @@ BEGIN
                 _delay(50);
                 nosound;
                 _delay(1000);
-          UNTIL ((KeyPressed) OR (TimerExpired(TimerInfo)));
-          nosound;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO ALLGONE Dispatcher'); Halt;
+                Windows.Beep(900, 200);
+                Windows.Beep(1200, 200);
+                _delay(800);
 {$ENDIF}
+          UNTIL ((KeyPressed) OR (TimerExpired(TimerInfo)));
           IF KeyPressed THEN c := ReadKey;
           IF NOT(LocalLogon) THEN Hangup;
      END;

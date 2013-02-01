@@ -332,8 +332,19 @@ END;
 {$ENDIF}
 {$IFDEF WIN32}
 FUNCTION _Pos2(Objct,Target: String; StartPos: Byte): Byte;
+VAR
+  Result: Byte;
 BEGIN
-  WriteLn('REETODO BSSTRING _Pos2'); Halt;
+  if (StartPos <= 1) then
+  begin
+    Result := Pos(Objct, Target);
+  end else
+  begin
+    Delete(Target, 1, StartPos - 1);
+    Result := Pos(Objct, Target);
+    if (Result > 0) then Inc(Result, StartPos - 1);
+  end;
+  _Pos2 := Result;
 END;
 {$ENDIF}
 

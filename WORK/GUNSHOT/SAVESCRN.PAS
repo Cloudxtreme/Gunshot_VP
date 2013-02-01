@@ -14,8 +14,14 @@ PROCEDURE Restore_Screen;
 IMPLEMENTATION
 
 
-USES Globals,Crt,ANSIMisc,BsKeys;
+USES Globals,Crt,ANSIMisc,BsKeys{$IFDEF WIN32},RPScreen{$ENDIF};
 
+
+{$IFDEF WIN32}
+var
+  SavedScreen1: TScreenBuf;
+  SavedScreen2: TScreenBuf;
+{$ENDIF}
 
 {LOCAL SCREEN SAVE}
 
@@ -26,7 +32,7 @@ BEGIN
      Move(MEM[SegB800:0],SAVESCRN_Scr2[1],4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO SAVESCRN Save_Screen2'); Halt;
+     RPSaveScreen(SavedScreen2);
 {$ENDIF}
 END;
 
@@ -37,7 +43,7 @@ BEGIN
      Move(SAVESCRN_Scr2[1],MEM[SegB800:0],4000);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO SAVESCRN Restore_Screen2'); Halt;
+     RPRestoreScreen(SavedScreen2);
 {$ENDIF}
 END;
 
@@ -51,7 +57,7 @@ BEGIN
      Move(MEM[SegB800:0],SAVESCRN_Scr[1],3840);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO SAVESCRN Save_Screen'); Halt;
+     RPSaveScreen(SavedScreen1);
 {$ENDIF}
      SAVESCRN_X := WhereX;
      SAVESCRN_Y := WhereY;
@@ -85,7 +91,13 @@ BEGIN
        BEGIN
          IF LoopX=80 THEN
          BEGIN
+{$IFDEF MSDOS}
            TheAttr := SAVESCRN_Scr[Loop];
+{$ENDIF}
+{$IFDEF WIN32}
+           // REETODO Does this work?
+           TheAttr := Byte(SavedScreen1[LoopX][LoopY].Attributes);
+{$ENDIF}
            IF TheAttr>127 THEN DEC(TheAttr,128);
            NewB := Trunc(TheAttr/16);
            NewF := TheAttr-(NewB*16);
@@ -98,9 +110,20 @@ BEGIN
          END
          ELSE
          BEGIN
+{$IFDEF MSDOS}
            TheAttr := SAVESCRN_Scr[Loop];
+{$ENDIF}
+{$IFDEF WIN32}
+           // REETODO Does this work?
+           TheAttr := Byte(SavedScreen1[LoopX][LoopY].Attributes);
+{$ENDIF}
            IF TheAttr>127 THEN DEC(TheAttr,128);
+{$IFDEF MSDOS}
            TheChar := Chr(SAVESCRN_Scr[Loop-1]);
+{$ENDIF}
+{$IFDEF WIN32}
+           TheChar := SavedScreen1[LoopX][LoopY].AsciiChar;
+{$ENDIF}
            NewB := Trunc(TheAttr/16);
            NewF := TheAttr-(NewB*16);
            IF ((NewF<>LastF) OR (NewB<>LastB)) THEN

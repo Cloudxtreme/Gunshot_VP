@@ -360,6 +360,9 @@ VAR  FArcDefs                : File Of _Archiver_Record;
      RIP                     : ^RIPobj;
      RipInitialized          : Boolean;
      NodeListSystem          : String[40];
+{$IFDEF WIN32}
+     SocketHandle            : Longint;
+{$ENDIF}
 
 
 IMPLEMENTATION
