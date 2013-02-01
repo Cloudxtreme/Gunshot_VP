@@ -15,7 +15,12 @@ unit ApTimer;
 interface
 
 uses
+{$IFDEF MSDOS}
   Dpmi;
+{$ENDIF}
+{$IFDEF WIN32}
+  VPUtils;
+{$ENDIF}
 
 const
   TicsPerDay = 1573040;      {Assumes 18.20648 tics/sec}
@@ -33,11 +38,24 @@ var
 
 implementation
 
+{$IFDEF MSDOS}
 var
   {!!.01 moved semicolons for Stony Brook}
   {Data area for BIOS tics value}
   BiosTics : ^LongInt {$IFDEF STONYBROOK} VOLATILE {$ENDIF}; {absolute $40:$6C;}
   BiosTicsLow : ^Word {$IFDEF STONYBROOK} VOLATILE {$ENDIF}; {absolute $40:$6C;}
+{$ENDIF}
+{$IFDEF WIN32}
+function BiosTics : LongInt;
+begin
+  BiosTics := GetTimeMSec div 55;
+end;
+
+function BiosTicsLow : Word;
+begin
+  WriteLn('REETODO APTIMER BiosTicsLow'); Halt;
+end;
+{$ENDIF}
 
 function Tics2Secs(Tics : LongInt) : LongInt;
   {-Returns seconds value for Tics tics}
@@ -59,7 +77,7 @@ begin
     Tics := TicsPerDay;
 
   with ET do begin
-    StartTics := BiosTics^;
+    StartTics := BiosTics{$IFDEF MSDOS}^{$ENDIF};
     ExpireTics := StartTics + Tics;
   end;
 end;
@@ -77,7 +95,7 @@ var
 begin
   with ET do begin
     {Get current tics; assume timer has expired}
-    CurTics := BiosTics^;
+    CurTics := BiosTics{$IFDEF MSDOS}^{$ENDIF};
     TimerExpired := True;
 
     {Check normal expiration}
@@ -98,7 +116,7 @@ var
   CurTics : LongInt;
 begin
   with ET do begin
-    CurTics := BiosTics^;
+    CurTics := BiosTics{$IFDEF MSDOS}^{$ENDIF};
     if CurTics >= StartTics then
       {No midnight wrap yet}
       ElapsedTime := CurTics - StartTics
@@ -127,7 +145,7 @@ var
   RemainingTics : LongInt;
 begin
   with ET do begin
-    CurTics := BiosTics^;
+    CurTics := BiosTics{$IFDEF MSDOS}^{$ENDIF};
     if CurTics >= StartTics then
       {No midnight wrap yet}
       RemainingTics := ExpireTics - CurTics
@@ -172,6 +190,7 @@ end;
 {The following 3 BASM routines completely replace the old Pascal}
 {versions of Delay and CalibrateDelay.                          }
 
+{$IFDEF MSDOS}
 procedure DelayMS; assembler;
 asm
   push  cx                                                             {!!.04}
@@ -187,7 +206,15 @@ asm
 @@DMSexit:
   pop   cx                                                             {!!.04}
 end;
+{$ENDIF}
+{$IFDEF WIN32}
+procedure DelayMS;
+begin
+  WriteLn('REETODO APTIMER DelayMS'); Halt;
+end;
+{$ENDIF}
 
+{$IFDEF MSDOS}
 procedure Delay(MS : Word); assembler;
 asm
   mov   cx,MS
@@ -202,7 +229,15 @@ asm
   loop  @@DelayLoop
 @@DelayExit:
 end;
+{$ENDIF}
+{$IFDEF WIN32}
+procedure Delay;
+begin
+  WriteLn('REETODO APTIMER Delay'); Halt;
+end;
+{$ENDIF}
 
+{$IFDEF MSDOS}
 procedure CalibrateDelay; assembler;
 asm
   mov   es,BiosDataSele
@@ -229,9 +264,18 @@ asm
   div cx                                                              {!!.04}
   mov CountsPerMS.word[0], ax                                         {!!.04}
 end;
+{$ENDIF}
+{$IFDEF WIN32}
+procedure CalibrateDelay;
+begin
+  // REENOTE No need to calibrate the delay on Win32
+end;
+{$ENDIF}
 
 begin
+{$IFDEF MSDOS}
   BiosTics := Ptr(BiosDataSele, $6C);
   BiosTicsLow := Ptr(BiosDataSele, $6C);
+{$ENDIF}
   CalibrateDelay;  {initializes CountsPerMs for Delay}
 end.

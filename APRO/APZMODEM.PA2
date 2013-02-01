@@ -1359,6 +1359,9 @@ ExitPoint:
     ZM : ZmodemPtr absolute P;
     Crc32 : LongInt;
     NewInterval : Word;
+{$IFDEF WIN32}
+    LongDataBlockLen: LongInt;
+{$ENDIF}
   begin
     with ZM^, PData^ do begin
 
@@ -1609,7 +1612,14 @@ ExitPoint:
               end;
             end;
             DataBlockLen := BlockLen;
+{$IFDEF MSDOS}
             LastBlock := ReadProtocolBlock(P, DataBlock^, DataBlockLen);
+{$ENDIF}
+{$IFDEF WIN32}
+            LongDataBlockLen := DataBlockLen;
+            LastBlock := ReadProtocolBlock(P, DataBlock^, LongDataBlockLen);
+			DataBlockLen := LongDataBlockLen;
+{$ENDIF}
             if GetAsyncStatus <> ecOk then begin
               SaveStatus := GetAsyncStatus;
               Cancel(P);

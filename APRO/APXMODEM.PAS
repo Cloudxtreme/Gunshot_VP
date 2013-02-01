@@ -713,6 +713,9 @@ type
   var
     XM : XmodemPtr absolute P;
     C : Char;
+{$IFDEF WIN32}
+    LongLastBlockSize: LongInt;
+{$ENDIF}
   begin
     with XM^, PData^ do begin
 
@@ -801,7 +804,14 @@ type
             CharsLeft := BlockLen;
             OutBufPos := 1;
             BlockErrors := 0;
+{$IFDEF MSDOS}
             NoMoreData := ReadProtocolBlock(P, DataBlock^, LastBlockSize);
+{$ENDIF}
+{$IFDEF WIN32}
+            LongLastBlockSize := LastBlockSize;
+            NoMoreData := ReadProtocolBlock(P, DataBlock^, LongLastBlockSize);
+			LastBlockSize := LongLastBlockSize;
+{$ENDIF}
             if GetAsyncStatus = ecOk then begin
               XmodemState := txWaitFreespace;
               NewTimer(ReplyTimer, TransTimeout);

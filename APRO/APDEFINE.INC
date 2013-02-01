@@ -177,4 +177,10 @@ errors.}
   {$Q-,T-,X-}
 {$ENDIF}
 
-
+{$IFDEF VPASCAL}
+  {&AlignRec-}
+  {&Delphi-}
+  {&Use32+}
+  {$H-}
+  {$V-}
+{$ENDIF}

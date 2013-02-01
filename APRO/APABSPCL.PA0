@@ -139,13 +139,13 @@ type
     BatchProtocol    : Boolean;           {True if protocol supports batch}
     BlockCheck       : LongInt;           {Block check value}
     CheckType        : Byte;              {Code for block check type}
-    HandshakeWait    : Word;              {Wait seconds during handshaking}
-    HandshakeRetry   : Word;              {Number of retries during handshaking}
-    HandshakeAttempt : Word;              {Current handshake attempt}
-    BlockLen         : Word;              {Either 128 or 1024}
-    BlockNum         : Word;              {Current block number}
-    apFlags          : Word;              {AbstractProtocol options}
-    TransTimeout     : Word;              {Tics to wait for trans freespace}
+    HandshakeWait    : SmallWord;         {Wait seconds during handshaking}
+    HandshakeRetry   : SmallWord;         {Number of retries during handshaking}
+    HandshakeAttempt : SmallWord;         {Current handshake attempt}
+    BlockLen         : SmallWord;         {Either 128 or 1024}
+    BlockNum         : SmallWord;         {Current block number}
+    apFlags          : SmallWord;         {AbstractProtocol options}
+    TransTimeout     : SmallWord;         {Tics to wait for trans freespace}
     GotOneFile       : Boolean;           {True if we've received one file}
     InitFilePos      : LongInt;           {Initial file pos during resumes}
 
@@ -156,8 +156,8 @@ type
     SearchMask       : PathStr;           {NextFileMask search mask}
     FindingFirst     : Boolean;           {NextFileMask flag}
     FileList         : FileListPtr;       {NextFileList list pointer}
-    FileListIndex    : Word;              {NextFileList index}
-    FileListMax      : Word;              {Size, in bytes, of file list}
+    FileListIndex    : SmallWord;         {NextFileList index}
+    FileListMax      : SmallWord;         {Size, in bytes, of file list}
 
     {When receiving files}
     DestDir          : DirStr;            {Destination directory}
@@ -170,18 +170,18 @@ type
     {Status...}
     BytesRemaining   : LongInt;           {Bytes not yet transferred}
     BytesTransferred : LongInt;           {Bytes already transferred}
-    BlockErrors      : Word;              {Number of tries for block}
-    TotalErrors      : Word;              {Number of total tries}
+    BlockErrors      : SmallWord;         {Number of tries for block}
+    TotalErrors      : SmallWord;         {Number of total tries}
     Timer            : EventTimer;        {Used to time a transfer}
     ElapsedTics      : LongInt;           {Elapseds tics as of last block}
     InProgress       : Byte;              {Non-zero if protocol in progress}
     EotCheckCount    : Byte;              {Number of Eot retries required}
-    ActCPS           : Word;              {Port or modem CPS}
-    OverHead         : Word;              {Overhead bytes per block}
-    TurnDelay        : Word;              {MSec turnaround delay}
+    ActCPS           : SmallWord;         {Port or modem CPS}
+    OverHead         : SmallWord;         {Overhead bytes per block}
+    TurnDelay        : SmallWord;         {MSec turnaround delay}
     StatusTimer      : EventTimer;        {How often to show status}
     ForceStatus      : Boolean;           {Force status update}
-    StatusInterval   : Word;              {Tics between status updates}
+    StatusInterval   : SmallWord;         {Tics between status updates}
 
     {File buffer managment...}
     PrepareReading   : PrepFinishProc;    {Proc for preparing file read}
@@ -210,6 +210,7 @@ type
 
 function LoCaseMac(Ch : Char) : Char;
   {-Lowercase character macro, no international character support}
+{$IFDEF MSDOS}
   inline(
     $58/                     {POP  AX}
     $3C/$41/                 {CMP    AL,'A'}
@@ -217,6 +218,7 @@ function LoCaseMac(Ch : Char) : Char;
     $3C/$5A/                 {CMP    AL,'Z'}
     $77/$02/                 {JA     No}
     $0C/$20);                {OR     AL,$20}
+{$ENDIF}
 
 {$IFDEF UsePModeDLL}
 

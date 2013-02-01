@@ -62,6 +62,11 @@ procedure SetCurrentAnsiPort(P : PortRecPtr);
 
 implementation
 
+{$IFDEF WIN32}
+uses
+  Windows;
+{$ENDIF}
+
 type
   {Token types}
   ParserType = (GotNone, GotEscape, GotBracket, GotSemiColon,
@@ -525,9 +530,14 @@ var
 
   procedure DefSoundBell;
   begin
+{$IFDEF MSDOS}
     Sound(220);
     Delay(200);
     NoSound;
+{$ENDIF}
+{$IFDEF WIN32}
+  Beep(220, 200);
+{$ENDIF}
   end;
 
   procedure SetClearScreenProc(CSP : ClearScreenProc);

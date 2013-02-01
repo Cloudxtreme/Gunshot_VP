@@ -40,7 +40,7 @@ type
     FirstBlockNum  : Byte;              {First block number to use}
     GMode          : Boolean;           {True for YmodemG}
     TimerPending   : Boolean;           {True if waiting to start timer}
-    FinishWait     : Word;              {Extra wait GMode EOT response}
+    FinishWait     : SmallWord;         {Extra wait GMode EOT response}
 
     {Temp vars that state machine requires to be static}
     HandshakeChar  : Char;              {Last handshake char used}
@@ -50,11 +50,11 @@ type
     ReplyTimer     : EventTimer;        {Track timeouts waiting for replies}
     NoMoreData     : Boolean;           {Flag for tracking end-of-file}
     DataBlock      : ^DataBlockType;    {Data block}
-    CharsLeft      : Word;              {Characters not yet xmitted}
-    OutBufPos      : Word;              {Output buffer pos for reduced blocks}
-    BlkIndex       : Word;              {Index into received chars in DataBlock}
-    OverheadLen    : Word;              {Number of overhead bytes per block}
-    LastBlockSize  : Word;              {Number of bytes last read}
+    CharsLeft      : SmallWord;         {Characters not yet xmitted}
+    OutBufPos      : SmallWord;         {Output buffer pos for reduced blocks}
+    BlkIndex       : SmallWord;         {Index into received chars in DataBlock}
+    OverheadLen    : SmallWord;         {Number of overhead bytes per block}
+    LastBlockSize  : SmallWord;         {Number of bytes last read}
 
     {State information}
     XmodemState    : XmodemStateType;   {Current state of Xmodem}

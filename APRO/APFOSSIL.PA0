@@ -1,18 +1,18 @@
 type
   {Holds driver information from FOSSIL GetDriverInfo call}
   DriverInfo = record
-    diSize      : Word;
+    diSize      : SmallWord;
     diSpec      : Byte;
     diRev       : Byte;
     diID        : Pointer;
-    diInSize    : Word;
-    diInFree    : Word;
-    diOutSize   : Word;
-    diOutFree   : Word;
+    diInSize    : SmallWord;
+    diInFree    : SmallWord;
+    diOutSize   : SmallWord;
+    diOutFree   : SmallWord;
     diSWidth    : Byte;
     diSHeight   : Byte;
     diBaudMask  : Byte;
-    diJunk      : Word;
+    diJunk      : SmallWord;
   end;
 
 const
@@ -95,8 +95,14 @@ procedure ActivateApFossil; Export;
 
 {$ELSE}
 
+{$IFDEF MSDOS}
 procedure FossilIntr(var Regs : Registers);
   {-Normal int in rmode, virtualized int in pmode}
+{$ENDIF}
+{$IFDEF WIN32}
+procedure FossilIntr(var Regs);
+  {-Normal int in rmode, virtualized int in pmode}
+{$ENDIF}
 procedure fInitPort(var P : PortRecPtr; ComName : ComNameType;
                     Baud : LongInt;
                     Parity : ParityType; DataBits : DataBitType;

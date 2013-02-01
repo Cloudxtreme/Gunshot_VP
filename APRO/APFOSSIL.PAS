@@ -1,3 +1,5 @@
+{ REENOTE MOST OF THE CHANGES TO THIS UNIT CAME FROM ELEBBS }
+
 {$S-,R-,V-,I-,B-,F+,O+,A-}
 
 {Conditional defines that may affect this unit}
@@ -35,25 +37,37 @@ uses
 
   {=====================================================================}
 
+{$IFDEF WIN32}
+Const Apro_Use_Old_Handle: Longint = -1;
+{$ENDIF}
+
 implementation
+
+{$IFDEF WIN32}
+uses
+  EleNorm;
+{$ENDIF}
 
 {!!.02 moved up}
 {$IFDEF DPMI}
 type
   DosMemRec = record
-    Sele, Segm : Word;
+    Sele, Segm : SmallWord;
   end;
 {$ENDIF}
 
 type
   OS = record
     Ofs,
-    Seg : Word;
+    Seg : SmallWord;
   end;
 
+{$IFDEF MSDOS}
 var
   Regs : Registers;
+{$ENDIF}
 
+{$IFDEF MSDOS}
 procedure FossilIntr(var Regs : Registers);
   {-Normal int in rmode, virtualized int in pmode}
 {$IFDEF DPMI}
@@ -77,10 +91,19 @@ begin
   Intr(FossilInt, Regs);
   {$ENDIF}
 end;
+{$ENDIF}
+{$IFDEF WIN32}
+procedure FossilIntr(var Regs);
+  {-Normal int in rmode, virtualized int in pmode}
+begin
+  // REENOTE Not needed in Win32
+end;
+{$ENDIF}
 
 procedure fUpdateLineAndModemStatus(P : PortRecPtr);
   {-Update LineStatus and ModemStatus fields from Fossil}
 begin
+{$IFDEF MSDOS}
   with P^, Regs do begin
     AH := $03;
     DX := Ord(PortName);
@@ -90,8 +113,19 @@ begin
     ModemStatus := AL and ValidModemStatus;
     LineStatus := AH and ValidLineStatus;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  With P^ do
+    begin
+      Com_GetModemStatus(LineStatus, ModemStatus);
+
+      ModemStatus := ModemStatus and ValidModemStatus;
+      LineStatus := LineStatus and ValidLineStatus;
+    end; { with }
+{$ENDIF}
 end;
 
+{$IFDEF MSDOS}
 procedure fUpdateDriverInfo(P : PortRecPtr; var Info : DriverInfo);
   {-Return current driver information from the fossil driver}
 {$IFDEF DPMI}
@@ -126,6 +160,10 @@ begin
     {$ENDIF}
   end;
 end;
+{$ENDIF}
+{$IFDEF WIN32}
+  // REENOTE APFOSSIL was modified to not call this in Win32
+{$ENDIF}
 
 procedure fInitPortKeep(var P : PortRecPtr; ComName : ComNameType;
                         InSize, OutSize : Word);
@@ -144,6 +182,7 @@ begin
   end;}
 
   {Init Fossil}
+{$IFDEF MSDOS}
   with Regs do begin
     Regs.AH :=$04;
     Regs.BX := 0;
@@ -154,6 +193,22 @@ begin
       Exit;
     end;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+    Com_StartUp(02);
+    Com_SetDontClose(false);
+    if Apro_Use_Old_Handle = -1 then
+      begin
+        if not Com_OpenKeep(Ord(Comname) + 01) then
+          begin
+            AsyncStatus := ecNoFossil;
+            Exit;
+         end;
+    end else Com_OpenQuick(Apro_Use_Old_Handle);
+
+    Com_SetDtr(true);
+    Apro_Use_Old_Handle := Com_GetHandle;
+{$ENDIF}
 
   {Allocate Port record}
   if not GetMemCheck(P, SizeOf(PortRec)) then begin
@@ -177,6 +232,9 @@ begin
     if not Found then begin
       FreeMemCheck(P, SizeOf(PortRec));
       AsyncStatus := ecNoMorePorts;
+      {$IFDEF WIN32}
+        Com_Close;
+      {$ENDIF}
       Exit;
     end;
 
@@ -303,9 +361,14 @@ begin
   I := P^.CurrentPort;
 
   {Deinit the fossil}
+{$IFDEF MSDOS}
   Regs.AH := $05;
   Regs.DX := Ord(P^.PortName);
   FossilIntr(Regs);
+{$ENDIF}
+{$IFDEF WIN32}
+  Com_Close;
+{$ENDIF}
 
   {Release getchar buffer}                                             {!!.02}
   with P^ do                                                           {!!.02}
@@ -364,6 +427,7 @@ var
 begin
   AsyncStatus := ecOk;
 
+{$IFDEF MSDOS}
   with Regs do begin
     AH := $00;
     if Baud = 0 then
@@ -412,6 +476,18 @@ begin
       CurStopBits := StopBits;
     end;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  if Baud=00 then Baud := P^.Curbaud;
+
+  Com_SetLine(Baud, Char(Byte(Parity)), DataBits, StopBits);
+
+  if Baud <> 0 then
+    P^.CurBaud := Baud;
+  P^.CurParity := Parity;
+  P^.CurDataBits := DataBits;
+  P^.CurStopBits := StopBits;
+{$ENDIF}
 end;
 
 procedure fGetLine(P : PortRecPtr; var Baud : LongInt;
@@ -432,6 +508,7 @@ begin
       StopBits := CurStopBits;
     end else begin
       {Get what info we can from the FOSSIL driver}
+{$IFDEF MSDOS}
       fUpdateDriverInfo(P, Info);
       with Info do
         case (diBaudMask shr 5) of
@@ -444,6 +521,10 @@ begin
           $00  : Baud := 19200;
           $01  : Baud := 38400;                                        {!!.01}
         end;
+{$ENDIF}
+{$IFDEF WIN32}
+      Baud := 38400;
+{$ENDIF}
       Parity := NoParity;
       DataBits := 8;
       StopBits := 1;
@@ -453,6 +534,7 @@ end;
 procedure fSetModem(P : PortRecPtr; DTR, RTS : Boolean);
   {-Can only set DTR}
 begin
+{$IFDEF MSDOS}
   with P^, Regs do begin
     AH := $06;
     AL := Ord(DTR);
@@ -467,6 +549,20 @@ begin
     else
       ModemControl := ModemControl and not RTSMask;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  with P^ do begin
+    Com_SetDtr(DTR);
+    if DTR then
+      ModemControl := ModemControl or DTRMask
+    else
+      ModemControl := ModemControl and not DTRMask;
+    if RTS then
+      ModemControl := ModemControl or RTSMask
+    else
+      ModemControl := ModemControl and not RTSMask;
+  end;
+{$ENDIF}
 end;
 
 procedure fGetModem(P : PortRecPtr; var DTR, RTS : Boolean);
@@ -481,6 +577,7 @@ end;
 function fCharReadyPhys(P : PortRecPtr) : Boolean;
   {-Returns True if FOSSIL status call has DataReady set}
 begin
+{$IFDEF MSDOS}
   with P^, Regs do begin
     AH := $03;
     DX := Ord(PortName);
@@ -491,6 +588,10 @@ begin
     LineStatus := AH and ValidLineStatus;
     fCharReadyPhys := Odd(AH);
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  fCharReadyPhys := Com_CharAvail;
+{$ENDIF}
 end;
 
 {!!.02 new}
@@ -500,7 +601,11 @@ var
   Count : Integer;
 
   procedure ReadData;
+{$IFDEF WIN32}
+  var ReadBytes: Longint;
+{$ENDIF}
   begin
+{$IFDEF MSDOS}
     with P^, Regs do begin
       AH := $18;
       {$IFDEF DPMI}
@@ -517,6 +622,16 @@ var
       if InHead = InBuffEnd then
         InHead := InBuff;
     end;
+{$ENDIF}
+{$IFDEF WIN32}
+    with P^ do begin
+      Com_ReadBlock(InHead, Count, ReadBytes);
+      Inc(InBuffCount, ReadBytes);
+      Inc(InHead, ReadBytes);
+      if InHead = InBuffEnd then
+        InHead := InBuff;
+    end;
+{$ENDIF}
   end;
 
 begin
@@ -549,6 +664,7 @@ end;
 procedure fGetCharPhys(P : PortRecPtr; var C : Char);
   {-Calls FOSSIL to check for and return C}
 begin
+{$IFDEF MSDOS}
   with P^, Regs do begin
     {Call status to see if char is ready}
     if fCharReady(P) then begin
@@ -572,6 +688,17 @@ begin
     end else
       fGotError(P, epNonFatal+ecBufferIsEmpty);
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  with P^ do begin
+    {Call status to see if char is ready}
+    if fCharReady(P) then 
+    begin
+        C := Com_GetChar;
+    end else
+      fGotError(P, epNonFatal+ecBufferIsEmpty);
+  end;
+{$ENDIF}
 end;
 
 {!!.02 new}
@@ -615,6 +742,7 @@ end;
 procedure fPeekCharPhys(P : PortRecPtr; var C : Char; PeekAhead : Word);
   {-Can't do physical peekaheads}
 begin
+{$IFDEF MSDOS}
   if PeekAhead <> 1 then begin
     C := #$FF;
     fGotError(P, epNonFatal+ecInvalidArgument);
@@ -630,6 +758,20 @@ begin
       C := Char(AL);
     end;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  if PeekAhead <> 1 then begin
+    C := #$FF;
+    fGotError(P, epNonFatal+ecInvalidArgument);
+  end else with P^ do begin
+    {Call status to see if char is ready}
+    if fCharReady(P) then 
+    begin
+        C := Com_PeekChar;
+    end else
+      fGotError(P, epNonFatal+ecBufferIsEmpty);
+  end;
+{$ENDIF}
 end;
 
 {!!.02 new}
@@ -678,6 +820,7 @@ begin
   AsyncStatus := ecOk;
 
   {Call Fossil to send a char}
+{$IFDEF MSDOS}
   with P^, Regs do begin
     AL := Byte(C);
 
@@ -707,6 +850,14 @@ begin
       AddTraceEntry('T', C);
     {$ENDIF}
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  if not Com_SendChar(c) then begin
+    fGotError(P, epNonFatal+ecBufferIsFull);
+    Exit;
+  end;
+  fUpdateLineAndModemStatus(p);
+{$ENDIF}
 end;
 
 procedure fStartTransmitter(P : PortRecPtr);
@@ -733,6 +884,7 @@ end;
 function fTransReady(P : PortRecPtr) : Boolean;
   {-Returns True if fossil has room for another character }
 begin
+{$IFDEF MSDOS}
   with P^, Regs do begin
     AH := $03;
     DX := Ord(PortName);
@@ -743,6 +895,11 @@ begin
     LineStatus := AH and ValidLineStatus;
     fTransReady := (AH and $20) = $20
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  fTransReady := Com_ReadyToSend(1);
+  fUpdateLineAndModemStatus(p);
+{$ENDIF}
 end;
 
 procedure fSendBreak(P : PortRecPtr);
@@ -808,6 +965,12 @@ procedure fHWFlowSet(P : PortRecPtr; Enable : Boolean;
                      Options : Word);
   {-Enables/disables hardware flow control}
 
+{$IFDEF WIN32}
+var SoftTX    : Boolean;
+    SoftRX    : Boolean;
+    HardFlow  : Boolean;
+{$ENDIF}
+
   {!!.01 new}
   procedure CheckSWFlow(var B : Byte);
     {-Or swflow bits into B, if necessary}
@@ -824,6 +987,7 @@ procedure fHWFlowSet(P : PortRecPtr; Enable : Boolean;
 begin
   AsyncStatus := ecOk;
 
+{$IFDEF MSDOS}
   with P^, Regs do begin
     if Enable then begin
       {Turning flow control on...}
@@ -853,6 +1017,32 @@ begin
       HWFRecHonor := 0;
     end;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  with P^ do begin
+    if Enable then
+      begin
+        SoftTX  := FlagIsSet(P^.SWFState, sfTransmitFlow);
+        SoftRX  := FlagIsSet(P^.SWFState, sfReceiveFlow);
+        HardFlow:= TRUE;
+
+        Com_SetFlow(SoftTX, SoftRX, HardFlow);
+
+        { Say it's on }
+        P^.HWFRecHonor := 1
+      end
+        else begin
+               SoftTX  := FlagIsSet(P^.SWFState, sfTransmitFlow);
+               SoftRX  := FlagIsSet(P^.SWFState, sfReceiveFlow);
+               HardFlow:= FALSE;
+
+               Com_SetFlow(SoftTX, SoftRX, HardFlow);
+
+               { Say it's off }
+               P^.HWFRecHonor:=0;
+             end; { if }
+  end;
+{$ENDIF}
 end;
 
 function fHWFlowGet(P : PortRecPtr) : FlowState;
@@ -872,9 +1062,15 @@ procedure fSWFlowSet(P : PortRecPtr; Enable : Boolean;
                      BufferFull, BufferResume : Word;
                      Options : Word);
   {-Enables/disables software flow control}
+{$IFDEF WIN32}
+var SoftTX    : Boolean;
+    SoftRX    : Boolean;
+    HardFlow  : Boolean;
+{$ENDIF}
 begin
   AsyncStatus := ecOk;
 
+{$IFDEF MSDOS}
   with P^, Regs do begin
     if Enable then begin
       if FlagIsSet(Options, sfTransmitFlow) then
@@ -906,6 +1102,34 @@ begin
       SWFState := 0;
     end;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  with P^ do begin
+    if Enable then
+       begin
+         SoftTX  := FlagIsSet(Options, sfTransmitFlow);
+         SoftRX  := FlagIsSet(Options, sfReceiveFlow);
+         if P^.HWFRecHonor = 1 then HardFlow:= TRUE
+           else HardFlow := FALSE;
+
+         Com_SetFlow(SoftTX, SoftRX, HardFlow);
+
+         { Say it's on }
+         P^.SWFState := 1
+       end
+         else begin
+                SoftTX  := FALSE;
+                SoftRX  := FALSE;
+                if P^.HWFRecHonor = 1 then HardFlow:= TRUE
+                   else HardFlow := FALSE;
+
+                Com_SetFlow(SoftTX, SoftRX, HardFlow);
+
+                { Say it's off }
+                P^.SWFState:=0;
+              end; { else }
+  end;
+{$ENDIF}
 end;
 
 function fSWFlowGet(P : PortRecPtr) : FlowState;
@@ -936,7 +1160,14 @@ var
   Free : Word;
   PercentUsed : Word;
   PercentFree : Word;
+{$IFDEF WIN32}
+  L_InFree   : Longint;
+  L_OutFree  : Longint;
+  L_InUsed   : longint;
+  L_OutUsed  : Longint;
+{$ENDIF}
 begin
+{$IFDEF MSDOS}
   fUpdateDriverInfo(P, Info);
   with P^, Info do begin
     InFree := diInFree;
@@ -962,11 +1193,33 @@ begin
       Used := 0;
     OutUsed := Used;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+    Com_GetBufferStatus(L_InFree, L_OutFree, L_InUsed, L_OutUsed);
+
+    if L_OutUsed = 1 then                                   { Correct X00 bug }
+      L_OutUsed := 0;
+
+    if (P^.Flags and ptTrueOutBuffFree) = ptTrueOutBuffFree then
+      begin
+        InFree := L_InFree;
+        OutFree := L_OutFree;
+        InUsed := L_InUsed;
+        OutUsed := L_OutUsed;
+      end
+        else begin
+               InFree := L_InFree;
+               OutFree := 65535;
+               InUsed := L_InUsed;
+               OutUsed := L_OutUsed;
+             end; { if }
+{$ENDIF}
 end;
 
 procedure fBufferFlush(P : PortRecPtr; FlushIn, FlushOut: Boolean);
   {-Flushes input/output buffers}
 begin
+{$IFDEF MSDOS}
   with P^, Regs do begin
 
     if FlushIn then begin
@@ -989,6 +1242,21 @@ begin
       FossilIntr(Regs);
     end;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+    if FlushIn then
+      Com_PurgeInBuffer;
+
+    if FlushOut then
+      Com_PurgeOutBuffer;
+
+    if FlushIn then
+     if FlagIsSet(P^.Flags, ptBufferGetChar) then
+      begin
+        P^.InHead := p^.InBuff;
+        P^.InTail := p^.InBuff;
+      end; { if }
+{$ENDIF}
 end;
 
 procedure ActivateApFossil;

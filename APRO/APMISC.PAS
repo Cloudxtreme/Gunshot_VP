@@ -34,6 +34,12 @@ uses
   {$ENDIF}
   Dos;
 
+{$IFDEF MSDOS}
+type
+  SmallInt = System.Integer;
+  SmallWord = System.Word;
+{$ENDIF}
+
 {$I APMISC.PA0}
 
   {==========================================================================}
@@ -66,6 +72,63 @@ var
 const
   DosDelimSet : set of Char = ['\', ':', #0];
   Digits : array[0..$F] of Char = '0123456789ABCDEF';
+{$ENDIF}
+
+{$IFDEF WIN32}
+  function UpdateCrc32(CurByte : Byte; CurCrc : LongInt) : LongInt;
+    {-Returns an updated crc32}
+  begin
+    UpdateCrc32 := Crc32Table[Byte(CurCrc xor LongInt(CurByte))] xor
+                   ((CurCrc shr 8) and $00FFFFFF);
+  end;
+
+  procedure SetFlag(var Flags : Word; FlagMask : Word);
+    {-Set the bit(s) specified by FlagMask in Flags}
+  begin
+    WriteLn('REETODO APMISC SetFlag'); Halt;
+  end;
+  
+  procedure ClearFlag(var Flags : Word; FlagMask : Word);
+    {-Clear the bit(s) specified by FlagMask in Flags}
+  begin
+    WriteLn('REETODO APMISC ClearFlag'); Halt;
+  end;
+  
+  function FlagIsSet(Flags, FlagMask : Word) : Boolean;
+    {-Returns True if the bit specified by FlagMask is set in Flags}
+  begin
+    FlagIsSet := (Flags and FlagMask) <> 0;
+  end;
+
+  function MinWord(A, B : Word) : Word;
+    {-Returns the smaller of A and B}
+  begin
+    WriteLn('REETODO APMISC MinWord'); Halt;
+  end;
+    
+  function MakeLongInt(H, L : Word) : LongInt;
+    {-Constructs a LongInt from two Words}
+  begin
+    WriteLn('REETODO APMISC MakeLongInt'); Halt;
+  end;
+    
+  function AddWordToPtr(P : Pointer; W : Word) : Pointer;
+    {-Add a Word to a pointer. No normalization or wrap checking performed}
+  begin
+    WriteLn('REETODO APMISC AddWordToPtr'); Halt;
+  end;
+    
+  procedure DecPtr(var P; Size : Word);
+    {-Reduce a pointer value by Size bytes, Dec(P)}
+  begin
+    WriteLn('REETODO APMISC DecPtr'); Halt;
+  end;
+    
+  procedure IncPtr(var P; Size : Word);
+    {-Increase a pointer value by Size bytes, Inc(P)}
+  begin
+    WriteLn('REETODO APMISC IncPtr'); Halt;
+  end;
 {$ENDIF}
 
   function UpdateChecksum(CurByte : Byte; CheckSum : Word) : Word;
@@ -462,6 +525,7 @@ const
      MatLength is length of string to match. Returns number of bytes searched
      to find Match, $FFFF if not found.}
   begin
+{$IFDEF MSDOS}
     inline(
       $1E/                   {PUSH DS                 ;Save DS}
       $FC/                   {CLD                     ;Go forward}
@@ -505,6 +569,10 @@ const
                              {SDone:}
       $1F/                   {POP  DS                 ;Restore DS}
       $89/$46/<Search);      {MOV [BP+<Search],AX     ;Set func result}
+{$ENDIF}
+{$IFDEF WIN32}
+    WriteLn('REETODO APMISC Search'); Halt;
+{$ENDIF}
   end;
 
   {$IFDEF HeapDebug}
@@ -515,8 +583,8 @@ const
     CharSet = set of Char;
     ByteArray = array[1..65521] of Byte;
     OS = record
-      O : Word;
-      S : Word;
+      O : SmallWord;
+      S : SmallWord;
     end;
 
   function HexPtr(P : Pointer) : string;
@@ -658,6 +726,7 @@ const
     JustFilename := Copy(PathName, Succ(I), 64);
   end;
 
+{$IFDEF MSDOS}
   function ExistFile(FName : string) : Boolean;
     {-Return true if file is found}
   var
@@ -677,6 +746,14 @@ const
       ExistFile := (not Odd(Flags)) and (CX and (VolumeID+Directory) = 0);
     end;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  function ExistFile(FName : string) : Boolean;
+    {-Return true if file is found}
+  begin
+    WriteLn('REETODO APMISC ExistFile'); Halt;
+  end;
+{$ENDIF}
 
   function StringToHeap(S : string) : StringPtr;
     {-Allocate space for s and return pointer}

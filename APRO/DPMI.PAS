@@ -32,8 +32,8 @@ const
 type
   {.Z+}
   DoubleWord = record
-                 LoWord  : Word;
-                 HiWord  : Word;
+                 LoWord  : SmallWord;
+                 HiWord  : SmallWord;
                end;
 
   DPMIRegisters =                        {!!.31, added AL, AH, ..., DH}
@@ -47,19 +47,19 @@ type
              DX : LongInt;
              CX : LongInt;
              AX : LongInt;
-             Flags : Word;
-             ES : Word;
-             DS : Word;
-             FS : Word;
-             GS : Word;
-             IP : Word;
-             CS : Word;
-             SP : Word;
-             SS : Word);
-        2 : (BL, BH : Byte; EBXH : Word;
-             DL, DH : Byte; EDXH : Word;
-             CL, CH : Byte; ECXH : Word;
-             AL, AH : Byte; EAXH : Word);
+             Flags : SmallWord;
+             ES : SmallWord;
+             DS : SmallWord;
+             FS : SmallWord;
+             GS : SmallWord;
+             IP : SmallWord;
+             CS : SmallWord;
+             SP : SmallWord;
+             SS : SmallWord);
+        2 : (BL, BH : Byte; EBXH : SmallWord;
+             DL, DH : Byte; EDXH : SmallWord;
+             CL, CH : Byte; ECXH : SmallWord;
+             AL, AH : Byte; EAXH : SmallWord);
     end;
 
   MemInfoRec =
@@ -80,7 +80,7 @@ type
     record {Information returned by GetDPMIInfo routine}
       MinorVersion     : Byte;
       MajorVersion     : Byte;
-      Flags            : Word;
+      Flags            : SmallWord;
       SlavePICInt      : Byte;
       MasterPICInt     : Byte;
       Processor        : Byte;
@@ -89,9 +89,9 @@ type
 type
   DescriptorTableEntry =
     record
-      LimitL : Word;
-      BaseL  : Word;
-      Words : Array[0..1] of Word;
+      LimitL : SmallWord;
+      BaseL  : SmallWord;
+      Words : Array[0..1] of SmallWord;
     end;
   {.Z-}
 
@@ -196,7 +196,7 @@ implementation
 type
   OS =
     record
-      O, S : Word;
+      O, S : SmallWord;
     end;
 
 var

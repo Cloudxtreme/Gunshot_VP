@@ -55,15 +55,16 @@ var
   TraceWrapped : Boolean;
 {$ENDIF}
 
+{$IFDEF MSDOS}
 function IsPS2 : Boolean;
   {-Returns True if the current machine is a PS/2}
 type
   OS = record
-    O : Word;
-    S : Word;
+    O : SmallWord;
+    S : SmallWord;
   end;
   MachineID = record
-    Length   : Word;
+    Length   : SmallWord;
     Model    : Byte;
     SubModel : Byte;
   end;
@@ -134,6 +135,14 @@ begin
   if FreeLDTDescriptor(IDSel) = 0 then ;
   {$ENDIF}
 end;
+{$ENDIF}
+{$IFDEF WIN32}
+function IsPS2 : Boolean;
+  {-Returns True if the current machine is a PS/2}
+begin
+  WriteLn('REETODO APPORT IsPS2'); Halt;
+end;
+{$ENDIF}
 
 function ComNameString(ComName : ComNameType) : String;
   {-Returns a displayable comport name string}

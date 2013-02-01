@@ -89,17 +89,17 @@ type
   AbortFunc = function : Boolean;
 
   PortRec = record
-    BaseAddr      : Word;             {Base IO addr of UART}
-    Flags         : Word;             {Option flags for port options}
-    InBuffLen     : Word;             {Length of input buffer}
-    InBuffCount   : Word;             {Current # of chars in buffer}
-    OutBuffLen    : Word;             {Length of output buffer}
-    OutBuffCount  : Word;             {Current # of chars in buffer}
-    LostCharCount : Word;             {Number of lost characters}
-    SWFFull       : Word;             {Hi-water mark for xoff}
-    SWFResume     : Word;             {Lo-water mark for xon}
-    HWFFull       : Word;             {Hi-water mark for auto-handshaking off}
-    HWFResume     : Word;             {Lo-water mark for auto-handshaking on}
+    BaseAddr      : SmallWord;        {Base IO addr of UART}
+    Flags         : SmallWord;        {Option flags for port options}
+    InBuffLen     : SmallWord;        {Length of input buffer}
+    InBuffCount   : SmallWord;        {Current # of chars in buffer}
+    OutBuffLen    : SmallWord;        {Length of output buffer}
+    OutBuffCount  : SmallWord;        {Current # of chars in buffer}
+    LostCharCount : SmallWord;        {Number of lost characters}
+    SWFFull       : SmallWord;        {Hi-water mark for xoff}
+    SWFResume     : SmallWord;        {Lo-water mark for xon}
+    HWFFull       : SmallWord;        {Hi-water mark for auto-handshaking off}
+    HWFResume     : SmallWord;        {Lo-water mark for auto-handshaking on}
     CurBaud       : LongInt;          {Baud rate}
     InBuff        : BPtr;             {Addr of input buffer}
     InHead        : BPtr;             {Addr of current head}
@@ -160,9 +160,9 @@ type
     Parity        : ParityType;
     DataBits      : DataBitType;
     StopBits      : StopBitType;
-    Options       : Word;
-    InSize        : Word;
-    OutSize       : Word;
+    Options       : SmallWord;
+    InSize        : SmallWord;
+    OutSize       : SmallWord;
   end;
 
 {$IFNDEF Standalone}

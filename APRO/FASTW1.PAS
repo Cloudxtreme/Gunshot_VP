@@ -1,5 +1,10 @@
 {$S-,R-,V-,I-,B-,F+,O-,A-}
 
+{$IFDEF WIN32}
+{Conditional defines that may affect this unit}
+{$I APDEFINE.INC}
+{$ENDIF}
+
 unit FastW1;
   {-Fast screen writing routines (last update 6/7/90)}
   {-Updated for Protected Mode operation 6/19/92}
@@ -70,6 +75,9 @@ procedure FrameWindow(LeftCol, TopRow, RightCol, BotRow : Word;
 procedure WhereXYAbs(var XY : Word);
   {-Return the absolute (not window relative) coordinates of cursor}
 
+procedure GotoXY(X, Y : Word);
+  {-Position cursor at absolute coordinates X, Y}
+
 procedure GotoXYAbs(XY : Word);
   {-Position cursor at absolute coordinates X, Y}
 
@@ -81,40 +89,96 @@ procedure ShowCursor;
 
 implementation
 
+{$IFDEF WIN32}
+uses
+  VPSysLow;
+{$ENDIF}
+
 type
   BufPtr = ^BufferArray;
   BufferArray = array[0..MaxInt] of Char;
 
+{$IFDEF MSDOS}
   {$L FASTW1}
+{$ENDIF}
 
   {$F+}
   procedure FastWrite(St : String; Row, Col, Attr : Byte);
     {-Writes St at Row,Col in Attr (video attribute) without snow}
+{$IFDEF MSDOS}
   external {FASTW1} ;
+{$ENDIF}
+{$IFDEF WIN32}
+  begin
+    SysWrtCharStrAtt(@St[1], Length(St), Col - 1, Row - 1, Attr);
+  end;
+{$ENDIF}
 
   procedure FastWriteNA(St : String; Row, Col : Byte);
     {-Writes St at Row,Col without snow, but doesn't change video attributes}
+{$IFDEF MSDOS}
   external {FASTW1} ;
+{$ENDIF}
+{$IFDEF WIN32}
+  begin
+    WriteLn('REETODO FASTW1 FastWriteNA'); Halt;
+  end;
+{$ENDIF}
 
   procedure ChangeAttribute(Number : Word; Row, Col, Attr : Byte);
     {-Changes Number video attributes to Attr starting at Row,Col}
+{$IFDEF MSDOS}
   external {FASTW1} ;
+{$ENDIF}
+{$IFDEF WIN32}
+  begin
+    WriteLn('REETODO FASTW1 ChangeAttribute'); Halt;
+  end;
+{$ENDIF}
 
   procedure MoveFromScreen(var Source, Dest; Length : Word);
     {-Moves Length words from Source (video memory) to Dest without snow}
+{$IFDEF MSDOS}
   external {FASTW1} ;
+{$ENDIF}
+{$IFDEF WIN32}
+  begin
+    WriteLn('REETODO FASTW1 MoveFromScreen'); Halt;
+  end;
+{$ENDIF}
 
   procedure MoveToScreen(var Source, Dest; Length : Word);
     {-Moves Length words from Source to Dest (video memory) without snow}
+{$IFDEF MSDOS}
   external {FASTW1} ;
+{$ENDIF}
+{$IFDEF WIN32}
+  begin
+    WriteLn('REETODO FASTW1 MoveToScreen'); Halt;
+  end;
+{$ENDIF}
 
   function CurrentDisplay : DisplayType;
     {-Returns type of the currently active display}
+{$IFDEF MSDOS}
   external {FASTW1} ;
+{$ENDIF}
+{$IFDEF WIN32}
+  begin
+    CurrentDisplay := VGA;
+  end;
+{$ENDIF}
 
   function CurrentVideoMode : Byte;
     {-Returns current video mode}
+{$IFDEF MSDOS}
   external {FASTW1} ;
+{$ENDIF}
+{$IFDEF WIN32}
+  begin
+    CurrentVideoMode := 3; // CO80
+  end;
+{$ENDIF}
   {$F-}
 
   procedure ReinitFastWrite;
@@ -164,7 +228,12 @@ type
     DestPos := 0;
     SrcPos := (Pred(YLow)*ScreenWidth+Pred(XLow)) shl 1;
     for Row := YLow to YHigh do begin
+{$IFDEF MSDOS}
       MoveFromScreen(Mem[VideoSegment:SrcPos], CoversP^[DestPos], WordsPerRow);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO FASTW1 SaveWindow'); Halt;
+{$ENDIF}
       Inc(SrcPos, ScreenWidth shl 1);
       Inc(DestPos, WordsPerRow shl 1);
     end;
@@ -187,7 +256,12 @@ type
     DestPos := 0;
     SrcPos := (Pred(YLow)*ScreenWidth+Pred(XLow)) shl 1;
     for Row := YLow to YHigh do begin
+{$IFDEF MSDOS}
       MoveToScreen(CoversP^[DestPos], Mem[VideoSegment:SrcPos], WordsPerRow);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO FASTW1 RestoreWindow'); Halt;
+{$ENDIF}
       Inc(SrcPos, ScreenWidth shl 1);
       Inc(DestPos, WordsPerRow shl 1);
     end;
@@ -245,6 +319,7 @@ type
     FastWrite(FrameChars[frBR], BotRow, RightCol, FAttr);
   end;
 
+{$IFDEF MSDOS}
   procedure WhereXYAbs(var XY : Word);
     {-Return the absolute (not window relative) coordinates of cursor}
   var
@@ -257,7 +332,24 @@ type
       XY := DX;
     end;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  procedure WhereXYAbs(var XY : Word);
+    {-Return the absolute (not window relative) coordinates of cursor}
+  var
+    X, Y: SmallWord;
+  begin
+    SysGetCurPos(X, Y);
+    XY := X + (Y SHL 8);
+  end;
+{$ENDIF}
 
+  procedure GotoXY(X, Y : Word);
+  begin
+    GotoXYAbs((X - 1) + ((Y - 1) SHL 8));
+  end;
+  
+{$IFDEF MSDOS}
   procedure GotoXYAbs(XY : Word);
     {-Position cursor at absolute coordinates X, Y}
   var
@@ -270,7 +362,16 @@ type
       Intr($10, Regs);
     end;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  procedure GotoXYAbs(XY : Word);
+    {-Return the absolute (not window relative) coordinates of cursor}
+  begin
+    SysTVSetCurPos(XY AND $00FF, (XY AND $FF00) SHR 8);
+  end;
+{$ENDIF}
 
+{$IFDEF MSDOS}
   procedure SetCursorSize(Startline, EndLine : Byte);
     {-Set the cursor start and end scan lines}
   begin
@@ -283,6 +384,14 @@ type
       pop   bp
     end;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  procedure SetCursorSize(Startline, EndLine : Byte);
+    {-Set the cursor start and end scan lines}
+  begin
+    WriteLn('REETODO FASTW1 SetCursorSize'); Halt;
+  end;
+{$ENDIF}
 
   procedure HideCursor;
     {-Hide the cursor}
@@ -303,10 +412,13 @@ type
   end;
 
 var
+{$IFDEF MSDOS}
   Regs : Registers;
+{$ENDIF}
   SHByte : Byte; {absolute $40 : $84;}
 
 begin
+{$IFDEF MSDOS}
   SHByte := Byte(Ptr(BiosDataSele, $84)^);
 
   ReinitFastWrite;
@@ -341,6 +453,13 @@ begin
           ScreenHeight := SHByte + 1
     end;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  ReinitFastWrite;
+  ScreenWidth := 80; // REETODO
+  ScreenHeight := 25; // REETODO
+  VideoMode := 3; // CO80
+{$ENDIF}
 
   {Set VideoSegment}
   if VideoMode = 7 then

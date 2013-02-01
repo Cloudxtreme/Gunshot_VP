@@ -49,8 +49,8 @@ implementation
 
 type
   OS = record
-    Ofs : Word;
-    Seg : Word;
+    Ofs : SmallWord;
+    Seg : SmallWord;
   end;
 
 const
@@ -63,8 +63,21 @@ const
                           $74/$01/        {JE   @DONE}
                           $FB);           {STI}
   {$ELSE}
+{$IFDEF MSDOS}  
   procedure IntOff; inline($9C/$FA);      {PUSHF/CLI}
   procedure IntOn; inline($9D);           {POPF}
+{$ENDIF}
+{$IFDEF WIN32}
+  procedure IntOff;
+  begin
+    // REENOTE Not needed in Win32
+  end;
+
+  procedure IntOn;
+  begin
+    // REENOTE Not needed in Win32
+  end;
+{$ENDIF}
   {$ENDIF}
 
   {$I APCOM.PA1}   {Gets, puts, flow, modem status}

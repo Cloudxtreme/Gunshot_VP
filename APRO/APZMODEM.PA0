@@ -16,8 +16,8 @@ const
   ZmodemOverHead : Word = 20;        {Default overhead for each data subpacket}
 
   {For checking max block sizes}
-  ZMaxBlk : Array[Boolean] of Word = (1024, 8192);
-  ZMaxWrk : Array[Boolean] of Word = (2048, 16384);
+  ZMaxBlk : Array[Boolean] of SmallWord = (1024, 8192);
+  ZMaxWrk : Array[Boolean] of SmallWord = (2048, 16384);
 
   {Zmodem constants}
   ZPad       = '*';                  {Pad}
@@ -163,7 +163,7 @@ type
     TransportOpts    : Byte;            {File transport opts rqst by sender}
     FileMgmtOverride : Boolean;         {True to override senders file mg opts}
     ReceiverRecover  : Boolean;         {True to force file recovery}
-    FinishWait       : Word;            {Wait time for ZFin response}
+    FinishWait       : SmallWord;       {Wait time for ZFin response}
     FinishRetry      : Byte;            {Times to resend ZFin}
     LastFrame        : Char;            {Holds last frame type for status}
     EscapeAll        : Boolean;         {True when escaping all ctl chrs}{!!.02}
@@ -171,7 +171,7 @@ type
     ZmodemState      : ZmodemStateType; {Current Zmodem state}
     HeaderState      : HeaderStateType; {Current Header state}
     ReplyTimer       : EventTimer;      {Used to timeout replies}
-    WorkSize         : Word;            {Index into working buffer}
+    WorkSize         : SmallWord;       {Index into working buffer}
     LastBlock        : Boolean;         {True if no more blocks}
     Terminator       : Char;            {Current block type}
     HexPending       : Boolean;         {True for next char in hex pair}
@@ -184,25 +184,25 @@ type
     RcvBlockState    : ReceiveBlockStates; {Current receive block state}
     FilesSent        : Boolean;         {True if at least one file sent}
     CanCount         : Byte;            {Track contiguous <cancels>}
-    SaveStatus       : Word;            {Maintain status across parts}
+    SaveStatus       : SmallWord;       {Maintain status across parts}
     CrcCnt           : Byte;            {Number of CRC bytes expected}
-    LastStatus       : Word;            {Status to set in ReceiveBlock}
+    LastStatus       : SmallWord;       {Status to set in ReceiveBlock}
     OCnt             : Byte;            {'O' byte received from 'OO'}
     TimerPending     : Boolean;         {True if waiting to start timer}
-    DataInTransit    : Word;            {Count of bytes in window}
+    DataInTransit    : SmallWord;       {Count of bytes in window}
     TimerStarted     : Boolean;         {True if timer started}
     WasHex           : Boolean;         {True if last header was hex}  {!!.03}
-    DiscardCnt       : Word;            {Count chars before sendblock} {!!.03}
+    DiscardCnt       : SmallWord;       {Count chars before sendblock} {!!.03}
 
     {For controlling autoadjustment of block size}
     Use8KBlocks      : Boolean;         {True when using 8K blocks}
     TookHit          : Boolean;         {True if we got ZrPos packet}
-    GoodAfterBad     : Word;            {Holds count of good blocks}
+    GoodAfterBad     : SmallWord;       {Holds count of good blocks}
     {NoFallBack      : Boolean;}         {True if CrcW sent on Pos}
 
     {Working buffers}
     DataBlock        : ^DataBlockType;  {Standard data block}
-    DataBlockLen     : Word;            {Count of valid data in DataBlock}
+    DataBlockLen     : SmallWord;       {Count of valid data in DataBlock}
     WorkBlock        : ^WorkBlockType;  {Holds fully escaped data block}
 
     {Receiving...}
@@ -211,7 +211,7 @@ type
 
     {Transmitting...}
     TransHeader      : PosFlagsType;    {Header to transmit}
-    RcvBuffLen       : Word;            {Size of receiver's buffer}
+    RcvBuffLen       : SmallWord;       {Size of receiver's buffer}
     LastChar         : Char;            {Last character sent}
   end;
 
